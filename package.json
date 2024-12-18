@@ -6,7 +6,12 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "prepare": "husky",
+    "lint": "lint-staged"
+  }, 
+  "lint-staged": {
+    "*.ts": "eslint --fix"
   },
   "private": true,
   "dependencies": {
