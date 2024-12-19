@@ -1,1 +1,6 @@
-<p>gallery works!</p>
+<mat-grid-list cols="3" rowHeight="2:1">
+  <mat-grid-tile *ngFor="let image of images">
+    <mat-grid-tile-header> {{image.title}} </mat-grid-tile-header>
+    <img [src]="image.uri" alt="Gallery image">
+  </mat-grid-tile>
+</mat-grid-list>
