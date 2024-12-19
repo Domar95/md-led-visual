@@ -1,1 +1,14 @@
-<p>gallery works!</p>
+<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" (selectedTabChange)="selectedCategory = $event.tab.textLabel">
+  <mat-tab label="wszystkie"></mat-tab>
+  <mat-tab label="koncerty"></mat-tab>
+  <mat-tab label="eventy"></mat-tab>
+  <mat-tab label="targi"></mat-tab>
+  <mat-tab label="inne"></mat-tab>
+</mat-tab-group>
+
+<mat-grid-list cols="3" rowHeight="2:1" gutterSize="4px">
+  <mat-grid-tile *ngFor="let image of filteredImages">
+    <mat-grid-tile-header> {{image.title}} </mat-grid-tile-header>
+    <img [src]="image.uri" alt="Gallery image">
+  </mat-grid-tile>
+</mat-grid-list>
