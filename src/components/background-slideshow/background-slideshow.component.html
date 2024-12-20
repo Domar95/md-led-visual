@@ -1,1 +1,5 @@
-<div class="background" [ngStyle]="{'background-image': 'url(' + currentImage + ')'}"></div>
+<div class="background" [ngStyle]="{'background-image': 'url(' + currentImage.uri + ')'}"></div>
+
+<div class="overlay" *ngIf="showText" @fadeIn>
+  <h1>{{currentImage.text}}</h1>
+</div>
