@@ -7,12 +7,14 @@ import {
 } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { RouterModule } from '@angular/router';
 
 import { BackgroundSlideshowImage } from '../../models/background-slideshow.model';
 
 @Component({
   selector: 'mdlv-background-slideshow',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule, MatButtonModule],
   templateUrl: './background-slideshow.component.html',
   styleUrl: './background-slideshow.component.scss',
   animations: [
