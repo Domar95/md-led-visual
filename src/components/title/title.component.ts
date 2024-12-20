@@ -28,6 +28,9 @@ export class TitleComponent implements OnInit {
         })
       )
       .subscribe((title: string) => {
+        if (title === 'Strona główna') {
+          title = '';
+        }
         this.title = title;
       });
   }
