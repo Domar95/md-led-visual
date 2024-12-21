@@ -16,19 +16,25 @@ export class TitleComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.title = this.getTitle();
+
     this.router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd),
         map(() => {
-          let route = this.activatedRoute;
-          while (route.firstChild) {
-            route = route.firstChild;
-          }
-          return route.snapshot.title || '';
+          return this.getTitle();
         })
       )
       .subscribe((title: string) => {
         this.title = title;
       });
+  }
+
+  getTitle(): string {
+    let route = this.activatedRoute;
+    while (route.firstChild) {
+      route = route.firstChild;
+    }
+    return route.snapshot.title || '';
   }
 }
