@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 
+import { NavbarComponent, TitleComponent } from '@components/index';
+
 @Component({
   selector: 'mdlv-default-layout',
-  imports: [],
+  imports: [NavbarComponent, TitleComponent],
   templateUrl: './default-layout.component.html',
-  styleUrl: './default-layout.component.scss'
+  styleUrl: './default-layout.component.scss',
 })
-export class DefaultLayoutComponent {
-
-}
+export class DefaultLayoutComponent {}
