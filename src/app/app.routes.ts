@@ -1,11 +1,12 @@
 import { Routes } from '@angular/router';
+
 import {
   AboutComponent,
   ContactComponent,
   GalleryComponent,
   HomeComponent,
   PricingComponent,
-} from '../views';
+} from '@views/index';
 
 export const routes: Routes = [
   {

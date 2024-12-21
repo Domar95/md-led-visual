@@ -10,7 +10,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 
-import { BackgroundSlideshowImage } from '../../models/background-slideshow.model';
+import { BackgroundSlideshowImage } from '@models/background-slideshow.model';
 
 @Component({
   selector: 'mdlv-background-slideshow',
