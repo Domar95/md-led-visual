@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 
 import { BackgroundSlideshowComponent } from '@components/index';
 import { AboutComponent } from '@views/about/about.component';
@@ -7,7 +8,13 @@ import { ContactComponent } from '@views/contact/contact.component';
 
 @Component({
   selector: 'mdlv-home',
-  imports: [BackgroundSlideshowComponent, AboutComponent, ContactComponent],
+  imports: [
+    BackgroundSlideshowComponent,
+    AboutComponent,
+    ContactComponent,
+    RouterModule,
+    MatButtonModule,
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
