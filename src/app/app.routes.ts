@@ -6,6 +6,7 @@ import {
   ContactComponent,
   GalleryComponent,
   HomeComponent,
+  NotFoundComponent,
   PricingComponent,
 } from '@views/index';
 
@@ -25,4 +26,5 @@ export const routes: Routes = [
       { path: 'kontakt', component: ContactComponent, title: 'Kontakt' },
     ],
   },
+  { path: '**', component: NotFoundComponent },
 ];
