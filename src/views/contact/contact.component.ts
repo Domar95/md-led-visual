@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 
+import { ContactFormComponent } from '@components/index';
+
 @Component({
   selector: 'mdlv-contact',
-  imports: [],
+  imports: [ContactFormComponent],
   templateUrl: './contact.component.html',
-  styleUrl: './contact.component.scss'
+  styleUrl: './contact.component.scss',
 })
-export class ContactComponent {
-
-}
+export class ContactComponent {}
