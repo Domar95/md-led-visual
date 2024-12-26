@@ -23,8 +23,8 @@ import { startWith, Subscription } from 'rxjs';
 })
 export class PricingFormComponent implements OnInit {
   pricingForm = new FormGroup({
-    place: new FormControl('outside', Validators.required),
-    category: new FormControl('outdoor', Validators.required),
+    place: new FormControl('inside', Validators.required),
+    category: new FormControl('company', Validators.required),
     size: new FormControl('1x6', Validators.required),
   });
   price = 0;
