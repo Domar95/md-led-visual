@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatTabsModule } from '@angular/material/tabs';
 
-import { GalleryImage } from '../../models/gallery.model';
+import { GalleryImage } from '@models/gallery.model';
 
 @Component({
   selector: 'mdlv-gallery',
@@ -16,47 +16,47 @@ export class GalleryComponent {
     {
       uri: 'https://picsum.photos/200/300/?random',
       title: 'Impreza firmowa BMW',
-      category: 'eventy',
+      category: 'imprezy plenerowe',
     },
     {
       uri: 'https://picsum.photos/200/300/?random',
       title: 'Impreza firmowa BMW',
-      category: 'eventy',
+      category: 'imprezy plenerowe',
     },
     {
       uri: 'https://picsum.photos/200/300/?random',
       title: 'Sylwester 2023',
-      category: 'eventy',
+      category: 'imprezy plenerowe',
     },
     {
       uri: 'https://picsum.photos/200/300/?random',
       title: 'Sylwester 2023',
-      category: 'eventy',
+      category: 'prezentacje',
     },
     {
       uri: 'https://picsum.photos/200/300/?random',
       title: 'Sylwester 2023',
-      category: 'eventy',
+      category: 'prezentacje',
     },
     {
       uri: 'https://picsum.photos/200/300/?random',
       title: 'Sylwester 2023',
-      category: 'eventy',
+      category: 'prezentacje',
     },
     {
       uri: 'https://picsum.photos/200/300/?random',
       title: '18tka Kasi',
-      category: 'inne',
+      category: 'imprezy firmowe',
     },
     {
       uri: 'https://picsum.photos/200/300/?random',
       title: '18tka Kasi',
-      category: 'inne',
+      category: 'imprezy firmowe',
     },
     {
       uri: 'https://picsum.photos/200/300/?random',
       title: '18tka Kasi',
-      category: 'inne',
+      category: 'imprezy prywatne',
     },
   ];
 

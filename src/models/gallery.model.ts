@@ -1,4 +1,8 @@
-type GalleryImageCategory = 'koncerty' | 'eventy' | 'targi' | 'inne';
+type GalleryImageCategory =
+  | 'imprezy plenerowe'
+  | 'imprezy firmowe'
+  | 'imprezy prywatne'
+  | 'prezentacje';
 
 export interface GalleryImage {
   uri: string;
