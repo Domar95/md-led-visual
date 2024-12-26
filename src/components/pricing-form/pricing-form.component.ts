@@ -8,7 +8,7 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { MatRadioModule } from '@angular/material/radio';
-import { MatButtonModule } from '@angular/material/button';
+import { startWith, Subscription } from 'rxjs';
 
 @Component({
   selector: 'mdlv-pricing-form',
@@ -17,7 +17,6 @@ import { MatButtonModule } from '@angular/material/button';
     MatFormFieldModule,
     MatCardModule,
     MatRadioModule,
-    MatButtonModule,
   ],
   templateUrl: './pricing-form.component.html',
   styleUrl: './pricing-form.component.scss',
@@ -28,17 +27,15 @@ export class PricingFormComponent implements OnInit {
     category: new FormControl('outdoor', Validators.required),
     size: new FormControl('1x6', Validators.required),
   });
-
   price = 0;
+  private pricingFormSubscription!: Subscription;
 
   ngOnInit(): void {
-    this.price = this.calculatePrice(this.pricingForm.value);
-  }
-
-  onSubmit() {
-    const formValues = this.pricingForm.value;
-    this.price = this.calculatePrice(formValues);
-    console.warn(this.price);
+    this.pricingForm.valueChanges
+      .pipe(startWith(this.pricingForm.value))
+      .subscribe((formValues) => {
+        this.price = this.calculatePrice(formValues);
+      });
   }
 
   calculatePrice(
@@ -63,5 +60,11 @@ export class PricingFormComponent implements OnInit {
     }
 
     return basePrice;
+  }
+
+  ngOnDestroy(): void {
+    if (this.pricingFormSubscription) {
+      this.pricingFormSubscription.unsubscribe();
+    }
   }
 }
