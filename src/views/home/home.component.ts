@@ -2,20 +2,22 @@ import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 
-import { BackgroundSlideshowComponent } from '@components/index';
-import { AboutComponent } from '@views/about/about.component';
+import {
+  BackgroundSlideshowComponent,
+  OfferBannerComponent,
+  OfferPresentationComponent,
+} from '@components/index';
 import { ContactComponent } from '@views/contact/contact.component';
-import { OfferPresentationComponent } from '../../components/offer-presentation/offer-presentation.component';
 
 @Component({
   selector: 'mdlv-home',
   imports: [
     BackgroundSlideshowComponent,
-    AboutComponent,
     ContactComponent,
     RouterModule,
     MatButtonModule,
     OfferPresentationComponent,
+    OfferBannerComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',

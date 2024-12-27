@@ -1,18 +1,20 @@
 .offer-banner-container {
   display: flex;
   flex-direction: column;
-  margin-top: 64px;
-  margin-bottom: 64px;
+  padding-top: 56px;
+  padding-bottom: 64px;
+  background-color: #14002d; /* Use RGB format */
 }
 
 .offer-banner-text {
   font-weight: 700;
-  line-height: 1.25em;
   text-align: center;
   font-size: 72px;
+  color: white;
 }
 
 .offer-banner-text-secondary {
   font-weight: 300;
-  font-size: 40px;
+  font-size: 24px;
+  color: white;
 }
