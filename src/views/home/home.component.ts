@@ -5,6 +5,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { BackgroundSlideshowComponent } from '@components/index';
 import { AboutComponent } from '@views/about/about.component';
 import { ContactComponent } from '@views/contact/contact.component';
+import { OfferPresentationComponent } from '../../components/offer-presentation/offer-presentation.component';
 
 @Component({
   selector: 'mdlv-home',
@@ -14,6 +15,7 @@ import { ContactComponent } from '@views/contact/contact.component';
     ContactComponent,
     RouterModule,
     MatButtonModule,
+    OfferPresentationComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
