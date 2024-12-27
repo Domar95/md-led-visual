@@ -29,6 +29,7 @@ import { MatDividerModule } from '@angular/material/divider';
   styleUrl: './contact-form.component.scss',
 })
 export class ContactFormComponent {
+  //TODO: Add privacy policy checkbox
   contactForm = new FormGroup({
     name: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email]),
