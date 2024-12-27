@@ -6,3 +6,25 @@
 h2 {
   text-align: center;
 }
+
+.break {
+  padding-top: 32px;
+  background: rgb(252, 245, 37);
+  background: linear-gradient(
+    90deg,
+    rgba(252, 245, 37, 1) 0%,
+    rgba(252, 246, 92, 1) 35%,
+    rgba(121, 243, 250, 1) 100%
+  );
+}
+
+.purple-container {
+  color: white;
+  background: rgb(0, 6, 11);
+  background: linear-gradient(
+    90deg,
+    rgba(0, 6, 11, 1) 0%,
+    rgba(14, 0, 39, 1) 35%,
+    rgba(8, 0, 34, 1) 100%
+  );
+}
