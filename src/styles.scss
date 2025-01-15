@@ -1,4 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+@use "@angular/material" as mat;
+
+html {
+  @include mat.theme(
+    (
+      color: mat.$cyan-palette,
+    )
+  );
+}
 
 html,
 body {
@@ -8,4 +17,13 @@ body {
 body {
   margin: 0;
   font-family: "Poppins", Roboto, "Helvetica Neue", sans-serif;
+}
+
+mat-toolbar {
+  @include mat.toolbar-overrides(
+    (
+      container-background-color: var(--mat-sys-primary),
+      container-text-color: var(--mat-sys-on-primary),
+    )
+  );
 }
