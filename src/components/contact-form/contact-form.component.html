@@ -51,7 +51,11 @@
               >}
             </mat-form-field>
 
-            <button mat-button type="submit" [disabled]="!contactForm.valid">
+            <button
+              mat-flat-button
+              type="submit"
+              [disabled]="!contactForm.valid"
+            >
               Wyślij
             </button>
           </form>
