@@ -24,3 +24,7 @@
     <img [src]="item.thumbnailUri" />
   </a>
 </lightgallery>
+
+@if (isLoading) {
+<mat-spinner diameter="48" class="spinner-container"></mat-spinner>
+}

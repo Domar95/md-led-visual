@@ -4,6 +4,7 @@ import { InitDetail } from 'lightgallery/lg-events';
 import { LightGallery } from 'lightgallery/lightgallery';
 import { LightgalleryModule } from 'lightgallery/angular';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
 import lgZoom from 'lightgallery/plugins/zoom';
 
@@ -11,7 +12,13 @@ import { GalleryImage } from '@models/gallery.model';
 
 @Component({
   selector: 'mdlv-gallery',
-  imports: [CommonModule, MatGridListModule, MatTabsModule, LightgalleryModule],
+  imports: [
+    CommonModule,
+    MatGridListModule,
+    MatTabsModule,
+    LightgalleryModule,
+    MatProgressSpinnerModule,
+  ],
   templateUrl: './gallery.component.html',
   styleUrl: './gallery.component.scss',
 })

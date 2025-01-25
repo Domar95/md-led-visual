@@ -9,8 +9,19 @@ mat-tab-group {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  padding-bottom: 80px
 }
 
 .gallery-item {
   margin: 5px;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  margin-bottom: 16px;
 }
