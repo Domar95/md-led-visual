@@ -10,9 +10,13 @@
   <mat-tab label="prezentacje"></mat-tab>
 </mat-tab-group>
 
-<mat-grid-list cols="2" rowHeight="2:1" gutterSize="16px">
-  <mat-grid-tile *ngFor="let image of filteredImages">
-    <mat-grid-tile-header> {{ image.title }} </mat-grid-tile-header>
-    <img [src]="image.uri" alt="Gallery image" />
-  </mat-grid-tile>
-</mat-grid-list>
+<lightgallery [settings]="lightGallerySettings" [onInit]="onLightGalleryInit">
+  <a
+    *ngFor="let item of filteredImages"
+    class="gallery-item"
+    [attr.data-lg-size]="item.imageSize"
+    [attr.href]="item.imageUri"
+  >
+    <img [src]="item.thumbnailUri" />
+  </a>
+</lightgallery>
