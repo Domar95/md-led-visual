@@ -5,7 +5,9 @@ type GalleryImageCategory =
   | 'prezentacje';
 
 export interface GalleryImage {
-  uri: string;
   title: string;
+  imageUri: string;
+  imageSize: string;
+  thumbnailUri: string;
   category?: GalleryImageCategory;
 }
