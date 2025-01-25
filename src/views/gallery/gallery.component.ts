@@ -31,11 +31,25 @@ export class GalleryComponent {
       imageUri: `https://picsum.photos/4000/3000?random=${i}`,
       imageSize: '4000-3000',
       thumbnailUri: `https://picsum.photos/300/200?random=${i}`,
+      category: this.getRandomCategory(),
     };
   });
 
   onLightGalleryInit(detail: InitDetail): void {
     this.lightGallery = detail.instance;
+  }
+
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+  getRandomCategory(): any {
+    // temporary function to generate random category
+    const categories: string[] = [
+      'imprezy firmowe',
+      'imprezy prywatne',
+      'imprezy plenerowe',
+      'prezentacje',
+    ];
+    const randomIndex = Math.floor(Math.random() * categories.length);
+    return categories[randomIndex];
   }
 
   get filteredImages(): GalleryImage[] {
