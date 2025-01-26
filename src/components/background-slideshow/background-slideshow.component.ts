@@ -1,14 +1,16 @@
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
+import Swiper from 'swiper';
+import {
+  Autoplay,
+  EffectFade,
+  Keyboard,
+  Navigation,
+  Pagination,
+} from 'swiper/modules';
+import 'swiper/css/bundle';
 
 import { BackgroundSlideshowImage } from '@models/background-slideshow.model';
 
@@ -17,14 +19,9 @@ import { BackgroundSlideshowImage } from '@models/background-slideshow.model';
   imports: [CommonModule, RouterModule, MatButtonModule],
   templateUrl: './background-slideshow.component.html',
   styleUrl: './background-slideshow.component.scss',
-  animations: [
-    trigger('fadeIn', [
-      state('void', style({ opacity: 0 })),
-      transition('void => *', [animate('1s ease-in')]),
-    ]),
-  ],
 })
-export class BackgroundSlideshowComponent implements OnInit, OnDestroy {
+export class BackgroundSlideshowComponent implements OnInit {
+  swiper!: Swiper;
   images: BackgroundSlideshowImage[] = [
     {
       uri: 'assets/images/homepage_1.jpg',
@@ -36,28 +33,32 @@ export class BackgroundSlideshowComponent implements OnInit, OnDestroy {
     },
   ];
 
-  currentImageIndex: number = 0;
-  intervalId!: ReturnType<typeof setInterval>;
-  showText: boolean = false;
-
   ngOnInit() {
-    this.intervalId = setInterval(() => {
-      this.currentImageIndex =
-        (this.currentImageIndex + 1) % this.images.length;
-      this.showText = false;
-      setTimeout(() => {
-        this.showText = true;
-      }, 2000);
-    }, 7000);
-  }
-
-  ngOnDestroy() {
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
-    }
-  }
-
-  get currentImage() {
-    return this.images[this.currentImageIndex];
+    this.swiper = new Swiper('.heroSwiper', {
+      modules: [Navigation, Pagination, Autoplay, Keyboard, EffectFade],
+      loop: true,
+      effect: 'fade',
+      fadeEffect: {
+        crossFade: true,
+      },
+      speed: 1400,
+      centeredSlides: true,
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      keyboard: {
+        enabled: true,
+        onlyInViewport: true,
+      },
+    });
   }
 }
