@@ -27,6 +27,7 @@
 
             <mat-form-field>
               <mat-label>E-mail</mat-label>
+              <mat-icon matSuffix>mail</mat-icon>
               <input matInput formControlName="email" />
               @if (contactForm.get('email')?.hasError('required')) {
               <mat-error>{{ requiredErrorMessage }}</mat-error
