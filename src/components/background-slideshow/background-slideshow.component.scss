@@ -1,18 +1,37 @@
+.swiper {
+  width: 100%;
+  height: 100vh;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+}
+
+// initial state before animation is triggered
+.swiper-slide h1,
+button {
+  opacity: 0;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: var(--mat-sys-on-primary);
+}
+
 .background {
   width: 100%;
   height: 100vh;
   background-size: cover;
   background-position: center;
-  transition: background-image 1s ease-in-out;
 }
 
 .overlay {
   position: absolute;
   top: 65%;
   left: 5%;
-  transform: translateY(-50%);
   text-align: left;
-  color: white;
+  color: var(--mat-sys-on-primary);
 }
 
 h1 {

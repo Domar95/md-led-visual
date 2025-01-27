@@ -27,3 +27,11 @@ mat-toolbar {
     )
   );
 }
+
+.slideshow-pagination .swiper-pagination-bullet {
+  background-color: var(--mat-sys-on-primary);
+}
+
+.slideshow-pagination .swiper-pagination-bullet-active {
+  background-color: var(--mat-sys-on-primary);
+}
