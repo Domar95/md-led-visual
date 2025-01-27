@@ -11,6 +11,13 @@ import {
   Pagination,
 } from 'swiper/modules';
 import 'swiper/css/bundle';
+import {
+  trigger,
+  state,
+  style,
+  transition,
+  animate,
+} from '@angular/animations';
 
 import { BackgroundSlideshowImage } from '@models/background-slideshow.model';
 
@@ -19,6 +26,18 @@ import { BackgroundSlideshowImage } from '@models/background-slideshow.model';
   imports: [CommonModule, RouterModule, MatButtonModule],
   templateUrl: './background-slideshow.component.html',
   styleUrl: './background-slideshow.component.scss',
+  animations: [
+    trigger('fadeIn', [
+      state('void', style({ opacity: 0 })),
+      state('*', style({ opacity: 1 })),
+      transition('void => *', animate('2s ease-in')),
+    ]),
+    trigger('slideIn', [
+      state('void', style({ transform: 'translateY(100%)' })),
+      state('*', style({ transform: 'translateY(0)' })),
+      transition('void => *', animate('1s ease-out')),
+    ]),
+  ],
 })
 export class BackgroundSlideshowComponent implements OnInit {
   swiper!: Swiper;
@@ -32,11 +51,11 @@ export class BackgroundSlideshowComponent implements OnInit {
       text: 'WYNAJEM EKRANÓW LED I TELEBIMÓW',
     },
   ];
+  activeSlideIndex = 0;
 
   ngOnInit() {
     this.swiper = new Swiper('.heroSwiper', {
       modules: [Navigation, Pagination, Autoplay, Keyboard, EffectFade],
-      loop: true,
       effect: 'fade',
       fadeEffect: {
         crossFade: true,
@@ -58,6 +77,11 @@ export class BackgroundSlideshowComponent implements OnInit {
       keyboard: {
         enabled: true,
         onlyInViewport: true,
+      },
+      on: {
+        slideChange: () => {
+          this.activeSlideIndex = this.swiper.realIndex;
+        },
       },
     });
   }
