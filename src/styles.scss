@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @use "@angular/material" as mat;
 @use "swiper/css/bundle"; // TODO: check if this could be reduced
-@use 'styles/colors' as colors;
+@use "styles/colors" as colors;
 
 html {
   @include mat.theme(
@@ -45,7 +45,7 @@ mat-toolbar {
     @include mat.toolbar-overrides(
       (
         container-background-color: transparent,
-        container-text-color: black,
+        container-text-color: colors.$black,
       )
     );
     & {
