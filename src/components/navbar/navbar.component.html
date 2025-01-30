@@ -12,7 +12,9 @@
 </mat-toolbar>
 
 <ng-template #buttonGroupTemplate>
-  <button mat-button [routerLink]="['galeria']">Galeria</button>
-  <button mat-button [routerLink]="['wycena']">Wycena</button>
-  <button mat-button [routerLink]="['kontakt']">Kontakt</button>
+  <div class="button-group">
+    <button mat-button [routerLink]="['galeria']">Galeria</button>
+    <button mat-button [routerLink]="['wycena']">Wycena</button>
+    <button mat-button [routerLink]="['kontakt']">Kontakt</button>
+  </div>
 </ng-template>
