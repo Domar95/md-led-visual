@@ -21,13 +21,36 @@ body {
   font-family: "Poppins", Roboto, "Helvetica Neue", sans-serif;
 }
 
+/* Material Toolbar variants */
 mat-toolbar {
-  @include mat.toolbar-overrides(
-    (
-      container-background-color: var(--mat-sys-primary),
-      container-text-color: var(--mat-sys-on-primary),
-    )
-  );
+  top: 0;
+  z-index: 100;
+
+  /* Standard toolbar */
+  &.default {
+    @include mat.toolbar-overrides(
+      (
+        container-background-color: var(--mat-sys-primary),
+        container-text-color: var(--mat-sys-on-primary),
+      )
+    );
+    & {
+      position: sticky;
+    }
+  }
+
+  /* Homepage toolbar */
+  &.transparent {
+    @include mat.toolbar-overrides(
+      (
+        container-background-color: transparent,
+        container-text-color: var(--mat-sys-on-primary),
+      )
+    );
+    & {
+      position: fixed;
+    }
+  }
 }
 
 .slideshow-pagination .swiper-pagination-bullet {
