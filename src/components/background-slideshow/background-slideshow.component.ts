@@ -10,7 +10,6 @@ import {
   Navigation,
   Pagination,
 } from 'swiper/modules';
-import 'swiper/css/bundle';
 import {
   trigger,
   state,
@@ -18,6 +17,7 @@ import {
   transition,
   animate,
 } from '@angular/animations';
+import { FirebaseService } from '@services/firebase.service';
 
 import { BackgroundSlideshowImage } from '@models/background-slideshow.model';
 
@@ -41,19 +41,14 @@ import { BackgroundSlideshowImage } from '@models/background-slideshow.model';
 })
 export class BackgroundSlideshowComponent implements OnInit {
   swiper!: Swiper;
-  images: BackgroundSlideshowImage[] = [
-    {
-      uri: 'assets/images/homepage_1.jpg',
-      text: 'PROFESJONALNA OBSŁUGA IMPREZ',
-    },
-    {
-      uri: 'assets/images/homepage_2.jpg',
-      text: 'WYNAJEM EKRANÓW LED I TELEBIMÓW',
-    },
-  ];
+  images: BackgroundSlideshowImage[] = [];
   activeSlideIndex = 0;
 
-  ngOnInit() {
+  constructor(private firebaseService: FirebaseService) {}
+
+  async ngOnInit() {
+    this.images = await this.loadImages();
+
     this.swiper = new Swiper('.heroSwiper', {
       modules: [Navigation, Pagination, Autoplay, Keyboard, EffectFade],
       effect: 'fade',
@@ -84,5 +79,21 @@ export class BackgroundSlideshowComponent implements OnInit {
         },
       },
     });
+  }
+
+  async loadImages(): Promise<BackgroundSlideshowImage[]> {
+    // TODO temporary texts, replace with actual text for each img
+    const texts = [
+      'WYNAJEM EKRANÓW LED I TELEBIMÓW',
+      'OPRAWA WIZUALNA KONCERTÓW I EVENTÓW',
+      'PROFESJONALNE EKRANY LED NA KONFERENCJE',
+      'ROZWIĄZANIA WIZUALNE DLA TWOJEJ FIRMY',
+    ];
+
+    const images = await this.firebaseService.getFileUrls('/images/slideshow');
+    return images.map((image, index) => ({
+      uri: image,
+      text: texts[index % texts.length],
+    }));
   }
 }
