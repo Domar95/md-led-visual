@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @use "@angular/material" as mat;
 @use "swiper/css/bundle"; // TODO: check if this could be reduced
+@use 'styles/colors' as colors;
 
 html {
   @include mat.theme(
@@ -21,13 +22,37 @@ body {
   font-family: "Poppins", Roboto, "Helvetica Neue", sans-serif;
 }
 
+/* Material Toolbar variants */
 mat-toolbar {
-  @include mat.toolbar-overrides(
-    (
-      container-background-color: var(--mat-sys-primary),
-      container-text-color: var(--mat-sys-on-primary),
-    )
-  );
+  top: 0;
+  z-index: 100;
+
+  /* Standard toolbar */
+  &.default {
+    @include mat.toolbar-overrides(
+      (
+        container-background-color: colors.$deep-purple,
+        container-text-color: var(--mat-sys-on-primary),
+      )
+    );
+    & {
+      position: sticky;
+    }
+  }
+
+  /* Homepage toolbar */
+  &.transparent {
+    @include mat.toolbar-overrides(
+      (
+        container-background-color: transparent,
+        container-text-color: black,
+      )
+    );
+    & {
+      position: fixed;
+      justify-content: center;
+    }
+  }
 }
 
 .slideshow-pagination .swiper-pagination-bullet {
