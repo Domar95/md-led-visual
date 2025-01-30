@@ -2,11 +2,11 @@ import { Component, Input } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
-import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
-import { DomSanitizer } from '@angular/platform-browser';
+import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 
 import { NavbarVariant } from '@models/navbar-variant.model';
+import { HomeButtonComponent } from '@components/ui-elements/home-button/home-button.component';
 
 @Component({
   selector: 'mdlv-navbar',
@@ -16,6 +16,7 @@ import { NavbarVariant } from '@models/navbar-variant.model';
     RouterModule,
     MatIconModule,
     CommonModule,
+    HomeButtonComponent,
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
@@ -23,17 +24,7 @@ import { NavbarVariant } from '@models/navbar-variant.model';
 export class NavbarComponent {
   @Input() variant: NavbarVariant = NavbarVariant.Default;
 
-  constructor(
-    private iconRegistry: MatIconRegistry,
-    private sanitizer: DomSanitizer
-  ) {
-    this.iconRegistry.addSvgIcon(
-      'mdlv-logo',
-      this.sanitizer.bypassSecurityTrustResourceUrl(
-        'assets/icons/mdlv_logo_without_text.svg'
-      )
-    );
-  }
+  constructor() {}
 
   get isDefault() {
     return this.variant === NavbarVariant.Default;

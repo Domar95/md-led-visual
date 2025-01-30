@@ -1,28 +1,11 @@
 <mat-toolbar [ngClass]="variant">
   @if (isDefault) {
-  <button mat-icon-button [routerLink]="['/']">
-    <mat-icon
-      svgIcon="mdlv-logo"
-      aria-label="MD LED Visual logo button routing to homepage"
-    ></mat-icon>
-  </button>
-
+  <mdlv-home-button></mdlv-home-button>
   <span class="spacer"></span>
-
   <ng-container *ngTemplateOutlet="buttonGroupTemplate"></ng-container>
   } @else {
   <div class="transparent-navbar-container">
-    <button
-      mat-icon-button
-      [routerLink]="['/']"
-      class="transparent-navbar-button"
-    >
-      <mat-icon
-        svgIcon="mdlv-logo"
-        aria-label="MD LED Visual logo button routing to homepage"
-      ></mat-icon>
-    </button>
-
+    <mdlv-home-button></mdlv-home-button>
     <ng-container *ngTemplateOutlet="buttonGroupTemplate"></ng-container>
   </div>
   }
