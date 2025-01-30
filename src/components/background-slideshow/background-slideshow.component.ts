@@ -10,7 +10,6 @@ import {
   Navigation,
   Pagination,
 } from 'swiper/modules';
-import 'swiper/css/bundle'; // TODO: check if this could be reduced
 import {
   trigger,
   state,
