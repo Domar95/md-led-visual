@@ -1,3 +1,8 @@
+.button-group {
+  display: flex;
+  gap: 10px;
+}
+
 /* Classes for default navbar */
 .spacer {
   flex: 1 1 auto;
@@ -11,12 +16,5 @@
   padding: 6px;
   border-radius: 24px;
   background: whitesmoke;
-}
-
-.transparent-navbar-button {
-  background-color: #0e0027;
-  transition: background-color 0.3s ease;
-  &:hover {
-    background-color: #fcf65c;
-  }
+  gap: 10px;
 }
