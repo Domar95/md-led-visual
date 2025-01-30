@@ -44,11 +44,12 @@ mat-toolbar {
     @include mat.toolbar-overrides(
       (
         container-background-color: transparent,
-        container-text-color: var(--mat-sys-on-primary),
+        container-text-color: black,
       )
     );
     & {
       position: fixed;
+      justify-content: center;
     }
   }
 }

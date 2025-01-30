@@ -34,4 +34,8 @@ export class NavbarComponent {
       )
     );
   }
+
+  get isDefault() {
+    return this.variant === NavbarVariant.Default;
+  }
 }

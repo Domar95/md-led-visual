@@ -1,4 +1,5 @@
 <mat-toolbar [ngClass]="variant">
+  @if (isDefault) {
   <button mat-icon-button [routerLink]="['/']">
     <mat-icon
       svgIcon="mdlv-logo"
@@ -8,8 +9,28 @@
 
   <span class="spacer"></span>
 
+  <ng-container *ngTemplateOutlet="buttonGroupTemplate"></ng-container>
+  } @else {
+  <div class="transparent-navbar-container">
+    <button
+      mat-icon-button
+      [routerLink]="['/']"
+      class="transparent-navbar-button"
+    >
+      <mat-icon
+        svgIcon="mdlv-logo"
+        aria-label="MD LED Visual logo button routing to homepage"
+      ></mat-icon>
+    </button>
+
+    <ng-container *ngTemplateOutlet="buttonGroupTemplate"></ng-container>
+  </div>
+  }
+</mat-toolbar>
+
+<ng-template #buttonGroupTemplate>
   <button mat-button [routerLink]="['/']" fragment="o-mnie">O mnie</button>
   <button mat-button [routerLink]="['galeria']">Galeria</button>
   <button mat-button [routerLink]="['wycena']">Wycena</button>
   <button mat-button [routerLink]="['/']" fragment="kontakt">Kontakt</button>
-</mat-toolbar>
+</ng-template>
