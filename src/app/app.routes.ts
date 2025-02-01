@@ -4,7 +4,7 @@ import { DefaultLayoutComponent, HomeLayoutComponent } from '@layouts/index';
 import {
   AboutComponent,
   ContactComponent,
-  GalleryComponent,
+  GalleryPageComponent,
   HomeComponent,
   NotFoundComponent,
   PricingComponent,
@@ -26,7 +26,7 @@ export const routes: Routes = [
         title: 'Galeria',
         children: [
           { path: '', redirectTo: 'wszystkie', pathMatch: 'full' },
-          { path: ':category', component: GalleryComponent },
+          { path: ':category', component: GalleryPageComponent },
         ],
       },
       { path: 'wycena', component: PricingComponent, title: 'Wycena' },

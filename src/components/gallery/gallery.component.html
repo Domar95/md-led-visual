@@ -1,0 +1,7 @@
+<div class="gallery-container">
+  <mdlv-photo-swipe [images]="filteredImages"></mdlv-photo-swipe>
+</div>
+
+@if (isLoading) {
+<mat-spinner diameter="48" class="spinner-container"></mat-spinner>
+}
