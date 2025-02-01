@@ -1,44 +1,21 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { MatButton } from '@angular/material/button';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { RouterModule } from '@angular/router';
-import { Observable } from 'rxjs';
 
 import { FirebaseService } from '@services/firebase.service';
-import { ResponsiveLayoutService } from '@services/responsive-layout.service';
+import { OfferPresentationGridsComponent } from './offer-presentation-grids/offer-presentation-grids.component';
 
 @Component({
   selector: 'mdlv-offer-presentation',
-  providers: [ResponsiveLayoutService],
-  imports: [MatGridListModule, CommonModule, RouterModule, MatButton],
+  imports: [OfferPresentationGridsComponent],
   templateUrl: './offer-presentation.component.html',
   styleUrl: './offer-presentation.component.scss',
 })
 export class OfferPresentationComponent implements OnInit {
   images: string[] = [];
-  isHandset$: Observable<boolean>;
-  cols!: number;
-  rowHeight!: string;
 
-  constructor(
-    private firebaseService: FirebaseService,
-    private responsiveLayoutService: ResponsiveLayoutService
-  ) {
-    this.isHandset$ = this.responsiveLayoutService.isHandset$;
-  }
+  constructor(private firebaseService: FirebaseService) {}
 
   async ngOnInit() {
     this.images = await this.loadImages();
-    this.isHandset$.subscribe((isHandset) => {
-      if (isHandset === true) {
-        this.cols = 1;
-        this.rowHeight = '2:1';
-      } else {
-        this.cols = 3;
-        this.rowHeight = '4:3';
-      }
-    });
   }
 
   async loadImages(): Promise<string[]> {
