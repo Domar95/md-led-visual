@@ -11,7 +11,7 @@ import { PhotoSwipeComponent } from '@components/index';
 type Link = { label: string; route: string };
 
 @Component({
-  selector: 'mdlv-gallery',
+  selector: 'mdlv-gallery-page',
   imports: [
     CommonModule,
     MatGridListModule,
@@ -20,10 +20,10 @@ type Link = { label: string; route: string };
     RouterModule,
     PhotoSwipeComponent,
   ],
-  templateUrl: './gallery.component.html',
-  styleUrl: './gallery.component.scss',
+  templateUrl: './gallery-page.component.html',
+  styleUrl: './gallery-page.component.scss',
 })
-export class GalleryComponent {
+export class GalleryPageComponent {
   links: Link[] = [
     {
       label: 'wszystkie',
