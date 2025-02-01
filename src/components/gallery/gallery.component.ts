@@ -18,7 +18,6 @@ export class GalleryComponent {
 
   ngOnInit(): void {
     this.images = this.loadImages(50);
-    this.refreshLightGallery();
   }
 
   @HostListener('window:scroll')
@@ -30,7 +29,6 @@ export class GalleryComponent {
       this.isLoading = true;
       setTimeout(() => {
         this.images = [...this.images, ...this.loadImages(20)];
-        this.refreshLightGallery();
         this.isLoading = false;
       }, 1000);
     }
@@ -49,8 +47,6 @@ export class GalleryComponent {
       };
     });
   }
-
-  refreshLightGallery(): void {}
 
   // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   getRandomCategory(): any {
