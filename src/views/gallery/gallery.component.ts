@@ -4,10 +4,9 @@ import { Component, HostListener } from '@angular/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
-import PhotoSwipeLightbox from 'photoswipe/lightbox';
-import PhotoSwipe from 'photoswipe';
 
 import { GalleryImage } from '@models/gallery.model';
+import { PhotoSwipeComponent } from '@components/index';
 
 type Link = { label: string; route: string };
 
@@ -19,13 +18,12 @@ type Link = { label: string; route: string };
     MatTabsModule,
     MatProgressSpinnerModule,
     RouterModule,
+    PhotoSwipeComponent,
   ],
   templateUrl: './gallery.component.html',
   styleUrl: './gallery.component.scss',
 })
 export class GalleryComponent {
-  photoSwipeLightbox!: PhotoSwipeLightbox;
-
   links: Link[] = [
     {
       label: 'wszystkie',
@@ -60,19 +58,6 @@ export class GalleryComponent {
 
     this.images = this.loadImages(50);
     this.refreshLightGallery();
-
-    this.photoSwipeLightbox = new PhotoSwipeLightbox({
-      // may select multiple "galleries"
-      gallery: '#gallery--getting-started',
-
-      // Elements within gallery (slides)
-      children: 'a',
-      showHideAnimationType: 'zoom',
-
-      pswpModule: PhotoSwipe,
-    });
-
-    this.photoSwipeLightbox.init();
   }
 
   getActiveLink(): Link {

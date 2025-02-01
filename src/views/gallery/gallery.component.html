@@ -18,18 +18,4 @@
 
 <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
 
-<div
-  class="pswp-gallery pswp-gallery--single-column"
-  id="gallery--getting-started"
->
-  @for (image of filteredImages; track image) {
-  <a
-    [href]="image.imageUri"
-    data-pswp-width="2000"
-    data-pswp-height="1500"
-    target="_blank"
-  >
-    <img [src]="image.thumbnailUri" alt="" />
-  </a>
-  }
-</div>
+<mdlv-photo-swipe [images]="filteredImages"></mdlv-photo-swipe>
