@@ -2,14 +2,18 @@
   class="pswp-gallery pswp-gallery--single-column"
   id="gallery--getting-started"
 >
-  @for (image of images; track image) {
-  <a
-    [href]="image.imageUri"
-    [attr.data-pswp-width]="image.imageWidth"
-    [attr.data-pswp-height]="image.imageHeight"
-    target="_blank"
-  >
-    <img [src]="image.thumbnailUri" alt="" />
-  </a>
-  }
+  <mat-grid-list cols="3" rowHeight="4:3" gutterSize="16px">
+    @for (image of images; track image) {
+    <a
+      [href]="image.imageUri"
+      [attr.data-pswp-width]="image.imageWidth"
+      [attr.data-pswp-height]="image.imageHeight"
+      target="_blank"
+    >
+      <mat-grid-tile [style.background]="image.thumbnailUri">
+        <img [src]="image.thumbnailUri" alt="Gallery image" />
+      </mat-grid-tile>
+    </a>
+    }
+  </mat-grid-list>
 </div>

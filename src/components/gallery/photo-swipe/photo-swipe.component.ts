@@ -1,12 +1,13 @@
 import { Component, Input } from '@angular/core';
 import PhotoSwipeLightbox from 'photoswipe/lightbox';
 import PhotoSwipe from 'photoswipe';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 import { GalleryImage } from '@models/gallery.model';
 
 @Component({
   selector: 'mdlv-photo-swipe',
-  imports: [],
+  imports: [MatGridListModule],
   templateUrl: './photo-swipe.component.html',
   styleUrl: './photo-swipe.component.scss',
 })
