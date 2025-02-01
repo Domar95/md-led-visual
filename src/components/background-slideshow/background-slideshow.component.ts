@@ -79,6 +79,12 @@ export class BackgroundSlideshowComponent implements OnInit {
         },
       },
     });
+
+    setTimeout(() => {
+      if (this.swiper) {
+        this.swiper.update();
+      }
+    }, 0);
   }
 
   async loadImages(): Promise<BackgroundSlideshowImage[]> {
