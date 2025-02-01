@@ -17,9 +17,9 @@ import {
   transition,
   animate,
 } from '@angular/animations';
-import { FirebaseService } from '@services/firebase.service';
 
 import { BackgroundSlideshowImage } from '@models/background-slideshow.model';
+import { FirebaseService } from '@services/firebase.service';
 
 @Component({
   selector: 'mdlv-background-slideshow',
