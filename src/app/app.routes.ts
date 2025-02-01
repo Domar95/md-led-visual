@@ -21,7 +21,14 @@ export const routes: Routes = [
     component: DefaultLayoutComponent,
     children: [
       { path: 'o-mnie', component: AboutComponent, title: 'O mnie' },
-      { path: 'galeria', component: GalleryComponent, title: 'Galeria' },
+      {
+        path: 'galeria',
+        title: 'Galeria',
+        children: [
+          { path: '', redirectTo: 'wszystkie', pathMatch: 'full' },
+          { path: ':category', component: GalleryComponent },
+        ],
+      },
       { path: 'wycena', component: PricingComponent, title: 'Wycena' },
       { path: 'kontakt', component: ContactComponent, title: 'Kontakt' },
     ],

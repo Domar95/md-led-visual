@@ -1,3 +1,4 @@
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Component, HostListener } from '@angular/core';
 import { InitDetail } from 'lightgallery/lg-events';
@@ -10,6 +11,8 @@ import lgZoom from 'lightgallery/plugins/zoom';
 
 import { GalleryImage } from '@models/gallery.model';
 
+type Link = { label: string; route: string };
+
 @Component({
   selector: 'mdlv-gallery',
   imports: [
@@ -18,6 +21,7 @@ import { GalleryImage } from '@models/gallery.model';
     MatTabsModule,
     LightgalleryModule,
     MatProgressSpinnerModule,
+    RouterModule,
   ],
   templateUrl: './gallery.component.html',
   styleUrl: './gallery.component.scss',
@@ -31,14 +35,50 @@ export class GalleryComponent {
     speed: 500,
   };
 
-  selectedCategory: string = 'wszystkie';
+  links: Link[] = [
+    {
+      label: 'wszystkie',
+      route: 'wszystkie',
+    },
+    {
+      label: 'imprezy firmowe',
+      route: 'imprezy-firmowe',
+    },
+    {
+      label: 'imprezy prywatne',
+      route: 'imprezy-prywatne',
+    },
+    {
+      label: 'imprezy plenerowe',
+      route: 'imprezy-plenerowe',
+    },
+    {
+      label: 'prezentacje',
+      route: 'prezentacje',
+    },
+  ];
+  activeLink!: Link;
 
   images: GalleryImage[] = [];
   isLoading: boolean = false;
 
+  constructor(private route: ActivatedRoute, private router: Router) {}
+
   ngOnInit(): void {
+    this.activeLink = this.getActiveLink();
+
     this.images = this.loadImages(50);
     this.refreshLightGallery();
+  }
+
+  getActiveLink(): Link {
+    // Use the Router's current URL to parse out the last segment.
+    const urlSegments = this.router.url.split('/');
+    const lastSegment = urlSegments[urlSegments.length - 1];
+
+    // Find the matching link based on the last segment.
+    const foundLink = this.links.find((link) => link.route === lastSegment);
+    return foundLink ? foundLink : this.links[0];
   }
 
   onLightGalleryInit(detail: InitDetail): void {
@@ -95,8 +135,8 @@ export class GalleryComponent {
   get filteredImages(): GalleryImage[] {
     return this.images.filter(
       (image) =>
-        this.selectedCategory === 'wszystkie' ||
-        image.category === this.selectedCategory
+        this.activeLink.label === 'wszystkie' ||
+        image.category === this.activeLink.label
     );
   }
 }
