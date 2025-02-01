@@ -41,9 +41,10 @@ export class GalleryComponent {
       const index = this.images.length + i;
       return {
         title: `Event ${index}`,
-        imageUri: `https://picsum.photos/2000/1500?random=${index}`,
-        imageSize: '4000-3000',
-        thumbnailUri: `https://picsum.photos/200/150?random=${index}`,
+        imageUri: `https://picsum.photos/1600/1200?random=${index}`,
+        imageWidth: '1600',
+        imageHeight: '1200',
+        thumbnailUri: `https://picsum.photos/800/600?random=${index}`,
         category: this.getRandomCategory(),
       };
     });

@@ -7,7 +7,8 @@ type GalleryImageCategory =
 export interface GalleryImage {
   title: string;
   imageUri: string;
-  imageSize: string;
+  imageWidth: string;
+  imageHeight: string;
   thumbnailUri: string;
   category?: GalleryImageCategory;
 }

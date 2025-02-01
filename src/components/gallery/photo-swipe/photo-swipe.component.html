@@ -5,8 +5,8 @@
   @for (image of images; track image) {
   <a
     [href]="image.imageUri"
-    data-pswp-width="2000"
-    data-pswp-height="1500"
+    [attr.data-pswp-width]="image.imageWidth"
+    [attr.data-pswp-height]="image.imageHeight"
     target="_blank"
   >
     <img [src]="image.thumbnailUri" alt="" />
