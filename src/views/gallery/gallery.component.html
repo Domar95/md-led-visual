@@ -18,21 +18,18 @@
 
 <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
 
-<lightgallery
-  [settings]="lightGallerySettings"
-  [onInit]="onLightGalleryInit"
-  class="gallery-container"
+<div
+  class="pswp-gallery pswp-gallery--single-column"
+  id="gallery--getting-started"
 >
+  @for (image of filteredImages; track image) {
   <a
-    *ngFor="let item of filteredImages"
-    class="gallery-item"
-    [attr.data-lg-size]="item.imageSize"
-    [attr.href]="item.imageUri"
+    [href]="image.imageUri"
+    data-pswp-width="2000"
+    data-pswp-height="1500"
+    target="_blank"
   >
-    <img [src]="item.thumbnailUri" />
+    <img [src]="image.thumbnailUri" alt="" />
   </a>
-</lightgallery>
-
-@if (isLoading) {
-<mat-spinner diameter="48" class="spinner-container"></mat-spinner>
-}
+  }
+</div>

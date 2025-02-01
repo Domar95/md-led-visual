@@ -1,6 +1,3 @@
-@import url('https://cdn.jsdelivr.net/npm/lightgallery@2.0.0-beta.4/css/lightgallery.css');
-@import url('https://cdn.jsdelivr.net/npm/lightgallery@2.0.0-beta.4/css/lg-zoom.css');
-
 mat-tab-group {
   margin-bottom: 16px;
 }
@@ -9,7 +6,7 @@ mat-tab-group {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  padding-bottom: 80px
+  padding-bottom: 80px;
 }
 
 .gallery-item {

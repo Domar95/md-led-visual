@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @use "@angular/material" as mat;
 @use "swiper/css/bundle"; // TODO: check if this could be reduced
+@use "photoswipe/dist/photoswipe.css";
 @use "styles/colors" as colors;
 
 html {

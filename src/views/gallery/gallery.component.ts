@@ -1,13 +1,11 @@
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Component, HostListener } from '@angular/core';
-import { InitDetail } from 'lightgallery/lg-events';
-import { LightGallery } from 'lightgallery/lightgallery';
-import { LightgalleryModule } from 'lightgallery/angular';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
-import lgZoom from 'lightgallery/plugins/zoom';
+import PhotoSwipeLightbox from 'photoswipe/lightbox';
+import PhotoSwipe from 'photoswipe';
 
 import { GalleryImage } from '@models/gallery.model';
 
@@ -19,7 +17,6 @@ type Link = { label: string; route: string };
     CommonModule,
     MatGridListModule,
     MatTabsModule,
-    LightgalleryModule,
     MatProgressSpinnerModule,
     RouterModule,
   ],
@@ -27,13 +24,7 @@ type Link = { label: string; route: string };
   styleUrl: './gallery.component.scss',
 })
 export class GalleryComponent {
-  private lightGallery!: LightGallery;
-
-  lightGallerySettings = {
-    counter: false,
-    plugins: [lgZoom],
-    speed: 500,
-  };
+  photoSwipeLightbox!: PhotoSwipeLightbox;
 
   links: Link[] = [
     {
@@ -69,6 +60,19 @@ export class GalleryComponent {
 
     this.images = this.loadImages(50);
     this.refreshLightGallery();
+
+    this.photoSwipeLightbox = new PhotoSwipeLightbox({
+      // may select multiple "galleries"
+      gallery: '#gallery--getting-started',
+
+      // Elements within gallery (slides)
+      children: 'a',
+      showHideAnimationType: 'zoom',
+
+      pswpModule: PhotoSwipe,
+    });
+
+    this.photoSwipeLightbox.init();
   }
 
   getActiveLink(): Link {
@@ -79,10 +83,6 @@ export class GalleryComponent {
     // Find the matching link based on the last segment.
     const foundLink = this.links.find((link) => link.route === lastSegment);
     return foundLink ? foundLink : this.links[0];
-  }
-
-  onLightGalleryInit(detail: InitDetail): void {
-    this.lightGallery = detail.instance;
   }
 
   @HostListener('window:scroll')
@@ -105,19 +105,15 @@ export class GalleryComponent {
       const index = this.images.length + i;
       return {
         title: `Event ${index}`,
-        imageUri: `https://picsum.photos/4000/3000?random=${index}`,
+        imageUri: `https://picsum.photos/2000/1500?random=${index}`,
         imageSize: '4000-3000',
-        thumbnailUri: `https://picsum.photos/300/200?random=${index}`,
+        thumbnailUri: `https://picsum.photos/200/150?random=${index}`,
         category: this.getRandomCategory(),
       };
     });
   }
 
-  refreshLightGallery(): void {
-    if (this.lightGallery) {
-      this.lightGallery.refresh();
-    }
-  }
+  refreshLightGallery(): void {}
 
   // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   getRandomCategory(): any {
