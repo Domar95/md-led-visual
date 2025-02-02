@@ -1,6 +1,19 @@
 mat-form-field {
   width: 100%;
-  margin-bottom: 16px;
+}
+
+.form-fields-container {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 600px;
+  gap: 12px;
+}
+
+.pair-fields {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 12px;
 }
 
 button[disabled] {

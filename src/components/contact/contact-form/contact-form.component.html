@@ -1,41 +1,47 @@
 <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
-  <mat-form-field>
-    <mat-label>Imię</mat-label>
-    <input matInput formControlName="name" />
-    @if (contactForm.get('name')?.hasError('required')) {
-    <mat-error>{{ requiredErrorMessage }}</mat-error>}
-  </mat-form-field>
+  <div class="form-fields-container">
+    <div class="pair-fields">
+      <mat-form-field>
+        <mat-label>Imię</mat-label>
+        <input matInput formControlName="name" />
+        @if (contactForm.get('name')?.hasError('required')) {
+        <mat-error>{{ requiredErrorMessage }}</mat-error>}
+      </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Nazwisko</mat-label>
-    <input matInput formControlName="surname" />
-    @if (contactForm.get('surname')?.hasError('required')) {
-    <mat-error>{{ requiredErrorMessage }}</mat-error>}
-  </mat-form-field>
+      <mat-form-field>
+        <mat-label>Nazwisko</mat-label>
+        <input matInput formControlName="surname" />
+        @if (contactForm.get('surname')?.hasError('required')) {
+        <mat-error>{{ requiredErrorMessage }}</mat-error>}
+      </mat-form-field>
+    </div>
 
-  <mat-form-field>
-    <mat-label>E-mail</mat-label>
-    <mat-icon matSuffix>mail</mat-icon>
-    <input matInput formControlName="email" />
-    @if (contactForm.get('email')?.hasError('required')) {
-    <mat-error>{{ requiredErrorMessage }}</mat-error>} @else if (contactForm.get('email')?.hasError('email')) {
-    <mat-error> Wprowadź poprawny adres e-mail</mat-error>}
-  </mat-form-field>
+    <div class="pair-fields">
+      <mat-form-field>
+        <mat-label>E-mail</mat-label>
+        <mat-icon matSuffix>mail</mat-icon>
+        <input matInput formControlName="email" />
+        @if (contactForm.get('email')?.hasError('required')) {
+        <mat-error>{{ requiredErrorMessage }}</mat-error>} @else if (contactForm.get('email')?.hasError('email')) {
+        <mat-error> Wprowadź poprawny adres e-mail</mat-error>}
+      </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Telefon</mat-label>
-    <mat-icon matSuffix>phone</mat-icon>
-    <input matInput formControlName="phone" />
-    @if (contactForm.get('phone')?.hasError('required')) {
-    <mat-error>{{ requiredErrorMessage }}</mat-error>}
-  </mat-form-field>
+      <mat-form-field>
+        <mat-label>Telefon</mat-label>
+        <mat-icon matSuffix>phone</mat-icon>
+        <input matInput formControlName="phone" />
+        @if (contactForm.get('phone')?.hasError('required')) {
+        <mat-error>{{ requiredErrorMessage }}</mat-error>}
+      </mat-form-field>
+    </div>
 
-  <mat-form-field>
-    <mat-label>Wiadomość</mat-label>
-    <textarea matInput formControlName="message"></textarea>
-    @if (contactForm.get('message')?.hasError('required')) {
-    <mat-error>{{ requiredErrorMessage }}</mat-error>}
-  </mat-form-field>
+    <mat-form-field>
+      <mat-label>Wiadomość</mat-label>
+      <textarea matInput formControlName="message"></textarea>
+      @if (contactForm.get('message')?.hasError('required')) {
+      <mat-error>{{ requiredErrorMessage }}</mat-error>}
+    </mat-form-field>
+  </div>
 
   <button mat-flat-button type="submit" [disabled]="!contactForm.valid">
     Wyślij
