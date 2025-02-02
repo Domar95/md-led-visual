@@ -1,8 +1,15 @@
 <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
   <mat-form-field>
-    <mat-label>Imię i nazwisko</mat-label>
+    <mat-label>Imię</mat-label>
     <input matInput formControlName="name" />
     @if (contactForm.get('name')?.hasError('required')) {
+    <mat-error>{{ requiredErrorMessage }}</mat-error>}
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Nazwisko</mat-label>
+    <input matInput formControlName="surname" />
+    @if (contactForm.get('surname')?.hasError('required')) {
     <mat-error>{{ requiredErrorMessage }}</mat-error>}
   </mat-form-field>
 

@@ -20,6 +20,7 @@ export class ContactFormComponent {
   //TODO: Add privacy policy checkbox
   contactForm = new FormGroup({
     name: new FormControl('', Validators.required),
+    surname: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email]),
     phone: new FormControl('', Validators.required),
     message: new FormControl('', Validators.required),
