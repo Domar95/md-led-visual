@@ -41,9 +41,9 @@
       @if (contactForm.get('message')?.hasError('required')) {
       <mat-error>{{ requiredErrorMessage }}</mat-error>}
     </mat-form-field>
-  </div>
 
-  <button mat-flat-button type="submit" [disabled]="!contactForm.valid">
-    Wyślij
-  </button>
+    <button mat-flat-button type="submit" [disabled]="!contactForm.valid">
+      Wyślij
+    </button>
+  </div>
 </form>
