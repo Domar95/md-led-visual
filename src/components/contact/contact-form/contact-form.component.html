@@ -1,5 +1,5 @@
 <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
-  <div class="form-fields-container">
+  <div class="form-fields-container" [class.handset]="isHandset">
     <div class="pair-fields">
       <mat-form-field>
         <mat-label>Imię</mat-label>
@@ -42,7 +42,7 @@
       <mat-error>{{ requiredErrorMessage }}</mat-error>}
     </mat-form-field>
 
-    <button mat-flat-button type="submit" [disabled]="!contactForm.valid">
+    <button mat-flat-button type="submit" [disabled]="!contactForm.valid" [class.full-width-button]="isHandset">
       Wyślij
     </button>
   </div>

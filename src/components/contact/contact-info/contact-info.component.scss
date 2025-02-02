@@ -9,10 +9,18 @@
   align-items: center;
   font-size: 24px;
   gap: 6px;
+  &.handset {
+    font-size: 20px;
+  }
 }
 
 .contact-item mat-icon {
   font-size: 2rem;
   height: 2rem;
   width: 2rem;
+  &.handset {
+    font-size: 1.5rem;
+    height: 1.5rem;
+    width: 1.5rem;
+  }
 }

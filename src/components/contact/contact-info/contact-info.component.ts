@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -7,4 +7,6 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './contact-info.component.html',
   styleUrl: './contact-info.component.scss'
 })
-export class ContactInfoComponent { }
+export class ContactInfoComponent {
+  @Input() isHandset!: boolean;
+}

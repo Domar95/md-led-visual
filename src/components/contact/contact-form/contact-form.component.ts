@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
   FormGroup,
   FormControl,
@@ -17,6 +17,8 @@ import { MatInputModule } from '@angular/material/input';
   styleUrl: './contact-form.component.scss'
 })
 export class ContactFormComponent {
+  @Input() isHandset!: boolean;
+
   //TODO: Add privacy policy checkbox
   contactForm = new FormGroup({
     name: new FormControl('', Validators.required),
