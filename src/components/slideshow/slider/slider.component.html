@@ -1,20 +1,12 @@
 <div class="heroSwiper">
   <div class="swiper-wrapper">
     @for(image of images; track image; let i = $index) {
-    <div
-      class="swiper-slide background"
-      [style.backgroundImage]="'url(' + image.uri + ')'"
-    >
-      <div class="overlay">
-        <h1 [@fadeIn]="activeSlideIndex === i ? '*' : 'void'">
+    <div class="swiper-slide background" [style.backgroundImage]="'url(' + image.uri + ')'">
+      <div class="overlay" [class.handset]='isHandset'>
+        <h1 [class.handset]='isHandset' [@fadeIn]="activeSlideIndex === i ? '*' : 'void'">
           {{ image.text }}
         </h1>
-        <button
-          mat-flat-button
-          [routerLink]="['/kontakt']"
-          @slideIn
-          [@fadeIn]="activeSlideIndex === i ? '*' : 'void'"
-        >
+        <button mat-flat-button [routerLink]="['/kontakt']" @slideIn [@fadeIn]="activeSlideIndex === i ? '*' : 'void'">
           Zarezerwuj termin
         </button>
       </div>

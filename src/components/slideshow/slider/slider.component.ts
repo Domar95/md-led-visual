@@ -18,6 +18,7 @@ import {
 } from 'swiper/modules';
 
 import { SlideshowImage } from '@models/slideshow.model';
+import { ResponsiveLayoutService } from '@services/responsive-layout.service';
 
 @Component({
   selector: 'mdlv-slider',
@@ -43,7 +44,15 @@ export class SliderComponent {
   swiper!: Swiper;
   activeSlideIndex = 0;
 
+  isHandset!: boolean;
+
+  constructor(private responsiveLayoutService: ResponsiveLayoutService) { }
+
   ngOnInit() {
+    this.responsiveLayoutService.isHandset$.subscribe((isHandset) => {
+      this.isHandset = isHandset;
+    });
+
     this.swiper = new Swiper('.heroSwiper', {
       modules: [Navigation, Pagination, Autoplay, Keyboard, EffectFade],
       effect: 'fade',
