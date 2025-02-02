@@ -7,13 +7,13 @@ import {
   OfferPresentationComponent,
   SlideshowComponent
 } from '@components/index';
-import { ContactComponent } from '@views/contact/contact.component';
+import { ContactPageComponent } from '@views/contact-page/contact-page.component';
 
 @Component({
   selector: 'mdlv-home',
   imports: [
     SlideshowComponent,
-    ContactComponent,
+    ContactPageComponent,
     RouterModule,
     MatButtonModule,
     OfferPresentationComponent,
