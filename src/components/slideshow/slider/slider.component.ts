@@ -17,7 +17,7 @@ import {
   Pagination,
 } from 'swiper/modules';
 
-import { BackgroundSlideshowImage } from '@models/background-slideshow.model';
+import { SlideshowImage } from '@models/slideshow.model';
 
 @Component({
   selector: 'mdlv-slider',
@@ -38,7 +38,7 @@ import { BackgroundSlideshowImage } from '@models/background-slideshow.model';
   ],
 })
 export class SliderComponent {
-  @Input({ required: true }) images!: BackgroundSlideshowImage[];
+  @Input({ required: true }) images!: SlideshowImage[];
 
   swiper!: Swiper;
   activeSlideIndex = 0;

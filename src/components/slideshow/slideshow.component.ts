@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 
-import { BackgroundSlideshowImage } from '@models/background-slideshow.model';
+import { SlideshowImage } from '@models/slideshow.model';
 import { FirebaseService } from '@services/firebase.service';
 import { SliderComponent } from './slider/slider.component';
 
 @Component({
-  selector: 'mdlv-background-slideshow',
+  selector: 'mdlv-slideshow',
   imports: [SliderComponent],
-  templateUrl: './background-slideshow.component.html',
-  styleUrl: './background-slideshow.component.scss',
+  templateUrl: './slideshow.component.html',
+  styleUrl: './slideshow.component.scss',
 })
-export class BackgroundSlideshowComponent implements OnInit {
-  images!: BackgroundSlideshowImage[];
+export class SlideshowComponent implements OnInit {
+  images!: SlideshowImage[];
 
   constructor(private firebaseService: FirebaseService) {}
 
@@ -19,7 +19,7 @@ export class BackgroundSlideshowComponent implements OnInit {
     this.images = await this.loadImages();
   }
 
-  async loadImages(): Promise<BackgroundSlideshowImage[]> {
+  async loadImages(): Promise<SlideshowImage[]> {
     // TODO temporary texts, replace with actual text for each img
     const texts = [
       'WYNAJEM EKRANÓW LED I TELEBIMÓW',
