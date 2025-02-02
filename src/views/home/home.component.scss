@@ -8,7 +8,7 @@ h2 {
 }
 
 .break {
-  padding-top: 32px;
+  height: 32px;
   background: rgb(252, 245, 37);
   background: linear-gradient(
     90deg,
@@ -19,6 +19,8 @@ h2 {
 }
 
 .purple-container {
+  padding-top: 56px;
+  padding-bottom: 56px;
   color: white;
   background: rgb(0, 6, 11);
   background: linear-gradient(

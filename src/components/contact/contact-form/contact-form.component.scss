@@ -1,0 +1,30 @@
+mat-form-field {
+  width: 100%;
+}
+
+.form-fields-container {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 600px;
+  gap: 12px;
+  &.handset {
+    gap: 16px;
+  }
+}
+
+.pair-fields {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 12px;
+}
+
+button[disabled] {
+  background-color: var(--mat-sys-primary);
+  color: var(--mat-sys-on-primary);
+  opacity: 0.6;
+}
+
+.full-width-button {
+  width: 100%;
+}

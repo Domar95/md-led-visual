@@ -1,0 +1,27 @@
+.contact-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  &.handset {
+    flex-direction: column;
+    gap: 40px;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
+
+.contact-info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.contact-section-title {
+  text-align: center;
+  font-size: 56px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  &.handset {
+    font-size: 32px;
+  }
+}

@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 import { DefaultLayoutComponent, HomeLayoutComponent } from '@layouts/index';
 import {
   AboutComponent,
-  ContactComponent,
+  ContactPageComponent,
   GalleryPageComponent,
   HomeComponent,
   NotFoundComponent,
@@ -30,7 +30,7 @@ export const routes: Routes = [
         ],
       },
       { path: 'wycena', component: PricingComponent, title: 'Wycena' },
-      { path: 'kontakt', component: ContactComponent, title: 'Kontakt' },
+      { path: 'kontakt', component: ContactPageComponent, title: 'Kontakt' },
     ],
   },
   { path: '**', component: NotFoundComponent },

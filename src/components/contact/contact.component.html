@@ -1,0 +1,11 @@
+<div class='contact-container' [class.handset]="isHandset">
+  <div class="contact-info-container">
+    <div class="contact-section-title" [class.handset]="isHandset">KONTAKT</div>
+    <mdlv-contact-info [isHandset]="isHandset"></mdlv-contact-info>
+  </div>
+
+  <div>
+    <div class="contact-section-title" [class.handset]="isHandset">NAPISZ DO NAS</div>
+    <mdlv-contact-form [isHandset]="isHandset"></mdlv-contact-form>
+  </div>
+</div>
