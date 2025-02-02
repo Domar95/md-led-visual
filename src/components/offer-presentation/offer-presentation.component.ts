@@ -1,13 +1,11 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { MatButton } from '@angular/material/button';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { RouterModule } from '@angular/router';
+
 import { FirebaseService } from '@services/firebase.service';
+import { OfferPresentationGridsComponent } from './offer-presentation-grids/offer-presentation-grids.component';
 
 @Component({
   selector: 'mdlv-offer-presentation',
-  imports: [MatGridListModule, CommonModule, RouterModule, MatButton],
+  imports: [OfferPresentationGridsComponent],
   templateUrl: './offer-presentation.component.html',
   styleUrl: './offer-presentation.component.scss',
 })

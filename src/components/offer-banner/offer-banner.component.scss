@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
   padding-top: 56px;
-  padding-bottom: 64px;
+  padding-bottom: 56px;
   background: rgb(0, 6, 11);
   background: linear-gradient(
     90deg,
@@ -11,6 +11,10 @@
     rgba(14, 0, 39, 1) 35%,
     rgba(8, 0, 34, 1) 100%
   );
+  &.handset {
+    padding-top: 32px;
+    padding-bottom: 32px;
+  }
 }
 
 .offer-banner-text {
@@ -18,12 +22,18 @@
   text-align: center;
   font-size: 72px;
   color: white;
+  &.handset {
+    font-size: 32px;
+  }
 }
 
 .offer-banner-text-secondary {
   font-weight: 300;
   font-size: 24px;
   color: white;
+  &.handset {
+    font-size: 16px;
+  }
 }
 .offer-banner-logo {
   width: 150px;
@@ -32,4 +42,8 @@
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  &.handset {
+    width: 100px;
+    height: 100px;
+  }
 }

@@ -3,16 +3,16 @@ import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 
 import {
-  BackgroundSlideshowComponent,
   OfferBannerComponent,
   OfferPresentationComponent,
+  SlideshowComponent
 } from '@components/index';
 import { ContactComponent } from '@views/contact/contact.component';
 
 @Component({
   selector: 'mdlv-home',
   imports: [
-    BackgroundSlideshowComponent,
+    SlideshowComponent,
     ContactComponent,
     RouterModule,
     MatButtonModule,
@@ -23,7 +23,7 @@ import { ContactComponent } from '@views/contact/contact.component';
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
-  constructor(private activatedRoute: ActivatedRoute) {}
+  constructor(private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.activatedRoute.fragment.subscribe((fragment: string | null) => {
