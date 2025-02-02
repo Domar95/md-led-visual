@@ -1,0 +1,14 @@
+.contact-item {
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  font-weight: bold;
+  min-height: 48px;
+}
+
+.contact-item mat-icon {
+  font-size: 40px;
+  height: 40px;
+  width: 40px;
+  margin-right: 16px;
+}
