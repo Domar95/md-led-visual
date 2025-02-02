@@ -16,50 +16,7 @@
       <mat-grid-tile>
         <div class="form-container">
           <div class="title">NAPISZ DO NAS</div>
-          <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
-            <mat-form-field>
-              <mat-label>Imię i nazwisko</mat-label>
-              <input matInput formControlName="name" />
-              @if (contactForm.get('name')?.hasError('required')) {
-              <mat-error>{{ requiredErrorMessage }}</mat-error
-              >}
-            </mat-form-field>
-
-            <mat-form-field>
-              <mat-label>E-mail</mat-label>
-              <mat-icon matSuffix>mail</mat-icon>
-              <input matInput formControlName="email" />
-              @if (contactForm.get('email')?.hasError('required')) {
-              <mat-error>{{ requiredErrorMessage }}</mat-error
-              >} @else if (contactForm.get('email')?.hasError('email')) {
-              <mat-error> Wprowadź poprawny adres e-mail</mat-error>}
-            </mat-form-field>
-
-            <mat-form-field>
-              <mat-label>Telefon</mat-label>
-              <mat-icon matSuffix>phone</mat-icon>
-              <input matInput formControlName="phone" />
-              @if (contactForm.get('phone')?.hasError('required')) {
-              <mat-error>{{ requiredErrorMessage }}</mat-error
-              >}
-            </mat-form-field>
-
-            <mat-form-field>
-              <mat-label>Wiadomość</mat-label>
-              <textarea matInput formControlName="message"></textarea>
-              @if (contactForm.get('message')?.hasError('required')) {
-              <mat-error>{{ requiredErrorMessage }}</mat-error
-              >}
-            </mat-form-field>
-
-            <button
-              mat-flat-button
-              type="submit"
-              [disabled]="!contactForm.valid"
-            >
-              Wyślij
-            </button>
-          </form>
+          <mdlv-contact-form></mdlv-contact-form>
         </div>
       </mat-grid-tile>
     </mat-grid-list>
