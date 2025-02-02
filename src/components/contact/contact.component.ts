@@ -14,7 +14,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
-  selector: 'mdlv-contact-form',
+  selector: 'mdlv-contact',
   imports: [
     ReactiveFormsModule,
     MatFormFieldModule,
@@ -25,10 +25,10 @@ import { MatDividerModule } from '@angular/material/divider';
     MatGridListModule,
     MatDividerModule,
   ],
-  templateUrl: './contact-form.component.html',
-  styleUrl: './contact-form.component.scss',
+  templateUrl: './contact.component.html',
+  styleUrl: './contact.component.scss',
 })
-export class ContactFormComponent {
+export class ContactComponent {
   //TODO: Add privacy policy checkbox
   contactForm = new FormGroup({
     name: new FormControl('', Validators.required),

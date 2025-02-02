@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
-import { ContactFormComponent } from '@components/index';
+import { ContactComponent } from '@components/index';
 
 @Component({
   selector: 'mdlv-contact-page',
-  imports: [ContactFormComponent],
+  imports: [ContactComponent],
   templateUrl: './contact-page.component.html',
   styleUrl: './contact-page.component.scss'
 })
