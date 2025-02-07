@@ -1,6 +1,6 @@
 export * from './slideshow/slideshow.component';
 export * from './learn-more/learn-more.component';
-export * from './navbar/navbar.component';
+export * from './navigation/navbar/navbar.component';
 export * from './title/title.component';
 export * from './contact/contact.component';
 export * from './pricing-form/pricing-form.component';
