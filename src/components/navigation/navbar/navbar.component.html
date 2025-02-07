@@ -1,21 +1,26 @@
-<mat-toolbar [ngClass]="variant">
+<mat-toolbar [ngClass]="variant" [class.handset]="isHandset">
   @if (isDefault) {
   <mdlv-home-button></mdlv-home-button>
   <span class="spacer"></span>
   <ng-container *ngTemplateOutlet="buttonGroupTemplate"></ng-container>
   } @else {
+
+  @if (!isHandset) {
   <div class="transparent-navbar-container">
     <mdlv-social-media-buttons> </mdlv-social-media-buttons>
   </div>
+  }
 
   <div class="transparent-navbar-container">
     <mdlv-home-button></mdlv-home-button>
     <ng-container *ngTemplateOutlet="buttonGroupTemplate"></ng-container>
   </div>
 
+  @if (!isHandset) {
   <div class="transparent-navbar-container">
     <mdlv-email-button> </mdlv-email-button>
   </div>
+  }
   }
 </mat-toolbar>
 

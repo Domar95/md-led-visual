@@ -50,6 +50,9 @@ mat-toolbar {
       margin: 0 auto;
       left: 0;
       right: 0;
+      &.handset {
+        justify-content: center;
+      }
     }
   }
 }
