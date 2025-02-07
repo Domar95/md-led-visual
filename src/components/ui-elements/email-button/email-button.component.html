@@ -1,4 +1,4 @@
-<button mat-button (click)="copyEmail()">
+<button mat-button [cdkCopyToClipboard]="email">
   <mat-icon>content_copy</mat-icon>
   {{email}}
 </button>
