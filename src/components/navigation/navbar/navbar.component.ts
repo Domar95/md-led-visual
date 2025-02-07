@@ -7,6 +7,9 @@ import { CommonModule } from '@angular/common';
 
 import { NavbarVariant } from '@models/navbar-variant.model';
 import { HomeButtonComponent } from '@components/ui-elements/home-button/home-button.component';
+import { SocialMediaButtonsComponent } from '@components/ui-elements/social-media-buttons/social-media-buttons.component';
+import { EmailButtonComponent } from '@components/ui-elements/email-button/email-button.component';
+import { ResponsiveLayoutService } from '@services/responsive-layout.service';
 
 @Component({
   selector: 'mdlv-navbar',
@@ -17,6 +20,8 @@ import { HomeButtonComponent } from '@components/ui-elements/home-button/home-bu
     MatIconModule,
     CommonModule,
     HomeButtonComponent,
+    SocialMediaButtonsComponent,
+    EmailButtonComponent
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
@@ -24,7 +29,15 @@ import { HomeButtonComponent } from '@components/ui-elements/home-button/home-bu
 export class NavbarComponent {
   @Input() variant: NavbarVariant = NavbarVariant.Default;
 
-  constructor() {}
+  isHandset!: boolean
+
+  constructor(private responsiveLayoutService: ResponsiveLayoutService) { }
+
+  ngOnInit() {
+    this.responsiveLayoutService.isHandset$.subscribe((isHandset) => {
+      this.isHandset = isHandset
+    })
+  }
 
   get isDefault() {
     return this.variant === NavbarVariant.Default;

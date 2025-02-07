@@ -45,7 +45,14 @@ mat-toolbar {
     );
     & {
       position: fixed;
-      justify-content: center;
+      justify-content: space-between;
+      max-width: 1000px;
+      margin: 0 auto;
+      left: 0;
+      right: 0;
+      &.handset {
+        justify-content: center;
+      }
     }
   }
 }
