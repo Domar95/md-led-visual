@@ -13,3 +13,9 @@ mat-grid-tile {
   padding: 32px;
   gap: 22px;
 }
+
+.tile-background {
+  background: url("/assets/images/background_grid.jpg");
+  background-size: cover;
+  background-position: top;
+}
