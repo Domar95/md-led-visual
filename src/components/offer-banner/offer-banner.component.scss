@@ -4,13 +4,10 @@
   align-items: center;
   padding-top: 56px;
   padding-bottom: 56px;
-  background: rgb(0, 6, 11);
-  background: linear-gradient(
-    90deg,
-    rgba(0, 6, 11, 1) 0%,
-    rgba(14, 0, 39, 1) 35%,
-    rgba(8, 0, 34, 1) 100%
-  );
+  background: linear-gradient(45deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.2)),
+    url("/assets/images/background_1.jpg");
+  background-size: cover;
+  background-position: center;
   &.handset {
     padding-top: 32px;
     padding-bottom: 32px;
