@@ -1,7 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { SendEmailRequest } from '@models/send-email-request.model';
+import { AppCheck, getToken } from '@angular/fire/app-check';
 import { lastValueFrom } from 'rxjs';
+
+import { SendEmailRequest } from '@models/send-email-request.model';
 
 @Injectable({
   providedIn: 'root',
@@ -11,9 +13,9 @@ export class EmailService {
   // TODO: Replace with actual email
   RECEIVER_EMAIL = 'email-placeholder';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private appCheck: AppCheck) {}
 
-  send(
+  async send(
     name: string,
     surname: string,
     email: string,
@@ -30,7 +32,8 @@ export class EmailService {
       message
     );
     const composedEmail = this.buildEmail(subject, composedMessage);
-    return this.sendEmail(composedEmail);
+    const headers = await this.buildHeaders();
+    return this.sendEmail(composedEmail, headers);
   }
 
   private buildMessage(
@@ -60,7 +63,22 @@ Wiadomość: ${message}`;
     };
   }
 
-  private sendEmail(payload: SendEmailRequest): Promise<unknown> {
-    return lastValueFrom(this.http.post(this.API, payload));
+  private async buildHeaders(): Promise<HttpHeaders> {
+    const appCheckToken = await getToken(this.appCheck, false);
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'X-Firebase-AppCheck': appCheckToken.token,
+    });
+  }
+
+  private sendEmail(
+    payload: SendEmailRequest,
+    headers: HttpHeaders
+  ): Promise<unknown> {
+    return lastValueFrom(
+      this.http.post(this.API, payload, {
+        headers: headers,
+      })
+    );
   }
 }
