@@ -28,11 +28,26 @@ export class ContactFormComponent {
 
   //TODO: Add privacy policy checkbox
   contactForm = new FormGroup({
-    name: new FormControl('', Validators.required),
-    surname: new FormControl('', Validators.required),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    phone: new FormControl('', Validators.required),
-    message: new FormControl('', Validators.required),
+    name: new FormControl<string>('', {
+      nonNullable: true,
+      validators: Validators.required,
+    }),
+    surname: new FormControl<string>('', {
+      nonNullable: true,
+      validators: Validators.required,
+    }),
+    email: new FormControl<string>('', {
+      nonNullable: true,
+      validators: [Validators.required, Validators.email],
+    }),
+    phone: new FormControl<string>('', {
+      nonNullable: true,
+      validators: Validators.required,
+    }),
+    message: new FormControl<string>('', {
+      nonNullable: true,
+      validators: Validators.required,
+    }),
   });
 
   constructor(private emailService: EmailService) {}
@@ -42,14 +57,10 @@ export class ContactFormComponent {
       console.warn('Form is invalid, cannot submit.');
       return;
     }
-    const { name, surname, email, phone, message } = this.contactForm.value;
-    await this.emailService.send(
-      name ?? '',
-      surname ?? '',
-      email ?? '',
-      phone ?? '',
-      message ?? ''
-    );
+
+    const { name, surname, email, phone, message } =
+      this.contactForm.getRawValue();
+    await this.emailService.send(name, surname, email, phone, message);
   }
 
   get requiredErrorMessage() {
