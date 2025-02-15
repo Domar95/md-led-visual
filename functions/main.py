@@ -10,14 +10,14 @@ from email.mime.text import MIMEText
 
 initialize_app()
 
-ALLOWED_ORIGIN = "http://localhost:4200"
-
 REQUIRED_SECRETS = [
     "GMAIL_REFRESH_TOKEN",
     "GMAIL_CLIENT_ID",
     "GMAIL_CLIENT_SECRET",
     "SENDER_EMAIL_ADDRESS",
 ]
+
+ALLOWED_ORIGIN = "https://md-led-visual.web.app"
 
 cors_headers = {
     "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
