@@ -1,6 +1,6 @@
 export const environment = {
   firebaseConfig: {
-    apiKey: 'AIzaSyBdVToWbccXWBfWfA5iS4iEadugD-VNhNM',
+    apiKey: 'AIzaSyDsAQWcFNcNGIwBSylnyHz8P8BZdKddn5g',
     authDomain: 'md-led-visual.firebaseapp.com',
     projectId: 'md-led-visual',
     storageBucket: 'md-led-visual-dev',
