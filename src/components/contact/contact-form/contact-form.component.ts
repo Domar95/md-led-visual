@@ -9,12 +9,19 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { EmailService } from '@services/email.service';
 
 @Component({
   selector: 'mdlv-contact-form',
-  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule],
+  imports: [
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+  ],
   templateUrl: './contact-form.component.html',
-  styleUrl: './contact-form.component.scss'
+  styleUrl: './contact-form.component.scss',
 })
 export class ContactFormComponent {
   @Input() isHandset!: boolean;
@@ -28,9 +35,21 @@ export class ContactFormComponent {
     message: new FormControl('', Validators.required),
   });
 
-  onSubmit() {
-    console.warn(this.contactForm.value);
-    // TODO: Implement solution to send email; prob use EmailJS
+  constructor(private emailService: EmailService) {}
+
+  async onSubmit() {
+    if (this.contactForm.invalid) {
+      console.warn('Form is invalid, cannot submit.');
+      return;
+    }
+    const { name, surname, email, phone, message } = this.contactForm.value;
+    await this.emailService.send(
+      name ?? '',
+      surname ?? '',
+      email ?? '',
+      phone ?? '',
+      message ?? ''
+    );
   }
 
   get requiredErrorMessage() {
