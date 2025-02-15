@@ -9,7 +9,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+
 import { EmailService } from '@services/email.service';
+import { NotificationService } from '@services/notification.service';
 
 @Component({
   selector: 'mdlv-contact-form',
@@ -50,7 +52,10 @@ export class ContactFormComponent {
     }),
   });
 
-  constructor(private emailService: EmailService) {}
+  constructor(
+    private emailService: EmailService,
+    private notificationService: NotificationService
+  ) {}
 
   async onSubmit() {
     if (this.contactForm.invalid) {
@@ -60,7 +65,16 @@ export class ContactFormComponent {
 
     const { name, surname, email, phone, message } =
       this.contactForm.getRawValue();
-    await this.emailService.send(name, surname, email, phone, message);
+
+    try {
+      await this.emailService.send(name, surname, email, phone, message);
+      this.notificationService.openSnackBar('Wiadomość została wysłana!');
+    } catch (error) {
+      this.notificationService.openSnackBar(
+        'Nie udało się wysłać wiadomości. Spróbuj później.'
+      );
+      throw error;
+    }
   }
 
   get requiredErrorMessage() {
