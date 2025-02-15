@@ -1,9 +1,10 @@
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, HostBinding } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
 
 import { GalleryComponent } from '@components/index';
+import { routeAnimationsState } from 'src/animations/route-animations';
 
 type Link = { label: string; route: string };
 
@@ -12,8 +13,11 @@ type Link = { label: string; route: string };
   imports: [CommonModule, MatTabsModule, RouterModule, GalleryComponent],
   templateUrl: './gallery-page.component.html',
   styleUrl: './gallery-page.component.scss',
+  animations: [routeAnimationsState],
 })
 export class GalleryPageComponent {
+  @HostBinding('@routeAnimations') routeAnimations = true;
+
   links: Link[] = [
     {
       label: 'wszystkie',
