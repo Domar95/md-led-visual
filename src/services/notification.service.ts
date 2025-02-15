@@ -9,7 +9,7 @@ export class NotificationService {
 
   openSnackBar(message: string, action: string = 'Zamknij') {
     this._snackBar.open(message, action, {
-      duration: 3000,
+      duration: 5000,
     });
   }
 }
