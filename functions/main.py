@@ -10,6 +10,8 @@ from email.mime.text import MIMEText
 
 initialize_app()
 
+ALLOWED_ORIGIN = "http://localhost:4200"
+
 REQUIRED_SECRETS = [
     "GMAIL_REFRESH_TOKEN",
     "GMAIL_CLIENT_ID",
@@ -42,7 +44,28 @@ def create_email_message(receiver_email: str, subject: str, message_text: str):
 @https_fn.on_request(secrets=REQUIRED_SECRETS)
 def send_email(req: https_fn.Request) -> https_fn.Response:
     """Handles email sending via Gmail API"""
+
+    # Handle Preflight (OPTIONS) Requests
+    if req.method == "OPTIONS":
+        return https_fn.Response(
+            status=204,
+            headers={
+                "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
+                "Access-Control-Allow-Methods": "POST, OPTIONS",
+                "Access-Control-Allow-Headers": "Content-Type",
+            },
+        )
+
     try:
+        # Restrict API access based on Origin
+        origin = req.headers.get("Origin")
+        if origin != ALLOWED_ORIGIN:
+            return https_fn.Response(
+                json.dumps({"success": False, "error": "Forbidden - Invalid Origin"}),
+                status=403,
+                headers={"Content-Type": "application/json"},
+            )
+
         # Parse request data
         data = req.get_json()
         receiver_email = data.get("email")
@@ -56,10 +79,8 @@ def send_email(req: https_fn.Request) -> https_fn.Response:
                 headers={"Content-Type": "application/json"},
             )
 
-        # Create the email message
+        # Create and send the email
         raw_message = create_email_message(receiver_email, subject, message_text)
-
-        # Send email via Gmail API
         service = get_gmail_service()
         send_request = (
             service.users()
@@ -73,12 +94,18 @@ def send_email(req: https_fn.Request) -> https_fn.Response:
                 {"success": True, "message": "Email sent!", "id": send_request["id"]}
             ),
             status=200,
-            headers={"Content-Type": "application/json"},
+            headers={
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
+            },
         )
 
     except Exception as e:
         return https_fn.Response(
             json.dumps({"success": False, "error": str(e)}),
             status=500,
-            headers={"Content-Type": "application/json"},
+            headers={
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
+            },
         )
