@@ -11,7 +11,7 @@ import { ContactPageComponent } from '@views/contact-page/contact-page.component
 import { routeAnimationsState } from 'src/animations/route-animations';
 
 @Component({
-  selector: 'mdlv-home',
+  selector: 'mdlv-home-page',
   imports: [
     SlideshowComponent,
     ContactPageComponent,
@@ -20,11 +20,11 @@ import { routeAnimationsState } from 'src/animations/route-animations';
     OfferPresentationComponent,
     OfferBannerComponent,
   ],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss',
+  templateUrl: './home-page.component.html',
+  styleUrl: './home-page.component.scss',
   animations: [routeAnimationsState],
 })
-export class HomeComponent implements OnInit {
+export class HomePageComponent implements OnInit {
   @HostBinding('@routeAnimations') routeAnimations = true;
 
   constructor(private activatedRoute: ActivatedRoute) {}

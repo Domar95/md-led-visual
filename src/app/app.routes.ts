@@ -2,25 +2,27 @@ import { Routes } from '@angular/router';
 
 import { DefaultLayoutComponent, HomeLayoutComponent } from '@layouts/index';
 import {
-  AboutComponent,
+  AboutPageComponent,
   ContactPageComponent,
   GalleryPageComponent,
-  HomeComponent,
-  NotFoundComponent,
-  PricingComponent,
+  HomePageComponent,
+  NotFoundPageComponent,
+  PricingPageComponent,
 } from '@views/index';
 
 export const routes: Routes = [
   {
     path: '',
     component: HomeLayoutComponent,
-    children: [{ path: '', component: HomeComponent, title: 'Strona główna' }],
+    children: [
+      { path: '', component: HomePageComponent, title: 'Strona główna' },
+    ],
   },
   {
     path: '',
     component: DefaultLayoutComponent,
     children: [
-      { path: 'o-mnie', component: AboutComponent, title: 'O mnie' },
+      { path: 'o-mnie', component: AboutPageComponent, title: 'O mnie' },
       {
         path: 'galeria',
         title: 'Galeria',
@@ -29,9 +31,9 @@ export const routes: Routes = [
           { path: ':category', component: GalleryPageComponent },
         ],
       },
-      { path: 'wycena', component: PricingComponent, title: 'Wycena' },
+      { path: 'wycena', component: PricingPageComponent, title: 'Wycena' },
       { path: 'kontakt', component: ContactPageComponent, title: 'Kontakt' },
     ],
   },
-  { path: '**', component: NotFoundComponent },
+  { path: '**', component: NotFoundPageComponent },
 ];

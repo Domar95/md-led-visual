@@ -1,15 +1,14 @@
 import { Component, HostBinding } from '@angular/core';
 
-import { PricingFormComponent } from '@components/index';
 import { routeAnimationsState } from 'src/animations/route-animations';
 
 @Component({
-  selector: 'mdlv-pricing',
-  imports: [PricingFormComponent],
-  templateUrl: './pricing.component.html',
-  styleUrl: './pricing.component.scss',
+  selector: 'mdlv-about-page',
+  imports: [],
+  templateUrl: './about-page.component.html',
+  styleUrl: './about-page.component.scss',
   animations: [routeAnimationsState],
 })
-export class PricingComponent {
+export class AboutPageComponent {
   @HostBinding('@routeAnimations') routeAnimations = true;
 }
