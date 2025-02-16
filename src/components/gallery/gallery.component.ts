@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { GalleryImage } from '@models/gallery.model';
 import { PhotoSwipeComponent } from './photo-swipe/photo-swipe.component';
+import { galleryThumbnailsTrigger } from 'src/animations/gallery-animations';
 
 const routeMap: { [key: string]: string } = {
   wszystkie: 'wszystkie',
@@ -18,6 +19,7 @@ const routeMap: { [key: string]: string } = {
   imports: [MatProgressSpinnerModule, PhotoSwipeComponent],
   templateUrl: './gallery.component.html',
   styleUrl: './gallery.component.scss',
+  animations: [galleryThumbnailsTrigger],
 })
 export class GalleryComponent {
   activeCategory!: string;
