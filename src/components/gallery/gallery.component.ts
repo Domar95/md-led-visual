@@ -25,6 +25,7 @@ export class GalleryComponent {
   activeCategory!: string;
 
   images: GalleryImage[] = [];
+  showImages: boolean = false;
   isLoading: boolean = false;
 
   constructor(private route: ActivatedRoute) {}
@@ -34,6 +35,10 @@ export class GalleryComponent {
       const category = params.get('category') || 'wszystkie';
       this.activeCategory = routeMap[category];
       this.images = this.loadImages(50);
+
+      setTimeout(() => {
+        this.showImages = true;
+      }, 50);
     });
   }
 

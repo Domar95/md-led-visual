@@ -1,7 +1,7 @@
+@if (showImages) {
 <div class="gallery-container" [@galleryThumbnailsTrigger]="images">
   <mdlv-photo-swipe [images]="filteredImages"></mdlv-photo-swipe>
 </div>
-
-@if (isLoading) {
+} @if (isLoading) {
 <mat-spinner diameter="48" class="spinner-container"></mat-spinner>
 }
