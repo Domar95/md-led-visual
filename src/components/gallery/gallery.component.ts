@@ -1,8 +1,17 @@
-import { Component, HostListener, Input } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ActivatedRoute } from '@angular/router';
 
 import { GalleryImage } from '@models/gallery.model';
 import { PhotoSwipeComponent } from './photo-swipe/photo-swipe.component';
+
+const routeMap: { [key: string]: string } = {
+  wszystkie: 'wszystkie',
+  'imprezy-firmowe': 'imprezy firmowe',
+  'imprezy-prywatne': 'imprezy prywatne',
+  'imprezy-plenerowe': 'imprezy plenerowe',
+  prezentacje: 'prezentacje',
+};
 
 @Component({
   selector: 'mdlv-gallery',
@@ -11,13 +20,19 @@ import { PhotoSwipeComponent } from './photo-swipe/photo-swipe.component';
   styleUrl: './gallery.component.scss',
 })
 export class GalleryComponent {
-  @Input({ required: true }) activeCategory!: string;
+  activeCategory!: string;
 
   images: GalleryImage[] = [];
   isLoading: boolean = false;
 
+  constructor(private route: ActivatedRoute) {}
+
   ngOnInit(): void {
-    this.images = this.loadImages(50);
+    this.route.paramMap.subscribe((params) => {
+      const category = params.get('category') || 'wszystkie';
+      this.activeCategory = routeMap[category];
+      this.images = this.loadImages(50);
+    });
   }
 
   @HostListener('window:scroll')

@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { GalleryComponent } from '@components/index';
 
 import { DefaultLayoutComponent, HomeLayoutComponent } from '@layouts/index';
 import {
@@ -25,10 +26,10 @@ export const routes: Routes = [
       { path: 'o-mnie', component: AboutPageComponent, title: 'O mnie' },
       {
         path: 'galeria',
-        title: 'Galeria',
+        component: GalleryPageComponent,
         children: [
           { path: '', redirectTo: 'wszystkie', pathMatch: 'full' },
-          { path: ':category', component: GalleryPageComponent },
+          { path: ':category', component: GalleryComponent, title: 'Galeria' },
         ],
       },
       { path: 'wycena', component: PricingPageComponent, title: 'Wycena' },

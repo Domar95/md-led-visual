@@ -1,16 +1,16 @@
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Component, HostBinding } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
+import { map } from 'rxjs';
 
-import { GalleryComponent } from '@components/index';
 import { routeAnimationsState } from 'src/animations/route-animations';
 
 type Link = { label: string; route: string };
 
 @Component({
   selector: 'mdlv-gallery-page',
-  imports: [CommonModule, MatTabsModule, RouterModule, GalleryComponent],
+  imports: [CommonModule, MatTabsModule, RouterModule],
   templateUrl: './gallery-page.component.html',
   styleUrl: './gallery-page.component.scss',
   animations: [routeAnimationsState],
@@ -20,41 +20,36 @@ export class GalleryPageComponent {
 
   links: Link[] = [
     {
-      label: 'wszystkie',
+      label: 'Wszystkie',
       route: 'wszystkie',
     },
     {
-      label: 'imprezy firmowe',
+      label: 'Imprezy Firmowe',
       route: 'imprezy-firmowe',
     },
     {
-      label: 'imprezy prywatne',
+      label: 'Imprezy Prywatne',
       route: 'imprezy-prywatne',
     },
     {
-      label: 'imprezy plenerowe',
+      label: 'Imprezy Plenerowe',
       route: 'imprezy-plenerowe',
     },
     {
-      label: 'prezentacje',
+      label: 'Prezentacje',
       route: 'prezentacje',
     },
   ];
   activeLink!: Link;
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.activeLink = this.getActiveLink();
-  }
-
-  getActiveLink(): Link {
-    // Use the Router's current URL to parse out the last segment.
-    const urlSegments = this.router.url.split('/');
-    const lastSegment = urlSegments[urlSegments.length - 1];
-
-    // Find the matching link based on the last segment.
-    const foundLink = this.links.find((link) => link.route === lastSegment);
-    return foundLink ? foundLink : this.links[0];
+    this.route.firstChild?.paramMap
+      .pipe(map((params) => params.get('category')))
+      .subscribe((category) => {
+        this.activeLink =
+          this.links.find((link) => link.route === category) || this.links[0];
+      });
   }
 }
