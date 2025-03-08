@@ -9,4 +9,5 @@ export const environment = {
     measurementId: 'G-EQMM08X1SE',
   },
   recaptchaSiteKey: '6Lc0LdgqAAAAAPkjqlF2O24bL7IVFJE7KQPxFcHl',
+  imageBaseUrl: '/public/images',
 };

@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { SlideshowImage } from '@models/slideshow.model';
 import { FirebaseService } from '@services/firebase.service';
 import { SliderComponent } from './slider/slider.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'mdlv-slideshow',
@@ -28,7 +29,9 @@ export class SlideshowComponent implements OnInit {
       'ROZWIĄZANIA WIZUALNE DLA TWOJEJ FIRMY',
     ];
 
-    const images = await this.firebaseService.getFileUrls('/images/slideshow');
+    const images = await this.firebaseService.getFileUrls(
+      `${environment.imageBaseUrl}/slideshow`
+    );
     return images.map((image, index) => ({
       uri: image,
       text: texts[index % texts.length],
