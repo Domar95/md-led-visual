@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { FirebaseService } from '@services/firebase.service';
 import { OfferPresentationGridsComponent } from './offer-presentation-grids/offer-presentation-grids.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'mdlv-offer-presentation',
@@ -31,7 +32,7 @@ export class OfferPresentationComponent implements OnInit {
     return Promise.all(
       imageNames.map(async (imageName) => {
         return await this.firebaseService.getFileUrl(
-          `/images/slideshow/${imageName}`
+          `${environment.imageBaseUrl}/slideshow/${imageName}`
         );
       })
     );
