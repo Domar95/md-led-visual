@@ -22,11 +22,11 @@ export class OfferPresentationComponent implements OnInit {
   async loadImages(): Promise<string[]> {
     // TODO temporary images, replace with actual img
     const imageNames = [
-      'koncert_1.webp',
-      'impreza_firmowa_1.webp',
-      'koncert_2.webp',
-      'impreza_firmowa_2.webp',
-      'koncert_3.webp',
+      'koncert_1.jpg',
+      'impreza_firmowa_1.jpg',
+      'koncert_2.jpg',
+      'impreza_firmowa_2.jpg',
+      'koncert_3.jpg',
     ];
 
     return Promise.all(
