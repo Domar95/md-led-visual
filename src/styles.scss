@@ -2,8 +2,10 @@
 @use "@angular/material" as mat;
 @use "swiper/css/bundle"; // TODO: check if this could be reduced
 @use "photoswipe/dist/photoswipe.css";
+
 @use "styles/colors" as colors;
 @use "styles/theme-colors" as theme-colors;
+@use "styles/layouts.scss" as layouts;
 
 html {
   @include mat.theme(
@@ -50,7 +52,7 @@ mat-toolbar {
     & {
       position: fixed;
       justify-content: space-between;
-      max-width: 1000px;
+      max-width: layouts.$content-width;
       margin: 0 auto;
       left: 0;
       right: 0;

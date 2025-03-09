@@ -22,11 +22,18 @@ export class SlideshowComponent implements OnInit {
 
   async loadImages(): Promise<SlideshowImage[]> {
     // TODO temporary texts, replace with actual text for each img
+    const titles = [
+      'Wynajem ekranów LED i telebimów',
+      'Oprawa wizualna koncertów i eventów',
+      'Profesjonalne ekrany LED na konferencje',
+      'Rozwiązania wizualne dla Twojej firmy',
+    ];
+
     const texts = [
-      'WYNAJEM EKRANÓW LED I TELEBIMÓW',
-      'OPRAWA WIZUALNA KONCERTÓW I EVENTÓW',
-      'PROFESJONALNE EKRANY LED NA KONFERENCJE',
-      'ROZWIĄZANIA WIZUALNE DLA TWOJEJ FIRMY',
+      'Wynajmujemy ekrany LED i telebimy na różne wydarzenia, takie jak koncerty, konferencje, festiwale, targi, imprezy firmowe i inne.',
+      'Oferujemy profesjonalną oprawę wizualną koncertów i eventów. Nasze ekrany LED zapewnią doskonałą jakość obrazu i dźwięku.',
+      'Potrzebujesz ekranu na konferencję? Z nami nawet najdrobniejsze detale będą widoczne dla wszystkich uczestników.',
+      'Potrzebujesz profesjonalnych rozwiązań wizualnych dla swojej firmy? Skontaktuj się z nami, a pomożemy Ci wybrać najlepsze rozwiązanie.',
     ];
 
     const images = await this.firebaseService.getFileUrls(
@@ -34,6 +41,7 @@ export class SlideshowComponent implements OnInit {
     );
     return images.map((image, index) => ({
       uri: image,
+      title: titles[index % texts.length],
       text: texts[index % texts.length],
     }));
   }

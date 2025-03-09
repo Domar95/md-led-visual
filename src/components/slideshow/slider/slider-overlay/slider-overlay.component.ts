@@ -7,12 +7,13 @@ import {
 } from '@angular/animations';
 import { Component, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'mdlv-slider-overlay',
-  imports: [MatButtonModule, MatIconModule, RouterModule],
+  imports: [MatButtonModule, MatCardModule, MatIconModule, RouterModule],
   templateUrl: './slider-overlay.component.html',
   styleUrl: './slider-overlay.component.scss',
   animations: [
@@ -30,6 +31,7 @@ import { RouterModule } from '@angular/router';
 })
 export class SliderOverlayComponent {
   @Input({ required: true }) isHandset!: boolean;
+  @Input({ required: true }) title!: string;
   @Input({ required: true }) text!: string;
   @Input({ required: true }) animationState!: string;
 }
