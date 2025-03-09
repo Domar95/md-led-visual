@@ -7,6 +7,7 @@ import {
 } from '@angular/animations';
 import { Component, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import Swiper from 'swiper';
 import {
@@ -22,7 +23,7 @@ import { ResponsiveLayoutService } from '@services/responsive-layout.service';
 
 @Component({
   selector: 'mdlv-slider',
-  imports: [MatButtonModule, RouterModule],
+  imports: [MatButtonModule, RouterModule, MatIconModule],
   templateUrl: './slider.component.html',
   styleUrl: './slider.component.scss',
   animations: [
@@ -46,7 +47,7 @@ export class SliderComponent {
 
   isHandset!: boolean;
 
-  constructor(private responsiveLayoutService: ResponsiveLayoutService) { }
+  constructor(private responsiveLayoutService: ResponsiveLayoutService) {}
 
   ngOnInit() {
     this.responsiveLayoutService.isHandset$.subscribe((isHandset) => {
