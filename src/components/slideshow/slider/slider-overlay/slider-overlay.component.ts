@@ -20,7 +20,7 @@ import { RouterModule } from '@angular/router';
     trigger('fadeIn', [
       state('void', style({ opacity: 0 })),
       state('*', style({ opacity: 1 })),
-      transition('void => *', animate('2s ease-in')),
+      transition('void => *', animate('1s ease-in')),
     ]),
     trigger('slideIn', [
       state('void', style({ transform: 'translateY(100%)' })),
