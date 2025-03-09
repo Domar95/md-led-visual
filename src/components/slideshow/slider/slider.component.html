@@ -6,24 +6,11 @@
       [style.backgroundImage]="'url(' + image.uri + ')'"
     >
       <div class="overlay-container">
-        <div class="overlay" [class.handset]="isHandset">
-          <h1
-            [class.handset]="isHandset"
-            [@fadeIn]="activeSlideIndex === i ? '*' : 'void'"
-          >
-            {{ image.text }}
-          </h1>
-          <button
-            mat-fab
-            extended
-            [routerLink]="['/kontakt']"
-            @slideIn
-            [@fadeIn]="activeSlideIndex === i ? '*' : 'void'"
-          >
-            <mat-icon>mail</mat-icon>
-            Zarezerwuj termin
-          </button>
-        </div>
+        <mdlv-slider-overlay
+          [isHandset]="isHandset"
+          [text]="image.text"
+          [animationState]="activeSlideIndex === i ? '*' : 'void'"
+        ></mdlv-slider-overlay>
       </div>
     </div>
 

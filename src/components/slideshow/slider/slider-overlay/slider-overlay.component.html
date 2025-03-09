@@ -1,0 +1,15 @@
+<div class="overlay" [class.handset]="isHandset">
+  <h1 [class.handset]="isHandset" [@fadeIn]="animationState">
+    {{ text }}
+  </h1>
+  <button
+    mat-fab
+    extended
+    [routerLink]="['/kontakt']"
+    @slideIn
+    [@fadeIn]="animationState"
+  >
+    <mat-icon>mail</mat-icon>
+    Zarezerwuj termin
+  </button>
+</div>
