@@ -3,11 +3,15 @@
 @use "swiper/css/bundle"; // TODO: check if this could be reduced
 @use "photoswipe/dist/photoswipe.css";
 @use "styles/colors" as colors;
+@use "styles/theme-colors" as theme-colors;
 
 html {
   @include mat.theme(
     (
-      color: mat.$cyan-palette,
+      color: (
+        primary: theme-colors.$primary-palette,
+        tertiary: theme-colors.$tertiary-palette,
+      ),
     )
   );
 }
