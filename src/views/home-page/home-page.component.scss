@@ -1,5 +1,7 @@
+@use "src/styles/layouts.scss" as layouts;
+
 .content-container {
-  max-width: 1200px;
+  max-width: layouts.$content-width;
   margin: 0 auto;
 }
 
