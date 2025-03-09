@@ -35,11 +35,7 @@ export class SliderComponent {
 
     this.swiper = new Swiper('.heroSwiper', {
       modules: [Navigation, Pagination, Autoplay, Keyboard, EffectFade],
-      effect: 'fade',
-      fadeEffect: {
-        crossFade: true,
-      },
-      speed: 1400,
+      speed: 300,
       centeredSlides: true,
       autoplay: {
         delay: 5000,
