@@ -1,4 +1,5 @@
 @use "@angular/material" as mat;
+@use "sass:color";
 
 .overlay-card {
   width: 100%;
@@ -7,7 +8,7 @@
 
   @include mat.card-overrides(
     (
-      outlined-container-color: mix(#e5deff, transparent, 80%),
+      outlined-container-color: color.mix(#e5deff, transparent, 80%),
       outlined-container-shape: 30px,
     )
   );
