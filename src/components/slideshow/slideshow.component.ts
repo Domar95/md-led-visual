@@ -33,7 +33,7 @@ export class SlideshowComponent implements OnInit {
       'Wynajmujemy ekrany LED i telebimy na różne wydarzenia, takie jak koncerty, konferencje, festiwale, targi, imprezy firmowe i inne.',
       'Oferujemy profesjonalną oprawę wizualną koncertów i eventów. Nasze ekrany LED zapewnią doskonałą jakość obrazu i dźwięku.',
       'Potrzebujesz ekranu na konferencję? Z nami nawet najdrobniejsze detale będą widoczne dla wszystkich uczestników.',
-      'Potrzebujesz profesjonalnych rozwiązań wizualnych dla swojej firmy? Skontaktuj się z nami, a pomożemy Ci wybrać najlepsze rozwiązanie.',
+      'Nowoczesne ekrany, oświetlenie i efekty specjalne. Profesjonalna obsługa wizualna. Skontaktuj się nami, a my zajmiemy się resztą.',
     ];
 
     const images = await this.firebaseService.getFileUrls(
