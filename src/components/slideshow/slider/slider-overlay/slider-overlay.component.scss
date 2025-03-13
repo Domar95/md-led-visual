@@ -12,17 +12,43 @@
       outlined-container-shape: 30px,
     )
   );
-}
 
-mat-card-header {
-  margin-bottom: 0.7rem;
-}
+  mat-card-header {
+    margin-bottom: 0.7rem;
+  }
 
-mat-card-title {
-  font-weight: 500;
-}
+  mat-card-title {
+    font-weight: 500;
+  }
 
-mat-card-content {
-  margin-bottom: 0.5rem;
-  font-weight: 400;
+  mat-card-content {
+    margin-bottom: 0.5rem;
+    font-weight: 400;
+  }
+
+  &.handset {
+    max-width: 350px;
+    margin: 0 auto;
+    padding: 0.1rem;
+
+    mat-card-header {
+      margin-bottom: 0.2rem;
+    }
+
+    mat-card-content {
+      text-align: justify;
+      font-size: 14px;
+      margin-bottom: 0.1rem;
+    }
+
+    mat-card-actions {
+      justify-content: center;
+    }
+
+    @include mat.card-overrides(
+      (
+        title-text-size: 16px,
+      )
+    );
+  }
 }

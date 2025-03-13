@@ -1,9 +1,13 @@
 <div class="features-wrapper">
-  <div class="features-container">
+  <div class="features-container" [class.handset]="isHandset">
     @for (feature of features; track feature) {
-    <mat-card appearance="outlined" class="features-card">
-      <mat-card-header class="header">
-        <img class="icon" [src]="feature.icon" />
+    <mat-card
+      appearance="outlined"
+      class="features-card"
+      [class.handset]="isHandset"
+    >
+      <mat-card-header class="header" [class.handset]="isHandset">
+        <img class="icon" [class.handset]="isHandset" [src]="feature.icon" />
         <span>{{ feature.title }}</span>
       </mat-card-header>
       <mat-card-content class="content">

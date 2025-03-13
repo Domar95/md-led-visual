@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
+import { ResponsiveLayoutService } from '@services/responsive-layout.service';
+
 interface Feature {
   icon: string;
   title: string;
@@ -14,6 +16,8 @@ interface Feature {
   styleUrl: './features.component.scss',
 })
 export class FeaturesComponent {
+  isHandset!: boolean;
+
   features: Feature[] = [
     {
       icon: '/assets/icons/screen.png',
@@ -34,4 +38,12 @@ export class FeaturesComponent {
         'Lasery, mgła, pirotechnika sceniczna – dodajemy wydarzeniom magii i emocji. Podkręć atmosferę z naszymi efektami specjalnymi.',
     },
   ];
+
+  constructor(private responsiveLayoutService: ResponsiveLayoutService) {}
+
+  ngOnInit() {
+    this.responsiveLayoutService.isHandset$.subscribe((isHandset) => {
+      this.isHandset = isHandset;
+    });
+  }
 }

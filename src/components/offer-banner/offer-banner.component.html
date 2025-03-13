@@ -1,16 +1,20 @@
 <div class="offer-banner-container" [class.handset]="isHandset">
-  <div class="offer-banner-logo-container">
+  <div class="offer-banner-logo-container" [class.handset]="isHandset">
     <img
       src="/assets/icons/mdlv_logo.svg"
       alt="Logo"
       class="offer-banner-logo"
+      [class.handset]="isHandset"
     />
   </div>
-  <div class="offer-banner-text-primary">
+  <div class="offer-banner-text-primary" [class.handset]="isHandset">
     Twoje Wydarzenie<br />
     w Nowym Świetle
   </div>
-  <div class="offer-banner-text-secondary-container">
+  <div
+    class="offer-banner-text-secondary-container"
+    [class.handset]="isHandset"
+  >
     <div class="offer-banner-text-secondary" [class.handset]="isHandset">
       {{ textSecondary }}
     </div>
