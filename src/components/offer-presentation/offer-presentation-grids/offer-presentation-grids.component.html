@@ -1,47 +1,57 @@
 <mat-grid-list [cols]="cols" [rowHeight]="rowHeight">
-  <mat-grid-tile [style.backgroundImage]="'url(' + images[0] + ')'"></mat-grid-tile>
+  <mat-grid-tile
+    [style.backgroundImage]="'url(' + images[0] + ')'"
+  ></mat-grid-tile>
 
   <mat-grid-tile class="tile-background">
     <div class="tile-content">
       Imprezy firmowe
-      <button mat-flat-button [routerLink]="['/galeria/imprezy-firmowe']">
+      <button mat-stroked-button [routerLink]="['/galeria/imprezy-firmowe']">
         Sprawdź
       </button>
     </div>
   </mat-grid-tile>
 
-  <mat-grid-tile [style.backgroundImage]="'url(' + images[1] + ')'"></mat-grid-tile>
+  <mat-grid-tile
+    [style.backgroundImage]="'url(' + images[1] + ')'"
+  ></mat-grid-tile>
 
   <mat-grid-tile class="tile-background">
     <div class="tile-content">
       Imprezy prywatne
-      <button mat-flat-button [routerLink]="['/galeria/imprezy-prywatne']">
+      <button mat-stroked-button [routerLink]="['/galeria/imprezy-prywatne']">
         Sprawdź
       </button>
     </div>
   </mat-grid-tile>
 
-  <mat-grid-tile [style.backgroundImage]="'url(' + images[2] + ')'"></mat-grid-tile>
+  <mat-grid-tile
+    [style.backgroundImage]="'url(' + images[2] + ')'"
+  ></mat-grid-tile>
 
   <mat-grid-tile class="tile-background">
     <div class="tile-content">
       Prezentacje
-      <button mat-flat-button [routerLink]="['/galeria/prezentacje']">
+      <button mat-stroked-button [routerLink]="['/galeria/prezentacje']">
         Sprawdź
       </button>
     </div>
   </mat-grid-tile>
 
-  <mat-grid-tile [style.backgroundImage]="'url(' + images[3] + ')'"></mat-grid-tile>
+  <mat-grid-tile
+    [style.backgroundImage]="'url(' + images[3] + ')'"
+  ></mat-grid-tile>
 
   <mat-grid-tile class="tile-background">
     <div class="tile-content">
       Imprezy plenerowe
-      <button mat-flat-button [routerLink]="['/galeria/imprezy-plenerowe']">
+      <button mat-stroked-button [routerLink]="['/galeria/imprezy-plenerowe']">
         Sprawdź
       </button>
     </div>
   </mat-grid-tile>
 
-  <mat-grid-tile [style.backgroundImage]="'url(' + images[4] + ')'"></mat-grid-tile>
+  <mat-grid-tile
+    [style.backgroundImage]="'url(' + images[4] + ')'"
+  ></mat-grid-tile>
 </mat-grid-list>
