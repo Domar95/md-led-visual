@@ -1,5 +1,7 @@
+@use "src/styles/layouts.scss" as layouts;
+
 .content-container {
-  max-width: 1200px;
+  max-width: layouts.$content-width;
   margin: 0 auto;
 }
 
@@ -8,14 +10,8 @@ h2 {
 }
 
 .break {
-  height: 32px;
-  background: rgb(252, 245, 37);
-  background: linear-gradient(
-    90deg,
-    rgba(252, 245, 37, 1) 0%,
-    rgba(252, 246, 92, 1) 35%,
-    rgba(121, 243, 250, 1) 100%
-  );
+  height: 10px;
+  background: var(--mat-sys-secondary);
 }
 
 .purple-container {
@@ -23,7 +19,7 @@ h2 {
   padding-bottom: 56px;
   color: var(--mat-sys-on-primary);
   background: linear-gradient(45deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)),
-    url("/assets/images/background_2.jpg");
+    url("/assets/images/contact_bg.jpg");
   background-size: cover;
   background-position: center;
 }

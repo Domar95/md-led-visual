@@ -1,0 +1,74 @@
+@use "@angular/material" as mat;
+@use "src/styles/layouts.scss" as layouts;
+
+.features-wrapper {
+  width: 100%;
+  background: linear-gradient(
+    to bottom,
+    var(--mat-sys-surface-bright) 10%,
+    transparent 10%
+  );
+}
+
+.features-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  max-width: layouts.$content-width;
+  margin: 0 auto;
+  padding-bottom: 100px;
+  &.handset {
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 50px;
+    gap: 30px;
+  }
+}
+
+.features-card {
+  display: flex;
+  align-items: center;
+  text-align: justify;
+  width: 300px;
+  padding-top: 30px;
+  padding-bottom: 70px;
+
+  @include mat.card-overrides(
+    (
+      outlined-outline-width: 1,
+    )
+  );
+
+  &.handset {
+    padding-top: 15px;
+    padding-bottom: 35px;
+  }
+}
+
+.features-card .icon {
+  width: 40px;
+  height: 40px;
+  &.handset {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+.features-card .header {
+  color: var(--mat-sys-secondary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  font-size: 24px;
+  padding-bottom: 25px;
+  &.handset {
+    font-size: 20px;
+    padding-bottom: 10px;
+  }
+}
+
+.features-card .content {
+  padding-left: 30px;
+  padding-right: 30px;
+}

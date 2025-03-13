@@ -1,0 +1,5 @@
+@use "src/styles/layouts.scss" as layouts;
+
+mdlv-social-media-button:not(:last-child) {
+  margin-right: layouts.$navbar-gap;
+}

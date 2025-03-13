@@ -1,6 +1,8 @@
+@use "src/styles/layouts.scss" as layouts;
+
 .button-group {
   display: flex;
-  gap: 10px;
+  gap: layouts.$navbar-gap;
 }
 
 /* Classes for default navbar */
@@ -16,5 +18,5 @@
   padding: 6px;
   border-radius: 24px;
   background: whitesmoke;
-  gap: 10px;
+  gap: layouts.$navbar-gap;
 }

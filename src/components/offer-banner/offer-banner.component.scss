@@ -1,44 +1,79 @@
+@use "src/styles/layouts.scss" as layouts;
+
 .offer-banner-container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
   padding-top: 56px;
-  padding-bottom: 56px;
-  background: linear-gradient(45deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.2)),
-    url("/assets/images/background_1.jpg");
-  background-size: cover;
-  background-position: center;
   &.handset {
     padding-top: 32px;
-    padding-bottom: 32px;
   }
 }
 
-.offer-banner-text {
+.offer-banner-text-primary {
+  font-family: "Goldman";
   font-weight: 700;
-  text-align: center;
   font-size: 72px;
-  color: white;
+  line-height: 1.2;
+  color: var(--mat-sys-secondary);
+  margin-top: 50px;
+  margin-bottom: 30px;
   &.handset {
-    font-size: 32px;
+    font-size: 36px;
+    margin-top: 25px;
+    margin-bottom: 15px;
+    padding-left: layouts.$handset-side-padding;
+    padding-right: layouts.$handset-side-padding;
+  }
+}
+
+.offer-banner-text-secondary-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background-color: var(--mat-sys-surface-bright);
+  padding-top: 50px;
+  padding-bottom: 50px;
+  &.handset {
+    padding-top: 25px;
+    padding-bottom: 25px;
   }
 }
 
 .offer-banner-text-secondary {
+  max-width: layouts.$content-width;
   font-weight: 300;
-  font-size: 24px;
-  color: white;
+  font-size: 22px;
+  line-height: 1.5;
+  color: var(--mat-sys-on-surface);
   &.handset {
+    text-align: justify;
     font-size: 16px;
+    padding-left: layouts.$handset-side-padding;
+    padding-right: layouts.$handset-side-padding;
   }
 }
+
+.offer-banner-logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(45deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)),
+    url("/assets/images/logo_bg.jpg");
+  background-size: cover;
+  background-position: center;
+  &.handset {
+    height: 150px;
+  }
+}
+
 .offer-banner-logo {
   width: 150px;
   height: 150px;
-  background-image: url("/assets/icons/mdlv_logo.svg");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
   &.handset {
     width: 100px;
     height: 100px;

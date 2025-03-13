@@ -1,13 +1,4 @@
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
 import { Component, Input } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { RouterModule } from '@angular/router';
 import Swiper from 'swiper';
 import {
   Autoplay,
@@ -19,24 +10,13 @@ import {
 
 import { SlideshowImage } from '@models/slideshow.model';
 import { ResponsiveLayoutService } from '@services/responsive-layout.service';
+import { SliderOverlayComponent } from './slider-overlay/slider-overlay.component';
 
 @Component({
   selector: 'mdlv-slider',
-  imports: [MatButtonModule, RouterModule],
+  imports: [SliderOverlayComponent],
   templateUrl: './slider.component.html',
   styleUrl: './slider.component.scss',
-  animations: [
-    trigger('fadeIn', [
-      state('void', style({ opacity: 0 })),
-      state('*', style({ opacity: 1 })),
-      transition('void => *', animate('2s ease-in')),
-    ]),
-    trigger('slideIn', [
-      state('void', style({ transform: 'translateY(100%)' })),
-      state('*', style({ transform: 'translateY(0)' })),
-      transition('void => *', animate('1s ease-out')),
-    ]),
-  ],
 })
 export class SliderComponent {
   @Input({ required: true }) images!: SlideshowImage[];
@@ -46,7 +26,7 @@ export class SliderComponent {
 
   isHandset!: boolean;
 
-  constructor(private responsiveLayoutService: ResponsiveLayoutService) { }
+  constructor(private responsiveLayoutService: ResponsiveLayoutService) {}
 
   ngOnInit() {
     this.responsiveLayoutService.isHandset$.subscribe((isHandset) => {

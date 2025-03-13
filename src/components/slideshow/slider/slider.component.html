@@ -1,16 +1,20 @@
 <div class="heroSwiper">
   <div class="swiper-wrapper">
     @for(image of images; track image; let i = $index) {
-    <div class="swiper-slide background" [style.backgroundImage]="'url(' + image.uri + ')'">
-      <div class="overlay" [class.handset]='isHandset'>
-        <h1 [class.handset]='isHandset' [@fadeIn]="activeSlideIndex === i ? '*' : 'void'">
-          {{ image.text }}
-        </h1>
-        <button mat-flat-button [routerLink]="['/kontakt']" @slideIn [@fadeIn]="activeSlideIndex === i ? '*' : 'void'">
-          Zarezerwuj termin
-        </button>
+    <div
+      class="swiper-slide slide-container"
+      [style.backgroundImage]="'url(' + image.uri + ')'"
+    >
+      <div class="overlay-container">
+        <mdlv-slider-overlay
+          [isHandset]="isHandset"
+          [title]="image.title"
+          [text]="image.text"
+          [animationState]="activeSlideIndex === i ? '*' : 'void'"
+        ></mdlv-slider-overlay>
       </div>
     </div>
+
     }
   </div>
   <div class="swiper-button-next"></div>
