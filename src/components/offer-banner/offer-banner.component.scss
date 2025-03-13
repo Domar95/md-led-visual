@@ -1,6 +1,7 @@
 @use "src/styles/layouts.scss" as layouts;
 
 .offer-banner-container {
+  background-color: var(--mat-sys-surface-bright);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,8 +18,8 @@
   font-size: 72px;
   line-height: 1.2;
   color: var(--mat-sys-secondary);
-  margin-top: 50px;
-  margin-bottom: 30px;
+  margin-top: 40px;
+  margin-bottom: 40px;
   &.handset {
     font-size: 36px;
     margin-top: 25px;
@@ -33,7 +34,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  background-color: var(--mat-sys-surface-bright);
+  background-color: #786cbf;
   padding-top: 50px;
   padding-bottom: 50px;
   &.handset {
@@ -47,7 +48,7 @@
   font-weight: 300;
   font-size: 22px;
   line-height: 1.5;
-  color: var(--mat-sys-on-surface);
+  color: var(--mat-sys-on-primary);
   &.handset {
     text-align: justify;
     font-size: 16px;
