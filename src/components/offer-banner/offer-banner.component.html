@@ -1,13 +1,18 @@
-<div
-  class="offer-banner-container offer-banner-text"
-  [class.handset]="isHandset"
->
-  <div class="offer-banner-logo" [class.handset]="isHandset"></div>
-  <div>MD LED VISUAL</div>
-  <div class="offer-banner-text-secondary" [class.handset]="isHandset">
-    Wynajem Telebimów i Ekranów LED
+<div class="offer-banner-container" [class.handset]="isHandset">
+  <div class="offer-banner-logo-container">
+    <img
+      src="/assets/icons/mdlv_logo.svg"
+      alt="Logo"
+      class="offer-banner-logo"
+    />
   </div>
-  <div class="offer-banner-text-secondary" [class.handset]="isHandset">
-    Obsługa i Realizacja Eventów
+  <div class="offer-banner-text-primary">
+    Twoje Wydarzenie<br />
+    w Nowym Świetle
+  </div>
+  <div class="offer-banner-text-secondary-container">
+    <div class="offer-banner-text-secondary" [class.handset]="isHandset">
+      {{ textSecondary }}
+    </div>
   </div>
 </div>

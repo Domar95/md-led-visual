@@ -7,3 +7,4 @@ export * from './pricing-form/pricing-form.component';
 export * from './offer-presentation/offer-presentation.component';
 export * from './offer-banner/offer-banner.component';
 export * from './gallery/gallery.component';
+export * from './home/features/features.component';

@@ -10,6 +10,8 @@ import { ResponsiveLayoutService } from '@services/responsive-layout.service';
 })
 export class OfferBannerComponent {
   isHandset!: boolean;
+  textSecondary: string =
+    'Specjalizujemy się w oprawie wizualnej wydarzeń - od prezentacji po konferencje. Oferujemy nowoczesne ekrany LED i telebimy, które nadadzą Twojemu eventowi wyjątkowy charakter. Tworzymy kompleksowe rozwiązania, dbając o każdy detal, by wizualnie zachwycić uczestników.';
 
   constructor(private responsiveLayoutService: ResponsiveLayoutService) {}
 

@@ -3,6 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 
 import {
+  FeaturesComponent,
   OfferBannerComponent,
   OfferPresentationComponent,
   SlideshowComponent,
@@ -19,6 +20,7 @@ import { routeAnimationsState } from 'src/animations/route-animations';
     MatButtonModule,
     OfferPresentationComponent,
     OfferBannerComponent,
+    FeaturesComponent,
   ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
