@@ -8,6 +8,8 @@
 @use "styles/layouts.scss" as layouts;
 
 html {
+  scroll-behavior: smooth;
+
   @include mat.theme(
     (
       color: (
