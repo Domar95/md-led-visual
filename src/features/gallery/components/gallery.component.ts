@@ -1,4 +1,10 @@
-import { Component, HostListener, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  HostListener,
+  Signal,
+  signal,
+} from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute } from '@angular/router';
 
@@ -15,9 +21,8 @@ import { ImageGalleryService } from '../services/image-gallery.service';
   animations: [galleryThumbnailsTrigger],
 })
 export class GalleryComponent {
-  activeCategory!: string;
-  filteredImages = signal<GalleryImage[]>([]);
-  IMAGES_BATCH: number = 18;
+  private readonly IMAGES_BATCH: number = 18;
+  activeCategory = signal<string>('');
   imagesCount = signal<number>(this.IMAGES_BATCH);
   showImages: boolean = false;
   isLoading: boolean = false;
@@ -31,25 +36,24 @@ export class GalleryComponent {
     await this.imageGalleryService.loadImages();
 
     this.route.paramMap.subscribe(async (params) => {
-      this.activeCategory = params.get('category') || 'wszystkie';
-
-      this.filteredImages.set(
-        this.imageGalleryService
-          .images()
-          .sort((a, b) => b.date.localeCompare(a.date))
-          .filter(
-            (image) =>
-              this.activeCategory === 'wszystkie' ||
-              image.category === this.activeCategory
-          )
-          .slice(0, this.imagesCount())
-      );
-
+      this.activeCategory.set(params.get('category') || 'wszystkie');
       setTimeout(() => {
         this.showImages = true;
       }, 50);
     });
   }
+
+  filteredImages: Signal<GalleryImage[]> = computed(() => {
+    return this.imageGalleryService
+      .images()
+      .filter(
+        (image) =>
+          this.activeCategory() === 'wszystkie' ||
+          image.category === this.activeCategory()
+      )
+      .sort((a, b) => b.date.localeCompare(a.date))
+      .slice(0, this.imagesCount());
+  });
 
   @HostListener('window:scroll')
   onScroll(): void {
