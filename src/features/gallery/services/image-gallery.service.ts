@@ -22,11 +22,12 @@ export class ImageGalleryService {
       files.items.map(async (file) => {
         const metadata = await getMetadata(file);
         const url = await getDownloadURL(file);
+
         return {
           title: `Event ${url}`,
           imageUri: `${url}`,
-          imageWidth: '1600',
-          imageHeight: '1200',
+          imageWidth: metadata.customMetadata?.['width'] || '1600',
+          imageHeight: metadata.customMetadata?.['height'] || '1200',
           thumbnailUri: `${url}`,
           category: metadata.customMetadata?.[
             'category'

@@ -11,11 +11,15 @@ export class ImageStorageService {
   constructor(private firebaseService: FirebaseService) {}
 
   private async uploadImage(file: File, category: string): Promise<void> {
+    const { width, height } = await this.getImageResolution(file);
+
     const storagePath = `${environment.imageBaseUrl}/gallery/${file.name}`;
     const metadata = {
       customMetadata: {
         category: category,
-        date: new Date().toISOString(),
+        date: Date.now().toString(),
+        width: width.toString(),
+        height: height.toString(),
       },
     };
 
@@ -42,5 +46,26 @@ export class ImageStorageService {
 
   async uploadImages(files: File[], category: string): Promise<void> {
     files.forEach((file) => this.uploadImage(file, category));
+  }
+
+  private async getImageResolution(
+    file: File
+  ): Promise<{ width: number; height: number }> {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.src = URL.createObjectURL(file);
+
+      img.onload = () => {
+        resolve({
+          width: img.naturalWidth,
+          height: img.naturalHeight,
+        });
+
+        // clean up memory
+        URL.revokeObjectURL(img.src);
+      };
+
+      img.onerror = () => reject(new Error('Failed to load image'));
+    });
   }
 }
