@@ -22,13 +22,16 @@ export class ImageGalleryService {
       files.items.map(async (file) => {
         const metadata = await getMetadata(file);
         const url = await getDownloadURL(file);
+        const thumbnailUrl = await this.firebaseService.getFileUrl(
+          this.getThumnailUrl(metadata.name)
+        );
 
         return {
-          title: `Event ${url}`,
+          title: `${metadata.name}`,
           imageUri: `${url}`,
           imageWidth: metadata.customMetadata?.['width'] || '1600',
           imageHeight: metadata.customMetadata?.['height'] || '1200',
-          thumbnailUri: `${url}`,
+          thumbnailUri: `${thumbnailUrl}`,
           category: metadata.customMetadata?.[
             'category'
           ] as GalleryImageCategory,
@@ -37,5 +40,9 @@ export class ImageGalleryService {
     );
 
     this.images.set(images);
+  }
+
+  private getThumnailUrl(filename: string): string {
+    return `${environment.imageBaseUrl}/gallery/thumbnails/${filename}`;
   }
 }

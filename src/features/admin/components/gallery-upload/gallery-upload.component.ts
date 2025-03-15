@@ -19,6 +19,6 @@ export class GalleryUploadComponent {
     category: string;
     files: File[];
   }) {
-    await this.imageStorageService.uploadImages(files, category);
+    await this.imageStorageService.uploadImages(files, category, true);
   }
 }
