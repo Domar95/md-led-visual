@@ -35,6 +35,7 @@ export class ImageGalleryService {
           category: metadata.customMetadata?.[
             'category'
           ] as GalleryImageCategory,
+          date: metadata.customMetadata?.['date'] || '',
         };
       })
     );

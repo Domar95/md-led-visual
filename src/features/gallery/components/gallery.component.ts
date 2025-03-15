@@ -36,6 +36,7 @@ export class GalleryComponent {
       this.filteredImages.set(
         this.imageGalleryService
           .images()
+          .sort((a, b) => b.date.localeCompare(a.date))
           .filter(
             (image) =>
               this.activeCategory === 'wszystkie' ||

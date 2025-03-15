@@ -11,4 +11,5 @@ export interface GalleryImage {
   imageHeight: string;
   thumbnailUri: string;
   category?: GalleryImageCategory;
+  date: string;
 }
