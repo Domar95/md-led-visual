@@ -17,7 +17,7 @@ import { ImageGalleryService } from '../services/image-gallery.service';
 export class GalleryComponent {
   activeCategory!: string;
   filteredImages = signal<GalleryImage[]>([]);
-  IMAGES_BATCH: number = 20;
+  IMAGES_BATCH: number = 18;
   imagesCount = signal<number>(this.IMAGES_BATCH);
   showImages: boolean = false;
   isLoading: boolean = false;
