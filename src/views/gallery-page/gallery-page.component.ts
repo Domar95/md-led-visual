@@ -1,5 +1,4 @@
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
 import { Component, HostBinding } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { map } from 'rxjs';
@@ -10,7 +9,7 @@ type Link = { label: string; route: string };
 
 @Component({
   selector: 'mdlv-gallery-page',
-  imports: [CommonModule, MatTabsModule, RouterModule],
+  imports: [MatTabsModule, RouterModule],
   templateUrl: './gallery-page.component.html',
   styleUrl: './gallery-page.component.scss',
   animations: [routeAnimationsState],

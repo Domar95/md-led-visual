@@ -2,7 +2,7 @@ import { Component, HostListener } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute } from '@angular/router';
 
-import { GalleryImage } from '@models/gallery.model';
+import { GalleryImage } from 'src/features/gallery/models/gallery.model';
 import { PhotoSwipeComponent } from './photo-swipe/photo-swipe.component';
 import { galleryThumbnailsTrigger } from 'src/animations/gallery-animations';
 

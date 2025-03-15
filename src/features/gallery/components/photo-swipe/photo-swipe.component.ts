@@ -3,7 +3,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import PhotoSwipeLightbox from 'photoswipe/lightbox';
 import PhotoSwipe from 'photoswipe';
 
-import { GalleryImage } from '@models/gallery.model';
+import { GalleryImage } from 'src/features/gallery/models/gallery.model';
 import { ResponsiveLayoutService } from '@services/responsive-layout.service';
 
 @Component({
@@ -20,7 +20,7 @@ export class PhotoSwipeComponent {
   cols!: number;
   gutterSize!: string;
 
-  constructor(private responsiveLayoutService: ResponsiveLayoutService) { }
+  constructor(private responsiveLayoutService: ResponsiveLayoutService) {}
 
   ngOnInit() {
     this.responsiveLayoutService.isHandset$.subscribe((isHandset) => {
@@ -28,10 +28,10 @@ export class PhotoSwipeComponent {
         this.cols = 2;
         this.gutterSize = '8px';
       } else {
-        this.cols = 3
+        this.cols = 3;
         this.gutterSize = '16px';
       }
-    })
+    });
 
     this.photoSwipeLightbox = new PhotoSwipeLightbox({
       // may select multiple "galleries"
