@@ -10,6 +10,7 @@ import {
   NotFoundPageComponent,
   PricingPageComponent,
 } from '@views/index';
+import { AdminComponent } from 'src/features/admin/components/admin/admin.component';
 
 export const routes: Routes = [
   {
@@ -35,6 +36,11 @@ export const routes: Routes = [
       { path: 'wycena', component: PricingPageComponent, title: 'Wycena' },
       { path: 'kontakt', component: ContactPageComponent, title: 'Kontakt' },
     ],
+  },
+  {
+    path: 'admin',
+    component: AdminComponent,
+    title: 'Admin',
   },
   { path: '**', component: NotFoundPageComponent },
 ];
