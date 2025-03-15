@@ -1,18 +1,11 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, signal } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute } from '@angular/router';
 
 import { GalleryImage } from 'src/features/gallery/models/gallery.model';
 import { PhotoSwipeComponent } from './photo-swipe/photo-swipe.component';
 import { galleryThumbnailsTrigger } from 'src/animations/gallery-animations';
-
-const routeMap: { [key: string]: string } = {
-  wszystkie: 'wszystkie',
-  'imprezy-firmowe': 'imprezy firmowe',
-  'imprezy-prywatne': 'imprezy prywatne',
-  'imprezy-plenerowe': 'imprezy plenerowe',
-  prezentacje: 'prezentacje',
-};
+import { ImageGalleryService } from '../services/image-gallery.service';
 
 @Component({
   selector: 'mdlv-gallery',
@@ -23,18 +16,33 @@ const routeMap: { [key: string]: string } = {
 })
 export class GalleryComponent {
   activeCategory!: string;
-
-  images: GalleryImage[] = [];
+  filteredImages = signal<GalleryImage[]>([]);
+  IMAGES_BATCH: number = 20;
+  imagesCount = signal<number>(this.IMAGES_BATCH);
   showImages: boolean = false;
   isLoading: boolean = false;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute,
+    private imageGalleryService: ImageGalleryService
+  ) {}
 
-  ngOnInit(): void {
-    this.route.paramMap.subscribe((params) => {
-      const category = params.get('category') || 'wszystkie';
-      this.activeCategory = routeMap[category];
-      this.images = this.loadImages(50);
+  async ngOnInit(): Promise<void> {
+    await this.imageGalleryService.loadImages();
+
+    this.route.paramMap.subscribe(async (params) => {
+      this.activeCategory = params.get('category') || 'wszystkie';
+
+      this.filteredImages.set(
+        this.imageGalleryService
+          .images()
+          .filter(
+            (image) =>
+              this.activeCategory === 'wszystkie' ||
+              image.category === this.activeCategory
+          )
+          .slice(0, this.imagesCount())
+      );
 
       setTimeout(() => {
         this.showImages = true;
@@ -50,44 +58,9 @@ export class GalleryComponent {
     if (scrollPosition >= documentHeight - 10 && !this.isLoading) {
       this.isLoading = true;
       setTimeout(() => {
-        this.images = [...this.images, ...this.loadImages(20)];
+        this.imagesCount.set(this.imagesCount() + this.IMAGES_BATCH);
         this.isLoading = false;
       }, 1000);
     }
-  }
-
-  loadImages(count: number): GalleryImage[] {
-    return Array.from({ length: count }, (_, i) => {
-      const index = this.images.length + i;
-      return {
-        title: `Event ${index}`,
-        imageUri: `https://picsum.photos/1600/1200?random=${index}`,
-        imageWidth: '1600',
-        imageHeight: '1200',
-        thumbnailUri: `https://picsum.photos/800/600?random=${index}`,
-        category: this.getRandomCategory(),
-      };
-    });
-  }
-
-  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-  getRandomCategory(): any {
-    // temporary function to generate random category
-    const categories: string[] = [
-      'imprezy firmowe',
-      'imprezy prywatne',
-      'imprezy plenerowe',
-      'prezentacje',
-    ];
-    const randomIndex = Math.floor(Math.random() * categories.length);
-    return categories[randomIndex];
-  }
-
-  get filteredImages(): GalleryImage[] {
-    return this.images.filter(
-      (image) =>
-        this.activeCategory === 'wszystkie' ||
-        image.category === this.activeCategory
-    );
   }
 }

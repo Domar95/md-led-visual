@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   getDownloadURL,
   listAll,
+  ListResult,
   ref,
   Storage,
   uploadBytesResumable,
@@ -44,6 +45,23 @@ export class FirebaseService {
       return Promise.all(files.items.map((item) => getDownloadURL(item)));
     } catch (error) {
       console.error(`Error fetching file URLs in ${directory}: ${error}`);
+      throw error;
+    }
+  }
+
+  /**
+   * Retrieves the FileList of a specific directory.
+   * @param directory - The storage directory path (e.g., 'images/gallery/').
+   * @returns A ListResult instance.
+   * @throws An error if the file URLs cannot be retrieved. The error type depends on Firebase Storage.
+   */
+  async getFiles(directory: string): Promise<ListResult> {
+    const directoryRef = ref(this.storage, directory);
+    try {
+      const files = await listAll(directoryRef);
+      return files;
+    } catch (error) {
+      console.error(`Error fetching files in ${directory}: ${error}`);
       throw error;
     }
   }

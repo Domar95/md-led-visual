@@ -11,11 +11,11 @@ export class ImageStorageService {
   constructor(private firebaseService: FirebaseService) {}
 
   private async uploadImage(file: File, category: string): Promise<void> {
-    const storagePath = `${environment.imageBaseUrl}/gallery/${category}/${file.name}`;
+    const storagePath = `${environment.imageBaseUrl}/gallery/${file.name}`;
     const metadata = {
       customMetadata: {
         category: category,
-        uploaded_at: new Date().toISOString(),
+        date: new Date().toISOString(),
       },
     };
 

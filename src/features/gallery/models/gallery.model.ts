@@ -1,7 +1,7 @@
-type GalleryImageCategory =
-  | 'imprezy firmowe'
-  | 'imprezy prywatne'
-  | 'imprezy plenerowe'
+export type GalleryImageCategory =
+  | 'imprezy-firmowe'
+  | 'imprezy-prywatne'
+  | 'imprezy-plenerowe'
   | 'prezentacje';
 
 export interface GalleryImage {
