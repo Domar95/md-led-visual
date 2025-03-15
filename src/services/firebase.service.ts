@@ -1,5 +1,14 @@
 import { Injectable } from '@angular/core';
-import { getDownloadURL, listAll, ref, Storage } from '@angular/fire/storage';
+import {
+  getDownloadURL,
+  listAll,
+  ListResult,
+  ref,
+  Storage,
+  uploadBytesResumable,
+  UploadMetadata,
+  UploadTask,
+} from '@angular/fire/storage';
 
 @Injectable({
   providedIn: 'root',
@@ -38,5 +47,39 @@ export class FirebaseService {
       console.error(`Error fetching file URLs in ${directory}: ${error}`);
       throw error;
     }
+  }
+
+  /**
+   * Retrieves the FileList of a specific directory.
+   * @param directory - The storage directory path (e.g., 'images/gallery/').
+   * @returns A ListResult instance.
+   * @throws An error if the file URLs cannot be retrieved. The error type depends on Firebase Storage.
+   */
+  async getFiles(directory: string): Promise<ListResult> {
+    const directoryRef = ref(this.storage, directory);
+    try {
+      const files = await listAll(directoryRef);
+      return files;
+    } catch (error) {
+      console.error(`Error fetching files in ${directory}: ${error}`);
+      throw error;
+    }
+  }
+
+  /**
+   * Uploads file to a specific path.
+   * @param file - File to upload.
+   * @param fileURL - Storage file URL (e.g., 'images/gallery/img.jpg').
+   * @param metadata - Custom file metadata.
+   * @returns An instance of UploadTask.
+   */
+  uploadFile(
+    file: File,
+    fileURL: string,
+    metadata?: UploadMetadata
+  ): UploadTask {
+    const storageRef = ref(this.storage, fileURL);
+    const uploadTask = uploadBytesResumable(storageRef, file, metadata);
+    return uploadTask;
   }
 }

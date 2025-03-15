@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { GalleryComponent } from '@components/index';
 
 import { DefaultLayoutComponent, HomeLayoutComponent } from '@layouts/index';
 import {
@@ -10,6 +9,8 @@ import {
   NotFoundPageComponent,
   PricingPageComponent,
 } from '@views/index';
+import { AdminComponent } from 'src/features/admin/components/admin/admin.component';
+import { GalleryComponent } from 'src/features/gallery/components/gallery.component';
 
 export const routes: Routes = [
   {
@@ -35,6 +36,11 @@ export const routes: Routes = [
       { path: 'wycena', component: PricingPageComponent, title: 'Wycena' },
       { path: 'kontakt', component: ContactPageComponent, title: 'Kontakt' },
     ],
+  },
+  {
+    path: 'admin',
+    component: AdminComponent,
+    title: 'Admin',
   },
   { path: '**', component: NotFoundPageComponent },
 ];
