@@ -20,19 +20,18 @@ export class OfferPresentationComponent implements OnInit {
   }
 
   async loadImages(): Promise<string[]> {
-    // TODO temporary images, replace with actual img
     const imageNames = [
-      'koncert_1.jpg',
-      'impreza_firmowa_1.jpg',
-      'koncert_2.jpg',
-      'impreza_firmowa_2.jpg',
-      'koncert_3.jpg',
+      'grid_1.jpg',
+      'grid_2.jpg',
+      'grid_3.jpg',
+      'grid_4.jpg',
+      'grid_5.jpg',
     ];
 
     return Promise.all(
       imageNames.map(async (imageName) => {
         return await this.firebaseService.getFileUrl(
-          `${environment.imageBaseUrl}/slideshow/${imageName}`
+          `${environment.imageBaseUrl}/offer-presentation/${imageName}`
         );
       })
     );
