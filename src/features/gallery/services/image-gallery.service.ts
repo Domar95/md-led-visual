@@ -18,10 +18,13 @@ export class ImageGalleryService {
     const storagePath = `${environment.imageBaseUrl}/gallery`;
     const files = await this.firebaseService.getFiles(storagePath);
 
-    const images: GalleryImage[] = await Promise.all(
-      files.items.map(async (file) => {
-        const metadata = await getMetadata(file);
-        const url = await getDownloadURL(file);
+    const imagePromises: Promise<GalleryImage>[] = files.items.map(
+      async (file) => {
+        const [metadata, url] = await Promise.all([
+          getMetadata(file),
+          getDownloadURL(file),
+        ]);
+
         const thumbnailUrl = await this.firebaseService.getFileUrl(
           this.getThumnailUrl(metadata.name)
         );
@@ -37,7 +40,13 @@ export class ImageGalleryService {
           ] as GalleryImageCategory,
           date: metadata.customMetadata?.['date'] || '',
         };
-      })
+      }
+    );
+
+    const images: GalleryImage[] = await Promise.all(imagePromises);
+
+    await Promise.all(
+      images.map((image) => this.preloadImage(image.thumbnailUri))
     );
 
     this.images.set(images);
@@ -45,5 +54,15 @@ export class ImageGalleryService {
 
   private getThumnailUrl(filename: string): string {
     return `${environment.imageBaseUrl}/gallery/thumbnails/${filename}`;
+  }
+
+  private async preloadImage(url: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.src = url;
+
+      img.onload = () => resolve();
+      img.onerror = () => reject(new Error(`Failed to load image: ${url}`));
+    });
   }
 }
