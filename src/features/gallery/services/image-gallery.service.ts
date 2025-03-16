@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { FirebaseService } from '@services/firebase.service';
 import { GalleryImage, GalleryImageCategory } from '../models/gallery.model';
 import { getDownloadURL } from 'firebase/storage';
+import { ImageUtilsService } from 'src/shared/services/image-utils.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,16 +13,22 @@ import { getDownloadURL } from 'firebase/storage';
 export class ImageGalleryService {
   images = signal<GalleryImage[]>([]);
 
-  constructor(private firebaseService: FirebaseService) {}
+  constructor(
+    private firebaseService: FirebaseService,
+    private imageUtilsService: ImageUtilsService
+  ) {}
 
   async loadImages(): Promise<void> {
     const storagePath = `${environment.imageBaseUrl}/gallery`;
     const files = await this.firebaseService.getFiles(storagePath);
 
-    const images: GalleryImage[] = await Promise.all(
-      files.items.map(async (file) => {
-        const metadata = await getMetadata(file);
-        const url = await getDownloadURL(file);
+    const imagePromises: Promise<GalleryImage>[] = files.items.map(
+      async (file) => {
+        const [metadata, url] = await Promise.all([
+          getMetadata(file),
+          getDownloadURL(file),
+        ]);
+
         const thumbnailUrl = await this.firebaseService.getFileUrl(
           this.getThumnailUrl(metadata.name)
         );
@@ -37,7 +44,15 @@ export class ImageGalleryService {
           ] as GalleryImageCategory,
           date: metadata.customMetadata?.['date'] || '',
         };
-      })
+      }
+    );
+
+    const images: GalleryImage[] = await Promise.all(imagePromises);
+
+    await Promise.all(
+      images.map((image) =>
+        this.imageUtilsService.preloadImage(image.thumbnailUri)
+      )
     );
 
     this.images.set(images);
