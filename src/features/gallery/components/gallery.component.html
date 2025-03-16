@@ -5,7 +5,7 @@
 >
   @if (showImages) {
   <mdlv-photo-swipe [images]="filteredImages()"></mdlv-photo-swipe>
-  } @if (isLoading) {
+  } @if (isLoading()) {
   <mat-spinner
     [diameter]="spinnerDiameter"
     class="spinner-container"
