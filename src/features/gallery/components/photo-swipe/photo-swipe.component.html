@@ -1,8 +1,13 @@
 <div id="photoswipe-gallery">
   <mat-grid-list [cols]="cols" [gutterSize]="gutterSize" rowHeight="4:3">
     @for (image of images; track image) {
-    <a [href]="image.imageUri" [attr.data-pswp-width]="image.imageWidth" [attr.data-pswp-height]="image.imageHeight"
-      target="_blank">
+    <a
+      [href]="image.imageUri"
+      [attr.data-pswp-width]="image.imageWidth"
+      [attr.data-pswp-height]="image.imageHeight"
+      data-cropped="true"
+      target="_blank"
+    >
       <mat-grid-tile [style.background]="image.thumbnailUri">
         <img [src]="image.thumbnailUri" alt="Gallery image" />
       </mat-grid-tile>
