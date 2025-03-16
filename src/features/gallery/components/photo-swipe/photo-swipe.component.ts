@@ -40,6 +40,7 @@ export class PhotoSwipeComponent {
       // Elements within gallery (slides)
       children: 'a',
       showHideAnimationType: 'zoom',
+      zoom: false,
 
       pswpModule: PhotoSwipe,
     });
