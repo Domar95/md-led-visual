@@ -4,6 +4,7 @@ import { SlideshowImage } from '@models/slideshow.model';
 import { FirebaseService } from '@services/firebase.service';
 import { SliderComponent } from './slider/slider.component';
 import { environment } from 'src/environments/environment';
+import { ImageUtilsService } from 'src/shared/services/image-utils.service';
 
 @Component({
   selector: 'mdlv-slideshow',
@@ -14,7 +15,10 @@ import { environment } from 'src/environments/environment';
 export class SlideshowComponent implements OnInit {
   images!: SlideshowImage[];
 
-  constructor(private firebaseService: FirebaseService) {}
+  constructor(
+    private firebaseService: FirebaseService,
+    private imageUtilsService: ImageUtilsService
+  ) {}
 
   async ngOnInit() {
     this.images = await this.loadImages();
@@ -39,6 +43,11 @@ export class SlideshowComponent implements OnInit {
     const images = await this.firebaseService.getFileUrls(
       `${environment.imageBaseUrl}/slideshow`
     );
+
+    await Promise.all(
+      images.map((image) => this.imageUtilsService.preloadImage(image))
+    );
+
     return images.map((image, index) => ({
       uri: image,
       title: titles[index % texts.length],
