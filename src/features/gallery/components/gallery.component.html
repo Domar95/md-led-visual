@@ -1,7 +1,14 @@
-@if (showImages) {
-<div class="gallery-container" [@galleryThumbnailsTrigger]="filteredImages()">
+<div
+  class="gallery-container"
+  [class.handset]="isHandset"
+  [@galleryThumbnailsTrigger]="filteredImages()"
+>
+  @if (showImages) {
   <mdlv-photo-swipe [images]="filteredImages()"></mdlv-photo-swipe>
+  } @if (isLoading) {
+  <mat-spinner
+    [diameter]="spinnerDiameter"
+    class="spinner-container"
+  ></mat-spinner>
+  }
 </div>
-} @if (isLoading) {
-<mat-spinner diameter="48" class="spinner-container"></mat-spinner>
-}

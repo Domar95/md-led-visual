@@ -12,6 +12,7 @@ import { GalleryImage } from 'src/features/gallery/models/gallery.model';
 import { PhotoSwipeComponent } from './photo-swipe/photo-swipe.component';
 import { galleryThumbnailsTrigger } from 'src/animations/gallery-animations';
 import { ImageGalleryService } from '../services/image-gallery.service';
+import { ResponsiveLayoutService } from '@services/responsive-layout.service';
 
 @Component({
   selector: 'mdlv-gallery',
@@ -26,13 +27,26 @@ export class GalleryComponent {
   imagesCount = signal<number>(this.IMAGES_BATCH);
   showImages: boolean = false;
   isLoading: boolean = false;
+  spinnerDiameter!: string;
+  isHandset!: boolean;
 
   constructor(
     private route: ActivatedRoute,
-    private imageGalleryService: ImageGalleryService
+    private imageGalleryService: ImageGalleryService,
+    private responsiveLayoutService: ResponsiveLayoutService
   ) {}
 
   async ngOnInit(): Promise<void> {
+    this.responsiveLayoutService.isHandset$.subscribe((isHandset) => {
+      this.isHandset = isHandset;
+
+      if (isHandset) {
+        this.spinnerDiameter = '32';
+      } else {
+        this.spinnerDiameter = '48';
+      }
+    });
+
     await this.imageGalleryService.loadImages();
 
     this.route.paramMap.subscribe(async (params) => {
