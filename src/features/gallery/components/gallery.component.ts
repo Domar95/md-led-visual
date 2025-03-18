@@ -1,10 +1,4 @@
-import {
-  Component,
-  computed,
-  HostListener,
-  Signal,
-  signal,
-} from '@angular/core';
+import { Component, computed, Signal, signal } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute } from '@angular/router';
 
@@ -22,10 +16,7 @@ import { ResponsiveLayoutService } from '@services/responsive-layout.service';
   animations: [galleryThumbnailsTrigger],
 })
 export class GalleryComponent {
-  private readonly IMAGES_BATCH: number = 18;
   activeCategory = signal<string>('');
-  imagesCount = signal<number>(this.IMAGES_BATCH);
-  showImages: boolean = false;
   isLoading = signal<boolean>(true);
   spinnerDiameter!: string;
   isHandset!: boolean;
@@ -52,11 +43,6 @@ export class GalleryComponent {
 
     this.route.paramMap.subscribe(async (params) => {
       this.activeCategory.set(params.get('category') || 'wszystkie');
-      this.imagesCount.set(this.IMAGES_BATCH);
-
-      setTimeout(() => {
-        this.showImages = true;
-      }, 50);
     });
   }
 
@@ -68,21 +54,6 @@ export class GalleryComponent {
           this.activeCategory() === 'wszystkie' ||
           image.category === this.activeCategory()
       )
-      .sort((a, b) => b.date.localeCompare(a.date))
-      .slice(0, this.imagesCount());
+      .sort((a, b) => b.date.localeCompare(a.date));
   });
-
-  @HostListener('window:scroll')
-  onScroll(): void {
-    const scrollPosition = window.scrollY + window.innerHeight;
-    const documentHeight = document.documentElement.scrollHeight;
-
-    if (scrollPosition >= documentHeight - 10 && this.isLoading() === false) {
-      this.isLoading.set(true);
-      setTimeout(() => {
-        this.imagesCount.set(this.imagesCount() + this.IMAGES_BATCH);
-        this.isLoading.set(false);
-      }, 1000);
-    }
-  }
 }
