@@ -52,6 +52,8 @@ export class GalleryComponent {
 
     this.route.paramMap.subscribe(async (params) => {
       this.activeCategory.set(params.get('category') || 'wszystkie');
+      this.imagesCount.set(this.IMAGES_BATCH);
+
       setTimeout(() => {
         this.showImages = true;
       }, 50);
