@@ -5,7 +5,6 @@ import { environment } from 'src/environments/environment';
 import { FirebaseService } from '@services/firebase.service';
 import { GalleryImage, GalleryImageCategory } from '../models/gallery.model';
 import { getDownloadURL } from 'firebase/storage';
-import { ImageUtilsService } from 'src/shared/services/image-utils.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,10 +12,7 @@ import { ImageUtilsService } from 'src/shared/services/image-utils.service';
 export class ImageGalleryService {
   images = signal<GalleryImage[]>([]);
 
-  constructor(
-    private firebaseService: FirebaseService,
-    private imageUtilsService: ImageUtilsService
-  ) {}
+  constructor(private firebaseService: FirebaseService) {}
 
   async loadImages(): Promise<void> {
     const storagePath = `${environment.imageBaseUrl}/gallery`;
@@ -48,12 +44,6 @@ export class ImageGalleryService {
     );
 
     const images: GalleryImage[] = await Promise.all(imagePromises);
-
-    await Promise.all(
-      images.map((image) =>
-        this.imageUtilsService.preloadImage(image.thumbnailUri)
-      )
-    );
 
     this.images.set(images);
   }
