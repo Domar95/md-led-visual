@@ -1,0 +1,26 @@
+@use "src/styles/layouts.scss" as layouts;
+
+.footer-container {
+  max-width: layouts.$content-width;
+  margin: 0 auto;
+  &.handset {
+    padding-left: layouts.$handset-side-padding;
+    padding-right: layouts.$handset-side-padding;
+  }
+}
+
+.footer-section {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  &.handset {
+    flex-direction: column;
+  }
+}
+
+.footer-section > * {
+  flex: 1;
+  margin-bottom: 0.7rem;
+  margin-top: 0.5rem;
+}
