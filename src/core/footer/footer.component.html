@@ -1,5 +1,5 @@
-<div class="footer-container">
-  <div class="footer-section">
+<div class="footer-container" [class.handset]="isHandset">
+  <div class="footer-section" [class.handset]="isHandset">
     <mdlv-footer-about></mdlv-footer-about>
     <mdlv-footer-contact></mdlv-footer-contact>
     <mdlv-footer-navigation></mdlv-footer-navigation>
@@ -7,7 +7,7 @@
 
   <mat-divider></mat-divider>
 
-  <div class="footer-section">
+  <div class="footer-section" [class.handset]="isHandset">
     <mdlv-footer-bottom></mdlv-footer-bottom>
   </div>
 </div>
