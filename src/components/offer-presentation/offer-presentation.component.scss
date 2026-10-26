@@ -1,0 +1,26 @@
+@use "src/styles/layouts.scss" as layouts;
+@use "src/styles/mixins.scss" as mixins;
+
+.offer-presentation-container {
+  max-width: layouts.$content-width;
+  margin: 0 auto;
+  padding: 0 24px 120px;
+  box-sizing: border-box;
+}
+
+.header {
+  margin-bottom: 40px;
+}
+
+.eyebrow {
+  @include mixins.eyebrow;
+}
+
+.title {
+  @include mixins.display-title(48px);
+  margin-top: 16px;
+
+  @media (max-width: 599.98px) {
+    font-size: 32px;
+  }
+}

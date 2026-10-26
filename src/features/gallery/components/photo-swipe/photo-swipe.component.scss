@@ -1,7 +1,73 @@
-mat-grid-tile {
+@use "src/styles/colors.scss" as colors;
+@use "src/styles/mixins.scss" as mixins;
+
+.grid {
+  @include mixins.gallery-grid;
+}
+
+.tile {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: colors.$home-surface;
+  isolation: isolate;
+
   img {
+    display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  // subtle inner border + darkening on hover
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px colors.$home-border;
+    background: linear-gradient(to top, rgba(8, 7, 15, 0.55), transparent 50%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  &:hover,
+  &:focus-visible {
+    img {
+      transform: scale(1.05);
+    }
+
+    &::after,
+    .zoom {
+      opacity: 1;
+    }
+
+    .zoom {
+      transform: none;
+    }
+  }
+}
+
+.zoom {
+  @include mixins.glass;
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: colors.$home-text;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
   }
 }

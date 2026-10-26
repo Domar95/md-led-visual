@@ -1,33 +1,32 @@
-<mat-toolbar [ngClass]="variant" [class.handset]="isHandset">
+<mat-toolbar
+  [ngClass]="variant"
+  [class.handset]="isHandset"
+  [class.scrolled]="isScrolled"
+>
   @if (isDefault) {
   <mdlv-home-button></mdlv-home-button>
   <span class="spacer"></span>
   <ng-container *ngTemplateOutlet="buttonGroupTemplate"></ng-container>
   } @else {
-
-  @if (!isHandset) {
-  <div class="transparent-navbar-container">
-    <mdlv-social-media-buttons> </mdlv-social-media-buttons>
-  </div>
-  }
-
-  <div class="transparent-navbar-container">
+  <div class="transparent-navbar-container" #centerPill>
+    <span class="nav-indicator" #indicator aria-hidden="true"></span>
     <mdlv-home-button></mdlv-home-button>
     <ng-container *ngTemplateOutlet="buttonGroupTemplate"></ng-container>
   </div>
-
-  @if (!isHandset) {
-  <div class="transparent-navbar-container">
-    <mdlv-email-button> </mdlv-email-button>
-  </div>
-  }
   }
 </mat-toolbar>
 
 <ng-template #buttonGroupTemplate>
-  <div class="button-group">
-    <button mat-button [routerLink]="['galeria']">Galeria</button>
-    <button mat-button [routerLink]="['wycena']">Wycena</button>
-    <button mat-button [routerLink]="['/']" fragment="kontakt">Kontakt</button>
-  </div>
+  <nav class="button-group">
+    @for (link of links; track link.route) {
+    <a
+      mat-button
+      [routerLink]="link.route"
+      routerLinkActive="active"
+      ariaCurrentWhenActive="page"
+    >
+      {{ link.label }}
+    </a>
+    }
+  </nav>
 </ng-template>

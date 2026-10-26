@@ -1,26 +1,24 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 
 import {
   FeaturesComponent,
+  HeroComponent,
   OfferBannerComponent,
   OfferPresentationComponent,
   SlideshowComponent,
 } from '@components/index';
-import { ContactPageComponent } from '@views/contact-page/contact-page.component';
 import { routeAnimationsState } from 'src/animations/route-animations';
 
 @Component({
   selector: 'mdlv-home-page',
   imports: [
     SlideshowComponent,
-    ContactPageComponent,
     RouterModule,
-    MatButtonModule,
     OfferPresentationComponent,
     OfferBannerComponent,
     FeaturesComponent,
+    HeroComponent,
   ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',

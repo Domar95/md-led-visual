@@ -3,10 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { FirebaseService } from '@services/firebase.service';
 import { OfferPresentationGridsComponent } from './offer-presentation-grids/offer-presentation-grids.component';
 import { environment } from 'src/environments/environment';
+import { RevealDirective } from 'src/shared/directives/reveal.directive';
 
 @Component({
   selector: 'mdlv-offer-presentation',
-  imports: [OfferPresentationGridsComponent],
+  imports: [OfferPresentationGridsComponent, RevealDirective],
   templateUrl: './offer-presentation.component.html',
   styleUrl: './offer-presentation.component.scss',
 })

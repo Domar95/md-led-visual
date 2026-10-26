@@ -1,22 +1,121 @@
-mat-grid-tile {
+@use "src/styles/colors.scss" as colors;
+@use "src/styles/mixins.scss" as mixins;
+
+.bento {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 300px 300px 220px;
+  grid-template-areas:
+    "a a b"
+    "c d b"
+    "e e e";
+  gap: 16px;
+
+  &.handset {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    grid-template-areas: none;
+    grid-auto-rows: 240px;
+
+    .tile {
+      grid-area: auto;
+    }
+  }
+}
+
+.tile {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  border-radius: 24px;
+  overflow: hidden;
+  isolation: isolate;
+  text-decoration: none;
+  color: colors.$home-text;
+  background-color: colors.$home-surface;
+  border: 1px solid colors.$home-border;
+
+  &:nth-child(1) {
+    grid-area: a;
+  }
+  &:nth-child(2) {
+    grid-area: b;
+  }
+  &:nth-child(3) {
+    grid-area: c;
+  }
+  &:nth-child(4) {
+    grid-area: d;
+  }
+  &:nth-child(5) {
+    grid-area: e;
+  }
+
+  // keep the label readable over any photo
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(
+      to top,
+      rgba(8, 7, 15, 0.92) 0%,
+      rgba(8, 7, 15, 0.35) 50%,
+      rgba(8, 7, 15, 0.05) 100%
+    );
+  }
+
+  &:hover,
+  &:focus-visible {
+    .tile-image {
+      transform: scale(1.06);
+    }
+
+    .tile-arrow {
+      background: colors.$accent-gradient;
+      border-color: transparent;
+      transform: rotate(45deg);
+    }
+  }
+}
+
+.tile-image {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
   background-size: cover;
   background-position: center;
-  font-size: 22px;
-  font-weight: bold;
+  transition: transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 .tile-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  padding: 32px;
-  gap: 22px;
-  color: var(--mat-sys-on-secondary-container);
+  padding: 28px;
 }
 
-.tile-background {
-  background: url("/assets/images/background_grid.jpg");
-  background-size: cover;
-  background-position: top;
+.tile-title {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.tile-description {
+  margin: 6px 0 0;
+  font-size: 15px;
+  font-weight: 300;
+  color: colors.$home-text-muted;
+}
+
+.tile-arrow {
+  @include mixins.glass;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  transition: transform 0.4s ease, background 0.4s ease;
 }

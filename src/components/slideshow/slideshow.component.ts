@@ -5,15 +5,16 @@ import { FirebaseService } from '@services/firebase.service';
 import { SliderComponent } from './slider/slider.component';
 import { environment } from 'src/environments/environment';
 import { ImageUtilsService } from 'src/shared/services/image-utils.service';
+import { RevealDirective } from 'src/shared/directives/reveal.directive';
 
 @Component({
   selector: 'mdlv-slideshow',
-  imports: [SliderComponent],
+  imports: [SliderComponent, RevealDirective],
   templateUrl: './slideshow.component.html',
   styleUrl: './slideshow.component.scss',
 })
 export class SlideshowComponent implements OnInit {
-  images!: SlideshowImage[];
+  images?: SlideshowImage[];
 
   constructor(
     private firebaseService: FirebaseService,
@@ -21,7 +22,12 @@ export class SlideshowComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.images = await this.loadImages();
+    try {
+      this.images = await this.loadImages();
+    } catch {
+      // hide the section rather than show a broken slider
+      this.images = [];
+    }
   }
 
   async loadImages(): Promise<SlideshowImage[]> {
@@ -37,7 +43,7 @@ export class SlideshowComponent implements OnInit {
       'Wynajmujemy ekrany LED i telebimy na różne wydarzenia, takie jak koncerty, konferencje, festiwale, targi, imprezy firmowe i inne.',
       'Oferujemy profesjonalną oprawę wizualną koncertów i eventów. Nasze ekrany LED zapewnią doskonałą jakość obrazu i dźwięku.',
       'Potrzebujesz ekranu na konferencję? Z nami nawet najdrobniejsze detale będą widoczne dla wszystkich uczestników.',
-      'Nowoczesne ekrany, oświetlenie i efekty specjalne. Profesjonalna obsługa wizualna. Skontaktuj się nami, a my zajmiemy się resztą.',
+      'Nowoczesne ekrany, oświetlenie i efekty specjalne. Profesjonalna obsługa wizualna. Skontaktuj się z nami, a my zajmiemy się resztą.',
     ];
 
     const images = await this.firebaseService.getFileUrls(

@@ -48,27 +48,74 @@ mat-toolbar {
     @include mat.toolbar-overrides(
       (
         container-background-color: transparent,
-        container-text-color: colors.$black,
+        container-text-color: colors.$home-text,
       )
     );
     & {
       position: fixed;
-      justify-content: space-between;
+      justify-content: center;
       max-width: layouts.$content-width;
       margin: 0 auto;
       left: 0;
       right: 0;
-      &.handset {
-        justify-content: center;
-      }
     }
   }
 }
 
 .slideshow-pagination .swiper-pagination-bullet {
-  background-color: var(--mat-sys-on-primary);
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background-color: colors.$home-text;
+  opacity: 0.4;
+  transition: width 0.4s ease, opacity 0.4s ease;
 }
 
 .slideshow-pagination .swiper-pagination-bullet-active {
-  background-color: var(--mat-sys-on-primary);
+  width: 32px;
+  opacity: 1;
+}
+
+/* Scroll reveal, see RevealDirective */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) var(--reveal-delay, 0ms),
+    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) var(--reveal-delay, 0ms);
+
+  &.revealed {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* PhotoSwipe lightbox */
+.pswp {
+  --pswp-bg: #08070f;
+  --pswp-placeholder-bg: #100e1c;
+}
+
+/*
+ * Navbar: hover and press layers live inside Material's button templates, so
+ * they're styled here. While the active-link highlight slides (.animating),
+ * they stay hidden and fade back in once it lands.
+ */
+mdlv-navbar .transparent-navbar-container {
+  .mat-mdc-button-persistent-ripple {
+    transition: opacity 0.2s ease;
+  }
+
+  &.animating {
+    .mat-mdc-button-persistent-ripple,
+    .mat-ripple {
+      opacity: 0;
+      transition: none;
+    }
+  }
 }

@@ -1,22 +1,11 @@
-<div class="offer-banner-container" [class.handset]="isHandset">
-  <div class="offer-banner-logo-container" [class.handset]="isHandset">
-    <img
-      src="/assets/icons/mdlv_logo.svg"
-      alt="Logo"
-      class="offer-banner-logo"
-      [class.handset]="isHandset"
-    />
-  </div>
-  <div class="offer-banner-text-primary" [class.handset]="isHandset">
-    TWOJE WYDARZENIE<br />
-    W NOWYM ŚWIETLE
-  </div>
-  <div
-    class="offer-banner-text-secondary-container"
-    [class.handset]="isHandset"
-  >
-    <div class="offer-banner-text-secondary" [class.handset]="isHandset">
-      {{ textSecondary }}
-    </div>
-  </div>
-</div>
+<section class="intro" [class.handset]="isHandset" mdlvReveal>
+  <span class="intro-logo-wrap">
+    <img src="/assets/icons/mdlv_logo.svg" alt="Logo" class="intro-logo" />
+  </span>
+  <span class="eyebrow">Oprawa wizualna wydarzeń</span>
+  <h2 class="intro-title">
+    Twoje wydarzenie<br />
+    <span class="title-highlight">w nowym świetle</span>
+  </h2>
+  <p class="intro-text">{{ textSecondary }}</p>
+</section>

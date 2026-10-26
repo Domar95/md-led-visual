@@ -1,0 +1,39 @@
+@use "@angular/material" as mat;
+@use "src/styles/colors.scss" as colors;
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: colors.$home-text;
+  text-decoration: none;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  filter: drop-shadow(0 0 16px rgba(139, 123, 255, 0.45));
+}
+
+.about {
+  max-width: 380px;
+  margin: 20px 0 24px;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: colors.$home-text-muted;
+}
+
+.socials {
+  display: flex;
+  @include mat.icon-button-overrides(
+    (
+      icon-color: colors.$home-text,
+      state-layer-color: colors.$home-text,
+    )
+  );
+}

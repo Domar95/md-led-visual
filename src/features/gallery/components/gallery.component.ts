@@ -1,16 +1,15 @@
 import { Component, computed, Signal, signal } from '@angular/core';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute } from '@angular/router';
 
 import { GalleryImage } from 'src/features/gallery/models/gallery.model';
 import { PhotoSwipeComponent } from './photo-swipe/photo-swipe.component';
 import { galleryThumbnailsTrigger } from 'src/animations/gallery-animations';
 import { ImageGalleryService } from '../services/image-gallery.service';
-import { ResponsiveLayoutService } from '@services/responsive-layout.service';
 
 @Component({
   selector: 'mdlv-gallery',
-  imports: [MatProgressSpinnerModule, PhotoSwipeComponent],
+  imports: [MatIconModule, PhotoSwipeComponent],
   templateUrl: './gallery.component.html',
   styleUrl: './gallery.component.scss',
   animations: [galleryThumbnailsTrigger],
@@ -18,32 +17,23 @@ import { ResponsiveLayoutService } from '@services/responsive-layout.service';
 export class GalleryComponent {
   activeCategory = signal<string>('');
   isLoading = signal<boolean>(true);
-  spinnerDiameter!: string;
-  isHandset!: boolean;
+  skeletonTiles = Array.from({ length: 9 }, (_, index) => index);
 
   constructor(
     private route: ActivatedRoute,
-    private imageGalleryService: ImageGalleryService,
-    private responsiveLayoutService: ResponsiveLayoutService
+    private imageGalleryService: ImageGalleryService
   ) {}
 
   async ngOnInit(): Promise<void> {
-    this.responsiveLayoutService.isHandset$.subscribe((isHandset) => {
-      this.isHandset = isHandset;
-
-      if (isHandset) {
-        this.spinnerDiameter = '32';
-      } else {
-        this.spinnerDiameter = '48';
-      }
-    });
-
-    await this.imageGalleryService.loadImages();
-    this.isLoading.set(false);
-
     this.route.paramMap.subscribe(async (params) => {
       this.activeCategory.set(params.get('category') || 'wszystkie');
     });
+
+    try {
+      await this.imageGalleryService.loadImages();
+    } finally {
+      this.isLoading.set(false);
+    }
   }
 
   filteredImages: Signal<GalleryImage[]> = computed(() => {

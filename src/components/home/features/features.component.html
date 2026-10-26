@@ -1,19 +1,14 @@
-<div class="features-wrapper">
-  <div class="features-container" [class.handset]="isHandset">
-    @for (feature of features; track feature) {
-    <mat-card
-      appearance="outlined"
-      class="features-card"
-      [class.handset]="isHandset"
-    >
-      <mat-card-header class="header" [class.handset]="isHandset">
-        <img class="icon" [class.handset]="isHandset" [src]="feature.icon" />
-        <span>{{ feature.title }}</span>
-      </mat-card-header>
-      <mat-card-content class="content">
-        {{ feature.description }}
-      </mat-card-content>
-    </mat-card>
-    }
+<div class="features-container">
+  @for (feature of features; track feature.title; let i = $index) {
+  <div class="feature" mdlvReveal [style.--reveal-delay]="i * 120 + 'ms'">
+    <article class="feature-card">
+      <div class="icon-tile">
+        <img class="icon" [src]="feature.icon" [alt]="feature.title" />
+      </div>
+      <span class="index">0{{ i + 1 }}</span>
+      <h3 class="title">{{ feature.title }}</h3>
+      <p class="description">{{ feature.description }}</p>
+    </article>
   </div>
+  }
 </div>

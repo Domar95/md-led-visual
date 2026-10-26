@@ -1,30 +1,159 @@
+@use "@angular/material" as mat;
+@use "src/styles/colors.scss" as colors;
+@use "src/styles/mixins.scss" as mixins;
+
+:host {
+  display: block;
+}
+
+.form-card {
+  padding: 36px;
+  border-radius: 28px;
+  border: 1px solid colors.$home-border;
+  background: linear-gradient(
+    160deg,
+    rgba(139, 123, 255, 0.1),
+    rgba(16, 14, 28, 0.9) 45%
+  );
+  box-shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.6);
+  @include mat.form-field-overrides(
+    (
+      outlined-container-shape: 14px,
+      outlined-outline-color: rgba(255, 255, 255, 0.14),
+      outlined-hover-outline-color: rgba(255, 255, 255, 0.3),
+      outlined-focus-outline-color: colors.$accent-violet,
+      outlined-focus-label-text-color: colors.$accent-violet,
+      outlined-caret-color: colors.$accent-violet,
+    )
+  );
+
+  @media (max-width: 599.98px) {
+    padding: 24px 16px;
+    border-radius: 24px;
+  }
+}
+
+.form-title {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: colors.$home-text;
+}
+
+.form-subtitle {
+  margin: 6px 0 24px;
+  font-size: 14px;
+  color: colors.$home-text-muted;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 12px;
+  row-gap: 4px;
+
+  .full-width {
+    grid-column: 1 / -1;
+  }
+
+  @media (max-width: 599.98px) {
+    grid-template-columns: 1fr;
+  }
+}
+
 mat-form-field {
   width: 100%;
 }
 
-.form-fields-container {
-  display: flex;
-  flex-wrap: wrap;
-  max-width: 600px;
-  gap: 12px;
-  &.handset {
-    gap: 16px;
+.submit-button {
+  width: 100%;
+  margin-top: 8px;
+  @include mat.button-overrides(
+    (
+      filled-container-color: transparent,
+      filled-label-text-color: #fff,
+      filled-disabled-container-color: transparent,
+      filled-disabled-label-text-color: rgba(255, 255, 255, 0.8),
+      filled-container-height: 52px,
+    )
+  );
+  background: colors.$accent-gradient;
+  box-shadow: 0 10px 40px -12px rgba(227, 87, 216, 0.6);
+  transition: box-shadow 0.3s ease, opacity 0.3s ease;
+
+  &:hover:not([disabled]) {
+    box-shadow: 0 14px 48px -8px rgba(227, 87, 216, 0.8);
+  }
+
+  &[disabled] {
+    opacity: 0.7;
+  }
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+
+  mat-spinner {
+    display: inline-block;
+    margin-right: 10px;
+    vertical-align: middle;
+    @include mat.progress-spinner-overrides(
+      (
+        active-indicator-color: #fff,
+      )
+    );
   }
 }
 
-.pair-fields {
+.success {
   display: flex;
-  flex-direction: row;
-  width: 100%;
-  gap: 12px;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 48px 8px;
+
+  h3 {
+    margin: 24px 0 8px;
+    font-family: "Inter", sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: colors.$home-text;
+  }
+
+  p {
+    margin: 0 0 28px;
+    color: colors.$home-text-muted;
+  }
+
+  button {
+    @include mat.button-overrides(
+      (
+        outlined-label-text-color: colors.$home-text,
+        outlined-outline-color: rgba(255, 255, 255, 0.3),
+      )
+    );
+  }
 }
 
-button[disabled] {
-  background-color: var(--mat-sys-primary);
-  color: var(--mat-sys-on-primary);
-  opacity: 0.6;
-}
+.success-icon {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: colors.$accent-gradient;
+  box-shadow: 0 0 0 10px rgba(139, 123, 255, 0.12),
+    0 12px 40px -8px rgba(227, 87, 216, 0.7);
+  color: #fff;
 
-.full-width-button {
-  width: 100%;
+  mat-icon {
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+  }
 }

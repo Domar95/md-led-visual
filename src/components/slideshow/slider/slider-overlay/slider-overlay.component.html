@@ -1,25 +1,8 @@
-<mat-card
-  class="overlay-card"
-  [class.handset]="isHandset"
-  appearance="outlined"
->
-  <mat-card-header>
-    <mat-card-title [@fadeIn]="animationState">
-      {{ title }}
-    </mat-card-title>
-  </mat-card-header>
-  <mat-card-content [@fadeIn]="animationState">
+<div class="caption-content" [class.handset]="isHandset">
+  <h3 class="title" [@fadeIn]="{ value: animationState, params: { delay: 0 } }">
+    {{ title }}
+  </h3>
+  <p class="text" [@fadeIn]="{ value: animationState, params: { delay: 120 } }">
     {{ text }}
-  </mat-card-content>
-  <mat-card-actions>
-    <button
-      mat-flat-button
-      [routerLink]="['/kontakt']"
-      @slideIn
-      [@fadeIn]="animationState"
-    >
-      <mat-icon>mail</mat-icon>
-      Skontaktuj się z nami
-    </button>
-  </mat-card-actions>
-</mat-card>
+  </p>
+</div>

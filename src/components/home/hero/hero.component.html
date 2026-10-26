@@ -1,0 +1,28 @@
+<section class="hero" [class.handset]="isHandset">
+  <div class="hero-background"></div>
+  <div class="hero-content">
+    <span class="eyebrow">MD LED Visual</span>
+    <h1 class="title">
+      Wynajem ekranów LED<br class="title-break" />
+      <span class="gradient-text">i telebimów</span>
+    </h1>
+    <p class="text">
+      Nowoczesne ekrany, oświetlenie i efekty specjalne. Profesjonalna obsługa
+      wizualna. Skontaktuj się z nami, a my zajmiemy się resztą.
+    </p>
+    <div class="actions">
+      <a mat-flat-button class="cta-primary" [routerLink]="['/kontakt']">
+        Skontaktuj się z nami
+        <mat-icon iconPositionEnd>arrow_forward</mat-icon>
+      </a>
+      <a mat-stroked-button class="cta-secondary" [routerLink]="['/galeria']">
+        Zobacz realizacje
+      </a>
+    </div>
+    <ul class="services">
+      @for (service of services; track service) {
+      <li>{{ service }}</li>
+      }
+    </ul>
+  </div>
+</section>

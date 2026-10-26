@@ -1,49 +1,84 @@
-<form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
-  <div class="form-fields-container" [class.handset]="isHandset">
-    <div class="pair-fields">
-      <mat-form-field>
+<div class="form-card">
+  @if (isSent()) {
+  <div class="success" role="status">
+    <span class="success-icon"><mat-icon>check</mat-icon></span>
+    <h3>Dziękujemy za wiadomość!</h3>
+    <p>Odezwiemy się najszybciej, jak to możliwe.</p>
+    <button mat-stroked-button type="button" (click)="isSent.set(false)">
+      Wyślij kolejną wiadomość
+    </button>
+  </div>
+  } @else {
+  <h3 class="form-title">Napisz do nas</h3>
+  <p class="form-subtitle">Wszystkie pola są wymagane.</p>
+
+  <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" novalidate>
+    <div class="form-grid">
+      <mat-form-field appearance="outline">
         <mat-label>Imię</mat-label>
-        <input matInput formControlName="name" />
+        <input matInput formControlName="name" autocomplete="given-name" />
         @if (contactForm.get('name')?.hasError('required')) {
         <mat-error>{{ requiredErrorMessage }}</mat-error>}
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Nazwisko</mat-label>
-        <input matInput formControlName="surname" />
+        <input matInput formControlName="surname" autocomplete="family-name" />
         @if (contactForm.get('surname')?.hasError('required')) {
         <mat-error>{{ requiredErrorMessage }}</mat-error>}
       </mat-form-field>
-    </div>
 
-    <div class="pair-fields">
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>E-mail</mat-label>
         <mat-icon matSuffix>mail</mat-icon>
-        <input matInput formControlName="email" />
+        <input
+          matInput
+          type="email"
+          formControlName="email"
+          autocomplete="email"
+        />
         @if (contactForm.get('email')?.hasError('required')) {
-        <mat-error>{{ requiredErrorMessage }}</mat-error>} @else if (contactForm.get('email')?.hasError('email')) {
-        <mat-error> Wprowadź poprawny adres e-mail</mat-error>}
+        <mat-error>{{ requiredErrorMessage }}</mat-error>} @else if
+        (contactForm.get('email')?.hasError('email')) {
+        <mat-error>Wprowadź poprawny adres e-mail</mat-error>}
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Telefon</mat-label>
         <mat-icon matSuffix>phone</mat-icon>
-        <input matInput formControlName="phone" />
+        <input matInput type="tel" formControlName="phone" autocomplete="tel" />
         @if (contactForm.get('phone')?.hasError('required')) {
+        <mat-error>{{ requiredErrorMessage }}</mat-error>}
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Wiadomość</mat-label>
+        <textarea
+          matInput
+          formControlName="message"
+          rows="5"
+          placeholder="Data, miejsce i rodzaj wydarzenia, czego potrzebujesz..."
+        ></textarea>
+        @if (contactForm.get('message')?.hasError('required')) {
         <mat-error>{{ requiredErrorMessage }}</mat-error>}
       </mat-form-field>
     </div>
 
-    <mat-form-field>
-      <mat-label>Wiadomość</mat-label>
-      <textarea matInput formControlName="message"></textarea>
-      @if (contactForm.get('message')?.hasError('required')) {
-      <mat-error>{{ requiredErrorMessage }}</mat-error>}
-    </mat-form-field>
-
-    <button mat-flat-button type="submit" [disabled]="!contactForm.valid" [class.full-width-button]="isHandset">
-      Wyślij
+    <button
+      mat-flat-button
+      type="submit"
+      class="submit-button"
+      [disabled]="isSending()"
+    >
+      <!-- one node per @if so Material projects the icon into its end slot -->
+      @if (isSending()) {
+      <mat-spinner diameter="18"></mat-spinner>
+      }
+      {{ isSending() ? 'Wysyłanie...' : 'Wyślij wiadomość' }}
+      @if (!isSending()) {
+      <mat-icon iconPositionEnd>send</mat-icon>
+      }
     </button>
-  </div>
-</form>
+  </form>
+  }
+</div>

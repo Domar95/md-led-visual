@@ -1,41 +1,32 @@
-import { Component, Input } from '@angular/core';
-import { MatGridListModule } from '@angular/material/grid-list';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  OnDestroy,
+} from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 import PhotoSwipeLightbox from 'photoswipe/lightbox';
 import PhotoSwipe from 'photoswipe';
 
 import { GalleryImage } from 'src/features/gallery/models/gallery.model';
-import { ResponsiveLayoutService } from '@services/responsive-layout.service';
 
 @Component({
   selector: 'mdlv-photo-swipe',
-  imports: [MatGridListModule],
+  imports: [MatIconModule],
   templateUrl: './photo-swipe.component.html',
   styleUrl: './photo-swipe.component.scss',
 })
-export class PhotoSwipeComponent {
+export class PhotoSwipeComponent implements AfterViewInit, OnDestroy {
   @Input({ required: true }) images: GalleryImage[] = [];
 
   photoSwipeLightbox!: PhotoSwipeLightbox;
-  isHandset!: boolean;
-  cols!: number;
-  gutterSize!: string;
 
-  constructor(private responsiveLayoutService: ResponsiveLayoutService) {}
+  constructor(private elementRef: ElementRef<HTMLElement>) {}
 
-  ngOnInit() {
-    this.responsiveLayoutService.isHandset$.subscribe((isHandset) => {
-      if (isHandset) {
-        this.cols = 2;
-        this.gutterSize = '8px';
-      } else {
-        this.cols = 3;
-        this.gutterSize = '16px';
-      }
-    });
-
+  ngAfterViewInit() {
     this.photoSwipeLightbox = new PhotoSwipeLightbox({
-      // may select multiple "galleries"
-      gallery: '#photoswipe-gallery',
+      gallery: this.elementRef.nativeElement,
 
       // Elements within gallery (slides)
       children: 'a',
@@ -46,5 +37,9 @@ export class PhotoSwipeComponent {
     });
 
     this.photoSwipeLightbox.init();
+  }
+
+  ngOnDestroy() {
+    this.photoSwipeLightbox?.destroy();
   }
 }

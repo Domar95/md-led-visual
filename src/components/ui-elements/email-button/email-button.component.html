@@ -1,4 +1,9 @@
-<button mat-button [cdkCopyToClipboard]="email">
+<button
+  mat-button
+  [cdkCopyToClipboard]="email"
+  (cdkCopyToClipboardCopied)="onCopied($event)"
+  aria-label="Skopiuj adres e-mail"
+>
   <mat-icon>content_copy</mat-icon>
-  {{email}}
+  {{ email }}
 </button>

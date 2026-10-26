@@ -1,22 +1,28 @@
-<div class="tabs-container">
-  <nav
-    mat-tab-nav-bar
-    [tabPanel]="tabPanel"
-    mat-stretch-tabs="false"
-    mat-align-tabs="center"
-  >
-    @for (link of links; track link) {
+<section class="gallery-page">
+  <header class="header">
+    <span class="eyebrow">Realizacje</span>
+    <h1 class="title">Galeria</h1>
+    <p class="text">
+      Wybrane realizacje z koncertów, eventów firmowych, uroczystości
+      prywatnych i prezentacji.
+    </p>
+  </header>
+
+  <nav class="filters" aria-label="Kategorie galerii">
+    @for (link of links; track link.route) {
     <a
-      mat-tab-link
+      class="filter"
       [routerLink]="link.route"
-      [active]="activeLink.route === link.route"
+      routerLinkActive="active"
+      ariaCurrentWhenActive="page"
     >
       {{ link.label }}
+      @if (counts()[link.route]; as count) {
+      <span class="count">{{ count }}</span>
+      }
     </a>
     }
   </nav>
 
-  <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
-</div>
-
-<router-outlet></router-outlet>
+  <router-outlet></router-outlet>
+</section>

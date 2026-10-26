@@ -1,3 +1,13 @@
+@if (!images || images.length) {
 <div class="slideshow-container">
-  <mdlv-slider [images]="images"></mdlv-slider>
+  <header class="header" mdlvReveal>
+    <span class="eyebrow">W akcji</span>
+    <h2 class="title">Zobacz, jak to wygląda</h2>
+  </header>
+  @if (images) {
+  <mdlv-slider [images]="images" mdlvReveal></mdlv-slider>
+  } @else {
+  <div class="placeholder"></div>
+  }
 </div>
+}

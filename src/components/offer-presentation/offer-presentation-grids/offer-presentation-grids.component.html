@@ -1,57 +1,20 @@
-<mat-grid-list [cols]="cols" [rowHeight]="rowHeight">
-  <mat-grid-tile
-    [style.backgroundImage]="'url(' + images[0] + ')'"
-  ></mat-grid-tile>
-
-  <mat-grid-tile class="tile-background">
+<div class="bento" [class.handset]="isHandset">
+  @for (category of categories; track category.route; let i = $index) {
+  <a
+    class="tile"
+    [routerLink]="[category.route]"
+    mdlvReveal
+    [style.--reveal-delay]="i * 80 + 'ms'"
+  >
+    <div
+      class="tile-image"
+      [style.backgroundImage]="images[i] ? 'url(' + images[i] + ')' : null"
+    ></div>
     <div class="tile-content">
-      Imprezy firmowe
-      <button mat-stroked-button [routerLink]="['/galeria/imprezy-firmowe']">
-        Sprawdź
-      </button>
+      <h3 class="tile-title">{{ category.title }}</h3>
+      <p class="tile-description">{{ category.description }}</p>
     </div>
-  </mat-grid-tile>
-
-  <mat-grid-tile
-    [style.backgroundImage]="'url(' + images[1] + ')'"
-  ></mat-grid-tile>
-
-  <mat-grid-tile class="tile-background">
-    <div class="tile-content">
-      Imprezy prywatne
-      <button mat-stroked-button [routerLink]="['/galeria/imprezy-prywatne']">
-        Sprawdź
-      </button>
-    </div>
-  </mat-grid-tile>
-
-  <mat-grid-tile
-    [style.backgroundImage]="'url(' + images[2] + ')'"
-  ></mat-grid-tile>
-
-  <mat-grid-tile class="tile-background">
-    <div class="tile-content">
-      Prezentacje
-      <button mat-stroked-button [routerLink]="['/galeria/prezentacje']">
-        Sprawdź
-      </button>
-    </div>
-  </mat-grid-tile>
-
-  <mat-grid-tile
-    [style.backgroundImage]="'url(' + images[3] + ')'"
-  ></mat-grid-tile>
-
-  <mat-grid-tile class="tile-background">
-    <div class="tile-content">
-      Imprezy plenerowe
-      <button mat-stroked-button [routerLink]="['/galeria/imprezy-plenerowe']">
-        Sprawdź
-      </button>
-    </div>
-  </mat-grid-tile>
-
-  <mat-grid-tile
-    [style.backgroundImage]="'url(' + images[4] + ')'"
-  ></mat-grid-tile>
-</mat-grid-list>
+    <span class="tile-arrow"><mat-icon>arrow_outward</mat-icon></span>
+  </a>
+  }
+</div>

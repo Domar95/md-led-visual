@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 
 import { ResponsiveLayoutService } from '@services/responsive-layout.service';
+import { RevealDirective } from 'src/shared/directives/reveal.directive';
 
 @Component({
   selector: 'mdlv-offer-banner',
-  imports: [],
+  imports: [RevealDirective],
   templateUrl: './offer-banner.component.html',
   styleUrl: './offer-banner.component.scss',
 })

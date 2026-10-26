@@ -1,13 +1,16 @@
-<div
-  class="gallery-container"
-  [class.handset]="isHandset"
-  [@galleryThumbnailsTrigger]="filteredImages()"
->
-  <mdlv-photo-swipe [images]="filteredImages()"></mdlv-photo-swipe>
+<div class="gallery-container" [@galleryThumbnailsTrigger]="filteredImages()">
   @if (isLoading()) {
-  <mat-spinner
-    [diameter]="spinnerDiameter"
-    class="spinner-container"
-  ></mat-spinner>
+  <div class="skeleton-grid" aria-label="Ładowanie galerii">
+    @for (tile of skeletonTiles; track tile) {
+    <div class="skeleton-tile"></div>
+    }
+  </div>
+  } @else if (filteredImages().length) {
+  <mdlv-photo-swipe [images]="filteredImages()"></mdlv-photo-swipe>
+  } @else {
+  <div class="empty">
+    <mat-icon>photo_library</mat-icon>
+    <p>Brak zdjęć w tej kategorii.</p>
+  </div>
   }
 </div>

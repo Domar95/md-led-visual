@@ -1,8 +1,30 @@
-<div class="contact-info-container">
-  <div class="contact-item" [class.handset]="isHandset">
-    <mat-icon fontIcon="call" [class.handset]="isHandset"></mat-icon> +48 795 641 741
-  </div>
-  <div class="contact-item" [class.handset]="isHandset">
-    <mat-icon fontIcon="mail" [class.handset]="isHandset"></mat-icon> ledvisual&#64;o2.pl
-  </div>
-</div>
+<span class="eyebrow">Kontakt</span>
+<h2 class="title">
+  Porozmawiajmy o <span class="gradient-text">Twoim wydarzeniu</span>
+</h2>
+<p class="text">
+  Wypełnij formularz lub zadzwoń. Dobierzemy ekrany, oświetlenie i efekty do
+  Twojego wydarzenia.
+</p>
+
+<ul class="channels">
+  <li>
+    <a class="channel" href="tel:+48795641741">
+      <span class="icon-tile"><mat-icon>call</mat-icon></span>
+      <span class="channel-text">
+        <span class="channel-label">Zadzwoń</span>
+        <span class="channel-value">+48 795 641 741</span>
+      </span>
+    </a>
+  </li>
+  <li>
+    <a class="channel" [routerLink]="['/wycena']">
+      <span class="icon-tile"><mat-icon>calculate</mat-icon></span>
+      <span class="channel-text">
+        <span class="channel-label">Orientacyjny koszt</span>
+        <span class="channel-value">Sprawdź wycenę</span>
+      </span>
+      <mat-icon class="channel-arrow">arrow_forward</mat-icon>
+    </a>
+  </li>
+</ul>

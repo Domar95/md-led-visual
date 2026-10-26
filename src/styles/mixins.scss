@@ -1,0 +1,99 @@
+@use "colors";
+
+/* Small uppercase label above section titles */
+@mixin eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: colors.$accent-violet;
+
+  &::before {
+    content: "";
+    width: 24px;
+    height: 1px;
+    background: colors.$accent-gradient;
+  }
+}
+
+@mixin display-title($size: 56px) {
+  font-family: "Inter", sans-serif;
+  font-size: $size;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  color: colors.$home-text;
+  margin: 0;
+}
+
+@mixin gradient-text {
+  background: colors.$accent-gradient;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@mixin footer-heading {
+  margin: 0 0 20px;
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: colors.$home-text;
+}
+
+/* Gallery grid: every 7th tile (every 5th on phones) is featured */
+@mixin gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-flow: dense;
+  gap: 16px;
+
+  > * {
+    aspect-ratio: 4 / 3;
+    border-radius: 18px;
+  }
+
+  > :nth-child(7n + 1) {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  @media (max-width: 599.98px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+
+    > * {
+      border-radius: 12px;
+    }
+
+    > :nth-child(7n + 1) {
+      grid-column: auto;
+      grid-row: auto;
+    }
+
+    > :nth-child(5n + 1) {
+      grid-column: span 2;
+      aspect-ratio: 16 / 10;
+    }
+  }
+}
+
+/* Translucent surface for floating controls (pills, chips, round buttons) */
+@mixin glass {
+  background: rgba(14, 12, 24, 0.55);
+  border: 1px solid colors.$home-border;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+/* Neutral highlight for the selected control; gradients stay for primary actions */
+@mixin control-selected {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}

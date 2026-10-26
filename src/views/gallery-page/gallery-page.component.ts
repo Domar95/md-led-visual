@@ -1,15 +1,14 @@
-import { ActivatedRoute, RouterModule } from '@angular/router';
-import { Component, HostBinding } from '@angular/core';
-import { MatTabsModule } from '@angular/material/tabs';
-import { map } from 'rxjs';
+import { RouterModule } from '@angular/router';
+import { Component, computed, HostBinding } from '@angular/core';
 
 import { routeAnimationsState } from 'src/animations/route-animations';
+import { ImageGalleryService } from 'src/features/gallery/services/image-gallery.service';
 
 type Link = { label: string; route: string };
 
 @Component({
   selector: 'mdlv-gallery-page',
-  imports: [MatTabsModule, RouterModule],
+  imports: [RouterModule],
   templateUrl: './gallery-page.component.html',
   styleUrl: './gallery-page.component.scss',
   animations: [routeAnimationsState],
@@ -23,15 +22,15 @@ export class GalleryPageComponent {
       route: 'wszystkie',
     },
     {
-      label: 'Imprezy Firmowe',
+      label: 'Imprezy firmowe',
       route: 'imprezy-firmowe',
     },
     {
-      label: 'Imprezy Prywatne',
+      label: 'Imprezy prywatne',
       route: 'imprezy-prywatne',
     },
     {
-      label: 'Imprezy Plenerowe',
+      label: 'Imprezy plenerowe',
       route: 'imprezy-plenerowe',
     },
     {
@@ -39,16 +38,19 @@ export class GalleryPageComponent {
       route: 'prezentacje',
     },
   ];
-  activeLink!: Link;
 
-  constructor(private route: ActivatedRoute) {}
+  counts = computed(() => {
+    const images = this.imageGalleryService.images();
+    const counts: Record<string, number> = { wszystkie: images.length };
 
-  ngOnInit(): void {
-    this.route.firstChild?.paramMap
-      .pipe(map((params) => params.get('category')))
-      .subscribe((category) => {
-        this.activeLink =
-          this.links.find((link) => link.route === category) || this.links[0];
-      });
-  }
+    for (const image of images) {
+      if (image.category) {
+        counts[image.category] = (counts[image.category] ?? 0) + 1;
+      }
+    }
+
+    return counts;
+  });
+
+  constructor(private imageGalleryService: ImageGalleryService) {}
 }

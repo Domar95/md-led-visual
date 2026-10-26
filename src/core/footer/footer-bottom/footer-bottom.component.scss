@@ -1,0 +1,10 @@
+@use "src/styles/colors.scss" as colors;
+
+:host {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 24px;
+  font-size: 13px;
+  color: colors.$home-text-muted;
+}

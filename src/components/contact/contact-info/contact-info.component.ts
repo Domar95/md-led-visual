@@ -1,12 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'mdlv-contact-info',
-  imports: [MatIconModule],
+  imports: [MatIconModule, RouterModule],
   templateUrl: './contact-info.component.html',
-  styleUrl: './contact-info.component.scss'
+  styleUrl: './contact-info.component.scss',
 })
-export class ContactInfoComponent {
-  @Input() isHandset!: boolean;
-}
+export class ContactInfoComponent {}

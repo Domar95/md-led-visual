@@ -1,82 +1,131 @@
-@use "src/styles/layouts.scss" as layouts;
+@use "src/styles/colors.scss" as colors;
+@use "src/styles/mixins.scss" as mixins;
 
-.offer-banner-container {
-  background-color: var(--mat-sys-surface-bright);
+:host {
+  display: block;
+  position: relative;
+
+  // soft stage-light glow behind the intro
+  &::before {
+    content: "";
+    position: absolute;
+    top: -120px;
+    left: 50%;
+    width: min(900px, 120vw);
+    height: 520px;
+    transform: translateX(-50%);
+    background: radial-gradient(
+      ellipse at center,
+      rgba(139, 123, 255, 0.22) 0%,
+      rgba(227, 87, 216, 0.08) 40%,
+      transparent 70%
+    );
+    pointer-events: none;
+  }
+}
+
+.intro {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding-top: 56px;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 120px 24px 80px;
+
   &.handset {
-    padding-top: 32px;
+    padding: 72px 20px 48px;
   }
 }
 
-.offer-banner-text-primary {
-  font-family: "Goldman";
-  font-weight: 700;
-  font-size: 72px;
-  line-height: 1.2;
-  color: var(--mat-sys-secondary);
-  margin-top: 40px;
+// "breathes" light like a stage screen
+.intro-logo-wrap {
+  display: block;
   margin-bottom: 40px;
-  &.handset {
-    font-size: 36px;
-    margin-top: 25px;
-    margin-bottom: 15px;
-    padding-left: layouts.$handset-side-padding;
-    padding-right: layouts.$handset-side-padding;
+  animation: logo-glow 4s ease-in-out infinite;
+
+  .handset & {
+    margin-bottom: 28px;
   }
 }
 
-.offer-banner-text-secondary-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  background-color: #786cbf;
-  padding-top: 50px;
-  padding-bottom: 50px;
-  &.handset {
-    padding-top: 25px;
-    padding-bottom: 25px;
+.intro-logo {
+  display: block;
+  width: 128px;
+  height: 128px;
+
+  .handset & {
+    width: 96px;
+    height: 96px;
   }
 }
 
-.offer-banner-text-secondary {
-  max-width: layouts.$content-width;
-  font-weight: 300;
-  font-size: 22px;
-  line-height: 1.5;
-  color: var(--mat-sys-on-primary);
-  &.handset {
-    text-align: justify;
-    font-size: 16px;
-    padding-left: layouts.$handset-side-padding;
-    padding-right: layouts.$handset-side-padding;
+@keyframes logo-glow {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 20px rgba(139, 123, 255, 0.35));
+  }
+  50% {
+    filter: drop-shadow(0 0 40px rgba(227, 87, 216, 0.55));
   }
 }
 
-.offer-banner-logo-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 200px;
-  background: linear-gradient(45deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)),
-    url("/assets/images/logo_bg.jpg");
-  background-size: cover;
-  background-position: center;
-  &.handset {
-    height: 150px;
+@media (prefers-reduced-motion: reduce) {
+  .intro-logo-wrap {
+    animation: none;
+    filter: drop-shadow(0 0 32px rgba(139, 123, 255, 0.45));
   }
 }
 
-.offer-banner-logo {
-  width: 150px;
-  height: 150px;
-  &.handset {
-    width: 100px;
-    height: 100px;
+.eyebrow {
+  @include mixins.eyebrow;
+}
+
+.intro-title {
+  @include mixins.display-title(72px);
+  margin-top: 20px;
+
+  .handset & {
+    font-size: 40px;
+  }
+}
+
+// "w nowym świetle": a beam of light sweeps over the line every few seconds
+.title-highlight {
+  background-image: linear-gradient(
+      110deg,
+      transparent 35%,
+      rgba(255, 255, 255, 0.85) 50%,
+      transparent 65%
+    ),
+    colors.$accent-gradient;
+  background-size: 250% 100%, 100% 100%;
+  background-position: 150% 0, 0 0;
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+
+  .revealed & {
+    animation: light-sweep 6s ease-in-out 1s infinite;
+  }
+}
+
+@keyframes light-sweep {
+  0% {
+    background-position: 150% 0, 0 0;
+  }
+  25%,
+  100% {
+    background-position: -50% 0, 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .title-highlight {
+    .revealed & {
+      animation: none;
+    }
   }
 }

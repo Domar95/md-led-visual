@@ -1,70 +1,120 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatCardModule } from '@angular/material/card';
-import { MatRadioModule } from '@angular/material/radio';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterModule } from '@angular/router';
 import { startWith, Subscription } from 'rxjs';
+
+interface PricingOption {
+  value: string;
+  label: string;
+  icon?: string;
+  // added to the base price when selected
+  price: number;
+}
+
+const BASE_PRICE = 500;
 
 @Component({
   selector: 'mdlv-pricing-form',
-  imports: [
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatCardModule,
-    MatRadioModule,
-  ],
+  imports: [ReactiveFormsModule, MatButtonModule, MatIconModule, RouterModule],
   templateUrl: './pricing-form.component.html',
   styleUrl: './pricing-form.component.scss',
+  animations: [
+    trigger('priceChange', [
+      transition(':increment, :decrement', [
+        style({ opacity: 0, transform: 'translateY(8px)' }),
+        animate(
+          '350ms cubic-bezier(0.2, 0.7, 0.2, 1)',
+          style({ opacity: 1, transform: 'none' })
+        ),
+      ]),
+    ]),
+  ],
 })
-export class PricingFormComponent implements OnInit {
+export class PricingFormComponent implements OnInit, OnDestroy {
+  placeOptions: PricingOption[] = [
+    { value: 'inside', label: 'Wewnątrz', icon: 'meeting_room', price: 0 },
+    { value: 'outside', label: 'Na zewnątrz', icon: 'park', price: 500 },
+  ];
+  categoryOptions: PricingOption[] = [
+    {
+      value: 'company',
+      label: 'Impreza firmowa',
+      icon: 'business_center',
+      price: 0,
+    },
+    {
+      value: 'private',
+      label: 'Impreza prywatna',
+      icon: 'celebration',
+      price: 0,
+    },
+    {
+      value: 'outdoor',
+      label: 'Impreza plenerowa',
+      icon: 'festival',
+      price: 0,
+    },
+    {
+      value: 'presentation',
+      label: 'Prezentacja',
+      icon: 'co_present',
+      price: 0,
+    },
+  ];
+  sizeOptions: PricingOption[] = [
+    { value: '1x6', label: '1x6', price: 0 },
+    { value: '2x6', label: '2x6', price: 200 },
+    { value: '3x6', label: '3x6', price: 400 },
+  ];
+
   pricingForm = new FormGroup({
-    place: new FormControl('inside', Validators.required),
-    category: new FormControl('company', Validators.required),
-    size: new FormControl('1x6', Validators.required),
+    place: new FormControl('inside', { nonNullable: true }),
+    category: new FormControl('company', { nonNullable: true }),
+    size: new FormControl('1x6', { nonNullable: true }),
   });
-  price = 0;
+  price = BASE_PRICE;
   private pricingFormSubscription!: Subscription;
 
   ngOnInit(): void {
-    this.pricingForm.valueChanges
+    this.pricingFormSubscription = this.pricingForm.valueChanges
       .pipe(startWith(this.pricingForm.value))
-      .subscribe((formValues) => {
-        this.price = this.calculatePrice(formValues);
+      .subscribe(() => {
+        this.price = this.calculatePrice();
       });
   }
 
-  calculatePrice(
-    values: Partial<{
-      place: string | null;
-      category: string | null;
-      size: string | null;
-    }>
-  ): number {
-    let basePrice = 500;
-    console.log(values);
+  calculatePrice(): number {
+    return this.selectedOptions.reduce(
+      (price, option) => price + option.price,
+      BASE_PRICE
+    );
+  }
 
-    if (values.place === 'outside') {
-      basePrice += 500;
-    }
+  get selectedOptions(): PricingOption[] {
+    const { place, category, size } = this.pricingForm.getRawValue();
 
-    if (values.size === '2x6') {
-      basePrice += 200;
-    }
-    if (values.size === '3x6') {
-      basePrice += 400;
-    }
+    return [
+      this.findOption(this.placeOptions, place),
+      this.findOption(this.categoryOptions, category),
+      this.findOption(this.sizeOptions, size),
+    ];
+  }
 
-    return basePrice;
+  // prefills the contact form with the chosen configuration
+  get inquiryMessage(): string {
+    const [place, category, size] = this.selectedOptions;
+
+    return `Dzień dobry, interesuje mnie ekran ${size.label} (${place.label.toLowerCase()}, ${category.label.toLowerCase()}). Orientacyjny koszt z kalkulatora: ${this.price} zł.`;
   }
 
   ngOnDestroy(): void {
-    if (this.pricingFormSubscription) {
-      this.pricingFormSubscription.unsubscribe();
-    }
+    this.pricingFormSubscription?.unsubscribe();
+  }
+
+  private findOption(options: PricingOption[], value: string): PricingOption {
+    return options.find((option) => option.value === value) ?? options[0];
   }
 }

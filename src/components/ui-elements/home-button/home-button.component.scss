@@ -1,7 +1,22 @@
+@use "@angular/material" as mat;
+@use "src/styles/colors.scss" as colors;
+
+// matches the text links next to it in the navbar
 .home-button {
-  background-color: #c9bfff;
-  transition: background-color 0.3s ease;
-  &:hover {
-    background-color: #2e009c;
+  @include mat.icon-button-overrides(
+    (
+      state-layer-color: colors.$home-text,
+    )
+  );
+
+  &.active {
+    background: rgba(139, 123, 255, 0.16);
+    box-shadow: inset 0 0 0 1px rgba(139, 123, 255, 0.35);
   }
+}
+
+// the transparent navbar highlights the active link with its own sliding drop
+:host-context(.transparent) .home-button.active {
+  background: none;
+  box-shadow: none;
 }

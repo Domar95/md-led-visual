@@ -1,34 +1,86 @@
-<mat-card>
-  <mat-card-content
-    ><form [formGroup]="pricingForm">
-      <div>
-        <label>Miejsce:</label>
-        <mat-radio-group formControlName="place">
-          <mat-radio-button value="inside">Wewnątrz</mat-radio-button>
-          <mat-radio-button value="outside">Na zewnątrz</mat-radio-button>
-        </mat-radio-group>
+<div class="pricing" [formGroup]="pricingForm">
+  <div class="steps">
+    <fieldset class="step">
+      <legend><span class="step-number">01</span> Miejsce</legend>
+      <div class="options cols-2">
+        @for (option of placeOptions; track option.value) {
+        <label class="option">
+          <input type="radio" formControlName="place" [value]="option.value" />
+          <mat-icon class="option-icon">{{ option.icon }}</mat-icon>
+          <span class="option-label">{{ option.label }}</span>
+          @if (option.price) {
+          <span class="option-price">+{{ option.price }} zł</span>
+          }
+        </label>
+        }
       </div>
+    </fieldset>
 
-      <div>
-        <label>Rodzaj imprezy:</label>
-        <mat-radio-group formControlName="category">
-          <mat-radio-button value="company">Imprezy firmowa</mat-radio-button>
-          <mat-radio-button value="private">Imprezy prywatna</mat-radio-button>
-          <mat-radio-button value="outdoor">Impreza plenerowa</mat-radio-button>
-          <mat-radio-button value="presentation">Prezentacja</mat-radio-button>
-        </mat-radio-group>
+    <fieldset class="step">
+      <legend><span class="step-number">02</span> Rodzaj wydarzenia</legend>
+      <div class="options cols-2">
+        @for (option of categoryOptions; track option.value) {
+        <label class="option">
+          <input
+            type="radio"
+            formControlName="category"
+            [value]="option.value"
+          />
+          <mat-icon class="option-icon">{{ option.icon }}</mat-icon>
+          <span class="option-label">{{ option.label }}</span>
+        </label>
+        }
       </div>
+    </fieldset>
 
-      <div>
-        <label>Wymiary ekranu:</label>
-        <mat-radio-group formControlName="size">
-          <mat-radio-button value="1x6">1x6</mat-radio-button>
-          <mat-radio-button value="2x6">2x6</mat-radio-button>
-          <mat-radio-button value="3x6">3x6</mat-radio-button>
-        </mat-radio-group>
+    <fieldset class="step">
+      <legend><span class="step-number">03</span> Wymiary ekranu</legend>
+      <div class="options cols-3">
+        @for (option of sizeOptions; track option.value; let i = $index) {
+        <label class="option size-option">
+          <input type="radio" formControlName="size" [value]="option.value" />
+          <span class="screen-preview">
+            <span class="screen" [style.height.%]="(i + 1) * 30"></span>
+          </span>
+          <span class="option-label">{{ option.label }}</span>
+          @if (option.price) {
+          <span class="option-price">+{{ option.price }} zł</span>
+          }
+        </label>
+        }
       </div>
+    </fieldset>
+  </div>
 
-      <h2>Przybliżony koszt: {{ price }} zł</h2>
-    </form>
-  </mat-card-content></mat-card
->
+  <aside class="summary">
+    <span class="summary-label">Orientacyjny koszt</span>
+    <div class="price">
+      <span class="price-value" [@priceChange]="price">{{ price }}</span>
+      <span class="price-currency">zł</span>
+    </div>
+
+    <ul class="summary-list">
+      @for (option of selectedOptions; track option.value) {
+      <li>
+        <mat-icon>check</mat-icon>
+        {{ option.label }}
+      </li>
+      }
+    </ul>
+
+    <a
+      mat-flat-button
+      class="summary-cta"
+      [routerLink]="['/kontakt']"
+      [queryParams]="{ wiadomosc: inquiryMessage }"
+    >
+      Zapytaj o termin
+      <mat-icon iconPositionEnd>arrow_forward</mat-icon>
+    </a>
+
+    <p class="summary-note">
+      Cena jest orientacyjna. Dokładną wycenę przygotujemy po poznaniu
+      szczegółów wydarzenia.
+    </p>
+  </aside>
+</div>

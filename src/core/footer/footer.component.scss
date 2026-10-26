@@ -1,26 +1,156 @@
+@use "@angular/material" as mat;
+@use "src/styles/colors.scss" as colors;
 @use "src/styles/layouts.scss" as layouts;
+@use "src/styles/mixins.scss" as mixins;
+@use "src/styles/_theme-colors.scss" as theme-colors;
+
+:host {
+  display: block;
+  @include mat.theme(
+    (
+      color: (
+        theme-type: dark,
+        primary: theme-colors.$primary-palette,
+        tertiary: theme-colors.$tertiary-palette,
+      ),
+    )
+  );
+}
+
+.footer {
+  position: relative;
+  overflow: hidden;
+  background: colors.$home-bg;
+  color: colors.$home-text;
+  border-top: 1px solid colors.$home-border;
+
+  // faint glow behind the call-to-action, fading out before the top border
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: min(1100px, 140vw);
+    height: 440px;
+    transform: translateX(-50%);
+    background: radial-gradient(
+      ellipse at center,
+      rgba(139, 123, 255, 0.08) 0%,
+      rgba(227, 87, 216, 0.03) 40%,
+      transparent 65%
+    );
+    pointer-events: none;
+  }
+}
 
 .footer-container {
+  position: relative;
   max-width: layouts.$content-width;
   margin: 0 auto;
-  &.handset {
-    padding-left: layouts.$handset-side-padding;
-    padding-right: layouts.$handset-side-padding;
+  padding: 80px 24px 0;
+  box-sizing: border-box;
+}
+
+.cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 40px 48px;
+  border-radius: 28px;
+  border: 1px solid colors.$home-border;
+  background: linear-gradient(
+    120deg,
+    rgba(139, 123, 255, 0.16),
+    rgba(227, 87, 216, 0.08) 60%,
+    rgba(16, 14, 28, 0.6)
+  );
+}
+
+.eyebrow {
+  @include mixins.eyebrow;
+}
+
+.cta-title {
+  @include mixins.display-title(40px);
+  margin-top: 12px;
+}
+
+.cta-button {
+  flex-shrink: 0;
+  @include mat.button-overrides(
+    (
+      filled-container-color: transparent,
+      filled-label-text-color: #fff,
+      filled-container-height: 52px,
+      filled-horizontal-padding: 28px,
+    )
+  );
+  background: colors.$accent-gradient;
+  box-shadow: 0 10px 40px -10px rgba(227, 87, 216, 0.6);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 48px -8px rgba(227, 87, 216, 0.8);
   }
 }
 
 .footer-section {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: space-between;
-  &.handset {
-    flex-direction: column;
-  }
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr;
+  gap: 48px;
+  padding: 64px 0 48px;
 }
 
-.footer-section > * {
-  flex: 1;
-  margin-bottom: 0.7rem;
-  margin-top: 0.5rem;
+.footer-bottom {
+  padding: 24px 0;
+  border-top: 1px solid colors.$home-border;
+}
+
+.wordmark {
+  font-family: "Goldman", sans-serif;
+  font-weight: 700;
+  font-size: clamp(40px, 10.5vw, 160px);
+  line-height: 0.8;
+  text-align: center;
+  white-space: nowrap;
+  margin-bottom: -0.12em;
+  background: linear-gradient(
+    to bottom,
+    rgba(139, 123, 255, 0.22),
+    rgba(139, 123, 255, 0)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  user-select: none;
+}
+
+.handset {
+  .footer-container {
+    padding: 56px 16px 0;
+  }
+
+  .cta {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 24px;
+    padding: 28px 24px;
+    border-radius: 24px;
+  }
+
+  .cta-title {
+    font-size: 28px;
+  }
+
+  .footer-section {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    padding: 48px 4px 36px;
+  }
+
+  .footer-bottom {
+    padding: 20px 4px;
+  }
 }

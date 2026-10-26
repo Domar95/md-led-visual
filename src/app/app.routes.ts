@@ -18,13 +18,6 @@ export const routes: Routes = [
     component: HomeLayoutComponent,
     children: [
       { path: '', component: HomePageComponent, title: 'Strona główna' },
-    ],
-  },
-  {
-    path: '',
-    component: DefaultLayoutComponent,
-    children: [
-      { path: 'o-mnie', component: AboutPageComponent, title: 'O mnie' },
       {
         path: 'galeria',
         component: GalleryPageComponent,
@@ -35,6 +28,13 @@ export const routes: Routes = [
       },
       { path: 'wycena', component: PricingPageComponent, title: 'Wycena' },
       { path: 'kontakt', component: ContactPageComponent, title: 'Kontakt' },
+    ],
+  },
+  {
+    path: '',
+    component: DefaultLayoutComponent,
+    children: [
+      { path: 'o-mnie', component: AboutPageComponent, title: 'O mnie' },
     ],
   },
   {

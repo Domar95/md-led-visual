@@ -1,23 +1,33 @@
-<div class="heroSwiper">
-  <div class="swiper-wrapper">
-    @for(image of images; track image; let i = $index) {
-    <div
-      class="swiper-slide slide-container"
-      [style.backgroundImage]="'url(' + image.uri + ')'"
-    >
-      <div class="overlay-container">
-        <mdlv-slider-overlay
-          [isHandset]="isHandset"
-          [title]="image.title"
-          [text]="image.text"
-          [animationState]="activeSlideIndex === i ? '*' : 'void'"
-        ></mdlv-slider-overlay>
+<div class="slider" [class.handset]="isHandset">
+  <div class="swiper" #swiperElement>
+    <div class="swiper-wrapper">
+      @for (image of images; track image.uri; let i = $index) {
+      <div class="swiper-slide slide">
+        <div
+          class="slide-image"
+          [style.backgroundImage]="'url(' + image.uri + ')'"
+        ></div>
+        <div class="caption">
+          <mdlv-slider-overlay
+            [isHandset]="isHandset"
+            [title]="image.title"
+            [text]="image.text"
+            [animationState]="activeSlideIndex === i ? '*' : 'void'"
+          ></mdlv-slider-overlay>
+        </div>
       </div>
+      }
     </div>
-
-    }
   </div>
-  <div class="swiper-button-next"></div>
-  <div class="swiper-button-prev"></div>
-  <div class="swiper-pagination slideshow-pagination"></div>
+  <div class="controls">
+    <div class="slideshow-pagination" #paginationElement></div>
+    <div class="arrows">
+      <button mat-icon-button #prevElement aria-label="Poprzedni slajd">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <button mat-icon-button #nextElement aria-label="Następny slajd">
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </div>
+  </div>
 </div>

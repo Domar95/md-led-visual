@@ -1,70 +1,98 @@
-@use "@angular/material" as mat;
+@use "src/styles/colors.scss" as colors;
 @use "src/styles/layouts.scss" as layouts;
 
-.features-wrapper {
-  width: 100%;
-  background: linear-gradient(to bottom, #786cbf 10%, transparent 10%);
-}
-
 .features-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
   max-width: layouts.$content-width;
   margin: 0 auto;
-  padding-bottom: 100px;
-  &.handset {
-    flex-direction: column;
-    align-items: center;
-    padding-bottom: 50px;
-    gap: 30px;
+  padding: 0 24px 120px;
+  box-sizing: border-box;
+}
+
+.feature-card {
+  position: relative;
+  height: 100%;
+  padding: 36px 32px 40px;
+  box-sizing: border-box;
+  border-radius: 24px;
+  border: 1px solid transparent;
+  background: linear-gradient(colors.$home-surface, colors.$home-surface)
+      padding-box,
+    linear-gradient(160deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.03))
+      border-box;
+  overflow: hidden;
+  transition: box-shadow 0.4s ease;
+
+  // glow that lights up on hover
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      circle at 20% 0%,
+      rgba(139, 123, 255, 0.22),
+      transparent 60%
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+
+  &:hover {
+    background: linear-gradient(colors.$home-surface, colors.$home-surface)
+        padding-box,
+      colors.$accent-gradient border-box;
+    box-shadow: 0 20px 60px -20px rgba(139, 123, 255, 0.45);
+
+    &::before {
+      opacity: 1;
+    }
   }
 }
 
-.features-card {
-  display: flex;
-  align-items: center;
-  text-align: justify;
-  width: 300px;
-  padding-top: 30px;
-  padding-bottom: 70px;
-
-  @include mat.card-overrides(
-    (
-      outlined-outline-width: 1,
-    )
-  );
-
-  &.handset {
-    padding-top: 15px;
-    padding-bottom: 35px;
-  }
+.icon-tile {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: colors.$accent-gradient;
+  box-shadow: 0 8px 24px -6px rgba(227, 87, 216, 0.5);
 }
 
-.features-card .icon {
-  width: 40px;
-  height: 40px;
-  &.handset {
-    width: 30px;
-    height: 30px;
-  }
+.icon {
+  width: 28px;
+  height: 28px;
+  // source icons are black line art
+  filter: invert(1);
+  mix-blend-mode: screen;
 }
 
-.features-card .header {
-  color: var(--mat-sys-secondary);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
+.index {
+  position: absolute;
+  top: 32px;
+  right: 32px;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.title {
+  margin: 28px 0 12px;
+  font-family: "Inter", sans-serif;
   font-size: 24px;
-  padding-bottom: 25px;
-  &.handset {
-    font-size: 20px;
-    padding-bottom: 10px;
-  }
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: colors.$home-text;
 }
 
-.features-card .content {
-  padding-left: 30px;
-  padding-right: 30px;
+.description {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: colors.$home-text-muted;
 }

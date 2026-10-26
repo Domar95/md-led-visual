@@ -30,11 +30,15 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptorsFromDi()),
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideStorage(() => getStorage()),
-    provideAppCheck(() =>
-      initializeAppCheck(getApp(), {
+    provideAppCheck(() => {
+      // Prints a debug token to the console; register it in Firebase Console > App Check
+      if (environment.appCheckDebug) {
+        (self as any).FIREBASE_APPCHECK_DEBUG_TOKEN = true;
+      }
+      return initializeAppCheck(getApp(), {
         provider: new ReCaptchaV3Provider(environment.recaptchaSiteKey),
         isTokenAutoRefreshEnabled: true,
-      })
-    ),
+      });
+    }),
   ],
 };

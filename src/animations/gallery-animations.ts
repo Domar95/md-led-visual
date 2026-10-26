@@ -12,15 +12,15 @@ export const galleryThumbnailsTrigger = trigger('galleryThumbnailsTrigger', [
     query(
       ':enter',
       [
-        style({ opacity: 0, transform: 'scale(0.8)' }),
-        stagger(100, [
+        style({ opacity: 0, transform: 'translateY(16px)' }),
+        stagger(40, [
           animate(
-            '300ms ease-in',
-            style({ opacity: 1, transform: 'scale(1)' })
+            '450ms cubic-bezier(0.2, 0.7, 0.2, 1)',
+            style({ opacity: 1, transform: 'none' })
           ),
         ]),
       ],
-      { optional: true }
+      { optional: true, limit: 18 }
     ),
   ]),
 ]);

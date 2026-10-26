@@ -1,4 +1,13 @@
-import { Component, Input } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  OnDestroy,
+  ViewChild,
+} from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import Swiper from 'swiper';
 import {
   Autoplay,
@@ -14,16 +23,20 @@ import { SliderOverlayComponent } from './slider-overlay/slider-overlay.componen
 
 @Component({
   selector: 'mdlv-slider',
-  imports: [SliderOverlayComponent],
+  imports: [SliderOverlayComponent, MatButtonModule, MatIconModule],
   templateUrl: './slider.component.html',
   styleUrl: './slider.component.scss',
 })
-export class SliderComponent {
+export class SliderComponent implements AfterViewInit, OnDestroy {
   @Input({ required: true }) images!: SlideshowImage[];
-
+  @ViewChild('swiperElement') swiperElement!: ElementRef<HTMLElement>;
+  @ViewChild('paginationElement') paginationElement!: ElementRef<HTMLElement>;
+  @ViewChild('prevElement', { read: ElementRef })
+  prevElement!: ElementRef<HTMLElement>;
+  @ViewChild('nextElement', { read: ElementRef })
+  nextElement!: ElementRef<HTMLElement>;
   swiper!: Swiper;
   activeSlideIndex = 0;
-
   isHandset!: boolean;
 
   constructor(private responsiveLayoutService: ResponsiveLayoutService) {}
@@ -32,25 +45,29 @@ export class SliderComponent {
     this.responsiveLayoutService.isHandset$.subscribe((isHandset) => {
       this.isHandset = isHandset;
     });
+  }
 
-    this.swiper = new Swiper('.heroSwiper', {
+  // slides are rendered by now, so Swiper sees all of them
+  ngAfterViewInit() {
+    this.swiper = new Swiper(this.swiperElement.nativeElement, {
       modules: [Navigation, Pagination, Autoplay, Keyboard, EffectFade],
       effect: 'fade',
       fadeEffect: {
         crossFade: true,
       },
-      speed: 1400,
-      centeredSlides: true,
+      speed: 900,
+      autoHeight: true,
       autoplay: {
         delay: 5000,
         disableOnInteraction: false,
+        pauseOnMouseEnter: true,
       },
       navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
+        prevEl: this.prevElement.nativeElement,
+        nextEl: this.nextElement.nativeElement,
       },
       pagination: {
-        el: '.swiper-pagination',
+        el: this.paginationElement.nativeElement,
         clickable: true,
       },
       keyboard: {
@@ -63,5 +80,9 @@ export class SliderComponent {
         },
       },
     });
+  }
+
+  ngOnDestroy() {
+    this.swiper?.destroy();
   }
 }

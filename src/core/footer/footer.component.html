@@ -1,13 +1,28 @@
-<div class="footer-container" [class.handset]="isHandset">
-  <div class="footer-section" [class.handset]="isHandset">
-    <mdlv-footer-about></mdlv-footer-about>
-    <mdlv-footer-contact></mdlv-footer-contact>
-    <mdlv-footer-navigation></mdlv-footer-navigation>
+<footer class="footer" [class.handset]="isHandset">
+  <div class="footer-container">
+    @if (showCta) {
+    <div class="cta">
+      <div>
+        <span class="eyebrow">Masz wydarzenie?</span>
+        <h2 class="cta-title">Porozmawiajmy o Twoim evencie</h2>
+      </div>
+      <a mat-flat-button class="cta-button" [routerLink]="['/kontakt']">
+        Napisz do nas
+        <mat-icon iconPositionEnd>arrow_forward</mat-icon>
+      </a>
+    </div>
+    }
+
+    <div class="footer-section">
+      <mdlv-footer-about></mdlv-footer-about>
+      <mdlv-footer-contact></mdlv-footer-contact>
+      <mdlv-footer-navigation></mdlv-footer-navigation>
+    </div>
+
+    <div class="footer-bottom">
+      <mdlv-footer-bottom></mdlv-footer-bottom>
+    </div>
   </div>
 
-  <mat-divider></mat-divider>
-
-  <div class="footer-section" [class.handset]="isHandset">
-    <mdlv-footer-bottom></mdlv-footer-bottom>
-  </div>
-</div>
+  <div class="wordmark" aria-hidden="true">MD LED VISUAL</div>
+</footer>
