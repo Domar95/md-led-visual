@@ -1,28 +1,34 @@
-<footer class="footer" [class.handset]="isHandset">
-  <div class="footer-container">
-    @if (showCta) {
-    <div class="cta">
-      <div>
-        <span class="eyebrow">Masz wydarzenie?</span>
-        <h2 class="cta-title">Porozmawiajmy o Twoim evencie</h2>
-      </div>
-      <a mat-flat-button class="cta-button" [routerLink]="['/kontakt']">
+<footer class="footer">
+  @if (showCta) {
+  <section class="cta" aria-labelledby="footer-cta-title">
+    <div class="cta-text">
+      <span class="label">Masz wydarzenie?</span>
+      <h2 class="cta-title" id="footer-cta-title">
+        Porozmawiajmy o&nbsp;Twoim wydarzeniu
+      </h2>
+    </div>
+    <div class="cta-actions">
+      <a mat-flat-button class="cta-primary" [routerLink]="['/kontakt']">
         Napisz do nas
         <mat-icon iconPositionEnd>arrow_forward</mat-icon>
       </a>
+      <a class="cta-phone" href="tel:+48795641741">
+        <mat-icon aria-hidden="true">call</mat-icon>
+        +48 795 641 741
+      </a>
     </div>
-    }
+  </section>
+  }
 
-    <div class="footer-section">
-      <mdlv-footer-about></mdlv-footer-about>
+  <div class="columns">
+    <div class="columns-grid">
+      <mdlv-footer-about class="column-about"></mdlv-footer-about>
       <mdlv-footer-contact></mdlv-footer-contact>
       <mdlv-footer-navigation></mdlv-footer-navigation>
     </div>
-
-    <div class="footer-bottom">
-      <mdlv-footer-bottom></mdlv-footer-bottom>
-    </div>
   </div>
 
-  <div class="wordmark" aria-hidden="true">MD LED VISUAL</div>
+  <div class="bottom">
+    <mdlv-footer-bottom></mdlv-footer-bottom>
+  </div>
 </footer>

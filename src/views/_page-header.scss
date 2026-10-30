@@ -1,0 +1,65 @@
+@use "src/styles/colors.scss" as colors;
+@use "src/styles/layouts.scss" as layouts;
+@use "src/styles/mixins.scss" as mixins;
+
+/*
+ * Shared layout of inner pages (gallery, pricing, contact, about).
+ * Markup: <section class="…-page"> <header class="header">
+ *           <span class="label"> <h1 class="title"> <p class="lead">
+ * Wrap a word or two of the title in <span class="highlight"> to draw the
+ * marker under it.
+ */
+@mixin page {
+  @include mixins.container;
+  display: block;
+  padding-top: layouts.$page-top;
+  padding-bottom: layouts.$section-space;
+}
+
+@mixin header {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  justify-items: start;
+  gap: 16px;
+  padding-bottom: clamp(32px, 4vw, 48px);
+  margin-bottom: clamp(32px, 4vw, 48px);
+  border-bottom: 1px solid colors.$line;
+  @include mixins.stagger-in(3);
+
+  // LED pixel field glowing in from the top right, as behind the home hero
+  &::before {
+    content: "";
+    position: absolute;
+    top: calc(-1 * #{layouts.$page-top});
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    width: min(560px, 60%);
+    @include mixins.dot-matrix(colors.$line-strong, 16px, 2px);
+    mask-image: radial-gradient(
+      ellipse 100% 100% at 100% 0%,
+      #000,
+      transparent 70%
+    );
+    pointer-events: none;
+  }
+
+  .highlight {
+    margin-inline: -0.06em;
+    @include mixins.highlight-draw;
+  }
+
+  .label {
+    @include mixins.label;
+  }
+
+  .title {
+    @include mixins.display-title(56px, 36px);
+    max-width: 18ch;
+  }
+
+  .lead {
+    @include mixins.lead;
+  }
+}

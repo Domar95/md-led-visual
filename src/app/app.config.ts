@@ -4,7 +4,11 @@ import {
 } from '@angular/common/http';
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { provideRouter, withInMemoryScrolling } from '@angular/router';
+import {
+  provideRouter,
+  TitleStrategy,
+  withInMemoryScrolling,
+} from '@angular/router';
 import { getApp, initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideStorage, getStorage } from '@angular/fire/storage';
 import {
@@ -14,6 +18,7 @@ import {
 } from '@angular/fire/app-check';
 
 import { routes } from './app.routes';
+import { PageTitleStrategy } from './page-title.strategy';
 import { environment } from 'src/environments/environment';
 
 export const appConfig: ApplicationConfig = {
@@ -22,10 +27,12 @@ export const appConfig: ApplicationConfig = {
     provideRouter(
       routes,
       withInMemoryScrolling({
-        scrollPositionRestoration: 'enabled',
+        // restored through Lenis in ScrollService, so it stays in sync
+        scrollPositionRestoration: 'disabled',
         anchorScrolling: 'enabled',
       })
     ),
+    { provide: TitleStrategy, useClass: PageTitleStrategy },
     provideAnimationsAsync(),
     provideHttpClient(withInterceptorsFromDi()),
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
@@ -33,7 +40,9 @@ export const appConfig: ApplicationConfig = {
     provideAppCheck(() => {
       // Prints a debug token to the console; register it in Firebase Console > App Check
       if (environment.appCheckDebug) {
-        (self as any).FIREBASE_APPCHECK_DEBUG_TOKEN = true;
+        (
+          self as unknown as { FIREBASE_APPCHECK_DEBUG_TOKEN?: boolean }
+        ).FIREBASE_APPCHECK_DEBUG_TOKEN = true;
       }
       return initializeAppCheck(getApp(), {
         provider: new ReCaptchaV3Provider(environment.recaptchaSiteKey),

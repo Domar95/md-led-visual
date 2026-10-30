@@ -1,0 +1,78 @@
+@use "src/styles/colors.scss" as colors;
+@use "src/styles/layouts.scss" as layouts;
+@use "src/styles/mixins.scss" as mixins;
+
+/*
+ * A dark band across the page, lit like the hero: big figures in a row,
+ * divided by hairlines; two by two on phones. It opens the "proof" part of
+ * the page, right before the reviews.
+ */
+.stats {
+  margin-top: layouts.$section-space;
+  padding-block: clamp(36px, 5vw, 64px);
+  background:
+    radial-gradient(
+      ellipse 40% 140% at 88% 0%,
+      rgba(colors.$glow, 0.4),
+      transparent
+    ),
+    radial-gradient(
+      ellipse 30% 120% at 8% 100%,
+      rgba(colors.$led-magenta, 0.14),
+      transparent
+    ),
+    colors.$inverse-bg;
+  color: colors.$inverse-text;
+}
+
+.list {
+  @include mixins.container;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  margin-block: 0;
+  list-style: none;
+
+  @include mixins.handset {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 24px;
+  }
+}
+
+.stat {
+  display: grid;
+  gap: 4px;
+  align-content: start;
+  padding-inline: clamp(16px, 2.5vw, 32px);
+
+  & + & {
+    border-left: 1px solid colors.$inverse-line;
+  }
+
+  &:first-child {
+    padding-left: 0;
+  }
+
+  @include mixins.handset {
+    padding-inline: 0 12px;
+
+    & + & {
+      border-left: 0;
+    }
+  }
+}
+
+.value {
+  @include mixins.display-title(40px, 28px);
+  font-variant-numeric: tabular-nums;
+  color: colors.$inverse-text;
+}
+
+.visually-hidden {
+  @include mixins.visually-hidden;
+}
+
+.stat-label {
+  font-size: 15px;
+  line-height: 1.45;
+  color: colors.$inverse-muted;
+}

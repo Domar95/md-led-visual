@@ -1,28 +1,79 @@
-<section class="hero" [class.handset]="isHandset">
-  <div class="hero-background"></div>
-  <div class="hero-content">
-    <span class="eyebrow">MD LED Visual</span>
-    <h1 class="title">
-      Wynajem ekranów LED<br class="title-break" />
-      <span class="gradient-text">i telebimów</span>
-    </h1>
-    <p class="text">
-      Nowoczesne ekrany, oświetlenie i efekty specjalne. Profesjonalna obsługa
-      wizualna. Skontaktuj się z nami, a my zajmiemy się resztą.
-    </p>
-    <div class="actions">
-      <a mat-flat-button class="cta-primary" [routerLink]="['/kontakt']">
-        Skontaktuj się z nami
-        <mat-icon iconPositionEnd>arrow_forward</mat-icon>
-      </a>
-      <a mat-stroked-button class="cta-secondary" [routerLink]="['/galeria']">
-        Zobacz realizacje
+<section class="hero" [class.autoplay]="autoplay">
+  <!-- full-bleed slideshow behind everything, darkened where the text sits -->
+  <div class="hero-media">
+    @for (slide of slides; track slide.file; let first = $first) {
+    @if (imageUrls()[slide.file]; as url) {
+    <img
+      class="hero-image"
+      [class.active]="isActive(slide)"
+      [src]="url"
+      [alt]="slide.alt"
+      [attr.aria-hidden]="isActive(slide) ? null : true"
+      [attr.fetchpriority]="first ? 'high' : 'low'"
+      (load)="onImageLoad(slide.file)"
+      (error)="onImageError(slide.file)"
+    />
+    }
+    }
+  </div>
+
+  <div class="hero-inner">
+    <div class="hero-content">
+      <span class="label">Oprawa wizualna wydarzeń w całej Polsce</span>
+      <h1 class="title">
+        Wynajem <span class="highlight">ekranów LED</span> i telebimów
+      </h1>
+      <p class="lead">
+        Ekrany LED, oświetlenie sceniczne i efekty specjalne na koncerty, eventy
+        firmowe i uroczystości. Z kompleksową obsługą realizacji.
+      </p>
+      <div class="actions">
+        <a mat-flat-button class="cta-primary" [routerLink]="['/kontakt']">
+          Zapytaj o termin
+          <mat-icon iconPositionEnd>arrow_forward</mat-icon>
+        </a>
+        <a mat-stroked-button class="cta-secondary" [routerLink]="['/galeria']">
+          Zobacz realizacje
+        </a>
+      </div>
+      <a class="phone" href="tel:+48795641741">
+        <mat-icon aria-hidden="true">call</mat-icon>
+        lub zadzwoń: +48 795 641 741
       </a>
     </div>
-    <ul class="services">
-      @for (service of services; track service) {
-      <li>{{ service }}</li>
+
+    <div class="hero-bottom">
+      <ul class="chips" aria-label="Usługi">
+        @for (service of services; track service.name) {
+        <li class="chip" [attr.data-light]="service.light">{{ service.name }}</li>
+        }
+      </ul>
+
+      @if (activeSlide(); as slide) {
+      <div class="slides">
+        <!-- re-created per slide, so each caption fades in -->
+        @for (current of [slide]; track current.file) {
+        <span class="caption">{{ current.caption }}</span>
+        }
+        @if (steps().length > 1) {
+        <div class="progress">
+          @for (step of steps(); track step.file) {
+          <button
+            type="button"
+            class="progress-step"
+            [class.active]="step === slide"
+            [disabled]="!isLoaded(step)"
+            [attr.aria-label]="'Pokaż zdjęcie: ' + step.caption"
+            [attr.aria-current]="step === slide ? true : null"
+            (click)="goTo(step)"
+          >
+            <span class="progress-bar"></span>
+          </button>
+          }
+        </div>
+        }
+      </div>
       }
-    </ul>
+    </div>
   </div>
 </section>

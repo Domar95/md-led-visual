@@ -1,11 +1,14 @@
+@use "src/styles/mixins.scss" as mixins;
+
+/* Channels left, form right; stacked with channels first on smaller screens */
 .contact-container {
   display: grid;
-  grid-template-columns: 5fr 7fr;
-  gap: 48px;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(32px, 5vw, 64px);
   align-items: start;
 
-  @media (max-width: 899.98px) {
-    grid-template-columns: 1fr;
-    gap: 32px;
+  @include mixins.tablet-down {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
   }
 }

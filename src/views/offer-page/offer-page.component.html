@@ -1,0 +1,26 @@
+<section class="offer-page">
+  <header class="header">
+    <span class="label">Oferta</span>
+    <h1 class="title">
+      Sprzęt, realizacje i&nbsp;<span class="highlight">odpowiedzi</span>
+    </h1>
+    <p class="lead">
+      Jakie ekrany mamy, jak wyglądały podobne wydarzenia i o co klienci pytają
+      najczęściej przed rezerwacją.
+    </p>
+  </header>
+
+  <mdlv-equipment class="part"></mdlv-equipment>
+  <mdlv-case-studies class="part"></mdlv-case-studies>
+  <mdlv-faq class="part"></mdlv-faq>
+
+  <div class="next">
+    <a mat-flat-button class="cta-primary" [routerLink]="['/kontakt']">
+      Zapytaj o termin
+      <mat-icon iconPositionEnd>arrow_forward</mat-icon>
+    </a>
+    <a mat-stroked-button class="cta-secondary" [routerLink]="['/wycena']">
+      Sprawdź orientacyjny koszt
+    </a>
+  </div>
+</section>

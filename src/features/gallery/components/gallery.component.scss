@@ -1,4 +1,5 @@
 @use "src/styles/colors.scss" as colors;
+@use "src/styles/layouts.scss" as layouts;
 @use "src/styles/mixins.scss" as mixins;
 
 .skeleton-grid {
@@ -9,34 +10,37 @@
   background: linear-gradient(
       100deg,
       transparent 30%,
-      rgba(255, 255, 255, 0.05) 50%,
+      colors.$shimmer 50%,
       transparent 70%
     )
-    colors.$home-surface;
+    colors.$surface-sunken;
   background-size: 200% 100%;
-  border: 1px solid colors.$home-border;
   animation: shimmer 1.6s linear infinite;
 }
 
 .empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  padding: 96px 24px;
-  border-radius: 24px;
-  border: 1px dashed colors.$home-border;
-  color: colors.$home-text-muted;
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+  padding: clamp(32px, 5vw, 56px);
+  border: 1px dashed colors.$line-strong;
+  border-radius: layouts.$radius-m;
+}
 
-  mat-icon {
-    font-size: 40px;
-    width: 40px;
-    height: 40px;
-    color: colors.$accent-violet;
-  }
+.empty-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: colors.$text;
+}
 
-  p {
-    margin: 0;
+.empty-text {
+  @include mixins.body-text;
+  margin: 0;
+
+  a {
+    @include mixins.text-link;
+    color: colors.$text;
   }
 }
 

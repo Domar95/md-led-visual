@@ -1,3 +1,9 @@
-<a mat-icon-button [href]="url" target="_blank">
-  <mat-icon [svgIcon]="category" [attr.aria-label]="category + ' button'"></mat-icon>
+<a
+  class="social"
+  [href]="url"
+  target="_blank"
+  rel="noopener noreferrer"
+  [attr.aria-label]="label"
+>
+  <mat-icon [svgIcon]="category" aria-hidden="true"></mat-icon>
 </a>

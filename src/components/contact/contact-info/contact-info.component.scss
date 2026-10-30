@@ -1,103 +1,114 @@
 @use "src/styles/colors.scss" as colors;
+@use "src/styles/layouts.scss" as layouts;
 @use "src/styles/mixins.scss" as mixins;
 
 :host {
   display: block;
 }
 
-.eyebrow {
-  @include mixins.eyebrow;
-}
-
 .title {
-  @include mixins.display-title(48px);
-  margin-top: 16px;
-
-  @media (max-width: 599.98px) {
-    font-size: 34px;
-  }
-}
-
-.gradient-text {
-  @include mixins.gradient-text;
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: colors.$text;
 }
 
 .text {
-  max-width: 420px;
-  margin: 20px 0 0;
-  font-size: 17px;
-  font-weight: 300;
-  line-height: 1.65;
-  color: colors.$home-text-muted;
+  @include mixins.body-text;
+  margin: 8px 0 24px;
 }
 
+/* Direct channels: whole row is the link, icon tile, label over a large value */
 .channels {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin: 36px 0 0;
+  display: grid;
+  gap: 8px;
+  margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .channel {
+  @include mixins.card;
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 14px 18px 14px 14px;
-  border-radius: 18px;
-  border: 1px solid colors.$home-border;
-  background: colors.$home-surface;
-  color: colors.$home-text;
+  min-height: 80px;
+  padding: 16px 20px;
+  box-sizing: border-box;
+  color: colors.$text;
   text-decoration: none;
-  transition: border-color 0.3s ease, transform 0.3s ease;
+  transition: border-color 0.2s ease;
+  @include mixins.spotlight(rgba(colors.$highlight, 0.28));
 
-  &:hover {
-    border-color: rgba(139, 123, 255, 0.5);
-    transform: translateX(4px);
+  @include mixins.hover {
+    border-color: colors.$line-strong;
 
-    .icon-tile {
-      background: colors.$accent-gradient;
-      border-color: transparent;
+    .channel-icon {
+      background: colors.$highlight-fill;
     }
+
+    .channel-arrow {
+      transform: translateX(4px);
+    }
+  }
+
+  @include mixins.handset {
+    gap: 14px;
+    padding: 14px 16px;
   }
 }
 
-.icon-tile {
+.channel-icon {
   display: grid;
   place-items: center;
-  flex-shrink: 0;
+  flex: none;
   width: 44px;
   height: 44px;
-  border-radius: 12px;
-  border: 1px solid colors.$home-border;
-  background: rgba(255, 255, 255, 0.04);
-  transition: background 0.3s ease;
+  border-radius: layouts.$radius-s;
+  background: colors.$surface-sunken;
+  color: colors.$text;
+  transition: background-color 0.2s ease;
 
   mat-icon {
-    font-size: 20px;
-    width: 20px;
-    height: 20px;
+    font-size: 22px;
+    width: 22px;
+    height: 22px;
   }
+}
+
+// the phone is the fastest way in: always lit
+li:first-child .channel-icon {
+  background: colors.$highlight-fill;
+  color: colors.$on-highlight;
 }
 
 .channel-text {
   display: flex;
+  flex: 1;
   flex-direction: column;
   gap: 2px;
+  min-width: 0;
 }
 
 .channel-label {
-  font-size: 13px;
-  color: colors.$home-text-muted;
+  font-size: 15px;
+  color: colors.$text-muted;
 }
 
 .channel-value {
-  font-size: 16px;
-  font-weight: 500;
+  font-size: mixins.fluid(20px, 24px);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  overflow-wrap: anywhere;
 }
 
 .channel-arrow {
-  margin-left: auto;
-  color: colors.$home-text-muted;
+  flex: none;
+  color: colors.$text-muted;
+  transition: transform 0.3s mixins.$ease-out;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
 }

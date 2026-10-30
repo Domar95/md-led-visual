@@ -4,21 +4,25 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import {
   FeaturesComponent,
   HeroComponent,
-  OfferBannerComponent,
   OfferPresentationComponent,
-  SlideshowComponent,
+  ProcessComponent,
+  ShowreelComponent,
+  StatsComponent,
+  TestimonialsComponent,
 } from '@components/index';
 import { routeAnimationsState } from 'src/animations/route-animations';
 
 @Component({
   selector: 'mdlv-home-page',
   imports: [
-    SlideshowComponent,
     RouterModule,
     OfferPresentationComponent,
-    OfferBannerComponent,
     FeaturesComponent,
     HeroComponent,
+    ProcessComponent,
+    ShowreelComponent,
+    StatsComponent,
+    TestimonialsComponent,
   ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',

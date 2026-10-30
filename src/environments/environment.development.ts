@@ -11,4 +11,6 @@ export const environment = {
   recaptchaSiteKey: '6Lc0LdgqAAAAAPkjqlF2O24bL7IVFJE7KQPxFcHl',
   appCheckDebug: true,
   imageBaseUrl: '/public/images',
+  // show the made-up sample content (see src/content/site-content.ts)
+  showPlaceholderContent: true,
 };

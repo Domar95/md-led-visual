@@ -1,0 +1,25 @@
+@use "src/styles/layouts.scss" as layouts;
+@use "src/styles/mixins.scss" as mixins;
+
+// monochrome; inherits colour from wherever it is placed
+.social {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  box-sizing: border-box;
+  border: 1px solid currentColor;
+  border-radius: layouts.$radius-s;
+  color: inherit;
+  opacity: 0.72;
+  transition: opacity 0.2s ease;
+
+  @include mixins.hover {
+    opacity: 1;
+  }
+
+  mat-icon {
+    width: 20px;
+    height: 20px;
+  }
+}

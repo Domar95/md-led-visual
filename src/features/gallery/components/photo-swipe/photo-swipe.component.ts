@@ -5,7 +5,6 @@ import {
   Input,
   OnDestroy,
 } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
 import PhotoSwipeLightbox from 'photoswipe/lightbox';
 import PhotoSwipe from 'photoswipe';
 
@@ -13,7 +12,7 @@ import { GalleryImage } from 'src/features/gallery/models/gallery.model';
 
 @Component({
   selector: 'mdlv-photo-swipe',
-  imports: [MatIconModule],
+  imports: [],
   templateUrl: './photo-swipe.component.html',
   styleUrl: './photo-swipe.component.scss',
 })

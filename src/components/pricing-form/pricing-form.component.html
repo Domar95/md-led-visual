@@ -1,23 +1,31 @@
 <div class="pricing" [formGroup]="pricingForm">
   <div class="steps">
     <fieldset class="step">
-      <legend><span class="step-number">01</span> Miejsce</legend>
+      <legend class="step-title">
+        <span class="step-number" aria-hidden="true">1</span>
+        Miejsce
+      </legend>
       <div class="options cols-2">
         @for (option of placeOptions; track option.value) {
         <label class="option">
           <input type="radio" formControlName="place" [value]="option.value" />
-          <mat-icon class="option-icon">{{ option.icon }}</mat-icon>
-          <span class="option-label">{{ option.label }}</span>
-          @if (option.price) {
-          <span class="option-price">+{{ option.price }} zł</span>
-          }
+          <span class="option-check" aria-hidden="true"></span>
+          <span class="option-text">
+            <span class="option-label">{{ option.label }}</span>
+            <span class="option-price">
+              {{ option.price ? '+' + option.price + ' zł' : 'W cenie' }}
+            </span>
+          </span>
         </label>
         }
       </div>
     </fieldset>
 
     <fieldset class="step">
-      <legend><span class="step-number">02</span> Rodzaj wydarzenia</legend>
+      <legend class="step-title">
+        <span class="step-number" aria-hidden="true">2</span>
+        Rodzaj wydarzenia
+      </legend>
       <div class="options cols-2">
         @for (option of categoryOptions; track option.value) {
         <label class="option">
@@ -26,47 +34,58 @@
             formControlName="category"
             [value]="option.value"
           />
-          <mat-icon class="option-icon">{{ option.icon }}</mat-icon>
-          <span class="option-label">{{ option.label }}</span>
+          <span class="option-check" aria-hidden="true"></span>
+          <span class="option-text">
+            <span class="option-label">{{ option.label }}</span>
+          </span>
         </label>
         }
       </div>
     </fieldset>
 
     <fieldset class="step">
-      <legend><span class="step-number">03</span> Wymiary ekranu</legend>
+      <legend class="step-title">
+        <span class="step-number" aria-hidden="true">3</span>
+        Wymiary ekranu
+      </legend>
       <div class="options cols-3">
-        @for (option of sizeOptions; track option.value; let i = $index) {
+        @for (option of sizeOptions; track option.value) {
         <label class="option size-option">
           <input type="radio" formControlName="size" [value]="option.value" />
-          <span class="screen-preview">
-            <span class="screen" [style.height.%]="(i + 1) * 30"></span>
+          <span class="option-check" aria-hidden="true"></span>
+          <span class="screen-preview" aria-hidden="true">
+            <span
+              class="screen"
+              [style.aspectRatio]="screenRatio(option)"
+            ></span>
           </span>
-          <span class="option-label">{{ option.label }}</span>
-          @if (option.price) {
-          <span class="option-price">+{{ option.price }} zł</span>
-          }
+          <span class="option-text">
+            <span class="option-label">{{ option.label }}</span>
+            <span class="option-price">
+              {{ option.price ? '+' + option.price + ' zł' : 'W cenie' }}
+            </span>
+          </span>
         </label>
         }
       </div>
     </fieldset>
   </div>
 
-  <aside class="summary">
-    <span class="summary-label">Orientacyjny koszt</span>
-    <div class="price">
+  <aside class="summary" aria-labelledby="summary-label" #summary>
+    <h2 class="summary-label" id="summary-label">Orientacyjny koszt</h2>
+    <p class="price" aria-live="polite">
       <span class="price-value" [@priceChange]="price">{{ price }}</span>
       <span class="price-currency">zł</span>
-    </div>
+    </p>
 
-    <ul class="summary-list">
-      @for (option of selectedOptions; track option.value) {
-      <li>
-        <mat-icon>check</mat-icon>
-        {{ option.label }}
-      </li>
+    <dl class="summary-list">
+      @for (option of selectedOptions; track option.value; let i = $index) {
+      <div class="summary-row">
+        <dt>{{ summaryLabels[i] }}</dt>
+        <dd>{{ option.label }}</dd>
+      </div>
       }
-    </ul>
+    </dl>
 
     <a
       mat-flat-button
@@ -83,4 +102,21 @@
       szczegółów wydarzenia.
     </p>
   </aside>
+
+  <!-- phones: price stays in reach while choosing; hides once the summary shows -->
+  <div class="mobile-bar" [class.hidden]="summaryInView()" aria-hidden="true">
+    <div class="mobile-price">
+      <span class="mobile-price-label">Orientacyjnie</span>
+      <span class="mobile-price-value">{{ price }} zł</span>
+    </div>
+    <a
+      mat-flat-button
+      class="mobile-cta"
+      tabindex="-1"
+      [routerLink]="['/kontakt']"
+      [queryParams]="{ wiadomosc: inquiryMessage }"
+    >
+      Zapytaj o termin
+    </a>
+  </div>
 </div>

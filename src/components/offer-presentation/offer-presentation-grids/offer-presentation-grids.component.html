@@ -1,20 +1,34 @@
-<div class="bento" [class.handset]="isHandset">
+<ul class="grid">
   @for (category of categories; track category.route; let i = $index) {
-  <a
-    class="tile"
-    [routerLink]="[category.route]"
-    mdlvReveal
-    [style.--reveal-delay]="i * 80 + 'ms'"
-  >
-    <div
-      class="tile-image"
-      [style.backgroundImage]="images[i] ? 'url(' + images[i] + ')' : null"
-    ></div>
-    <div class="tile-content">
-      <h3 class="tile-title">{{ category.title }}</h3>
-      <p class="tile-description">{{ category.description }}</p>
-    </div>
-    <span class="tile-arrow"><mat-icon>arrow_outward</mat-icon></span>
-  </a>
+  <li mdlvReveal [style.--reveal-delay]="(i % 2) * 80 + 'ms'">
+    <a class="tile" [routerLink]="[category.route]">
+      <div class="tile-media">
+        @if (imageUrls[category.route]) {
+        <img
+          class="tile-image"
+          [src]="imageUrls[category.route]"
+          [alt]="category.title"
+          loading="lazy"
+        />
+        }
+      </div>
+      <div class="tile-content">
+        <div class="tile-text">
+          <h3 class="tile-title">{{ category.title }}</h3>
+          <p class="tile-description">{{ category.description }}</p>
+        </div>
+        <span class="tile-arrow" aria-hidden="true">
+          <mat-icon>arrow_forward</mat-icon>
+        </span>
+      </div>
+    </a>
+  </li>
   }
+</ul>
+
+<div class="all" mdlvReveal>
+  <a mat-stroked-button class="all-link" [routerLink]="[allLink.route]">
+    {{ allLink.title }}
+    <mat-icon iconPositionEnd>arrow_forward</mat-icon>
+  </a>
 </div>

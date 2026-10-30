@@ -11,4 +11,8 @@ export const environment = {
   recaptchaSiteKey: '6Lc0LdgqAAAAAPkjqlF2O24bL7IVFJE7KQPxFcHl',
   appCheckDebug: false,
   imageBaseUrl: '/public/images',
+  // Made-up sample content (see src/content/site-content.ts). ON for now:
+  // this build only goes to a test environment. Set back to false before
+  // the site goes live, or replace the samples with real content.
+  showPlaceholderContent: true,
 };

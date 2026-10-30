@@ -1,0 +1,32 @@
+@if (items.length) {
+<section class="case-studies">
+  <header class="header" mdlvReveal>
+    <span class="label">Realizacje</span>
+    <h2 class="section-title">Jak to wyglądało u innych</h2>
+  </header>
+
+  <ul class="list">
+    @for (item of items; track item.title; let i = $index) {
+    <li class="card" mdlvReveal [style.--reveal-delay]="i * 90 + 'ms'">
+      <span class="meta">{{ item.meta }}</span>
+      <h3 class="title">{{ item.title }}</h3>
+      <dl class="story">
+        <div>
+          <dt>Potrzeba</dt>
+          <dd>{{ item.need }}</dd>
+        </div>
+        <div>
+          <dt>Co przygotowaliśmy</dt>
+          <dd>{{ item.solution }}</dd>
+        </div>
+      </dl>
+      <!-- the gallery has categories, not albums per event -->
+      <a class="link" [routerLink]="['/galeria', item.category]">
+        Zobacz podobne realizacje
+        <mat-icon aria-hidden="true">arrow_forward</mat-icon>
+      </a>
+    </li>
+    }
+  </ul>
+</section>
+}

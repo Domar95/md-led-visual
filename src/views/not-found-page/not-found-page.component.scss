@@ -1,4 +1,69 @@
+@use "src/styles/colors.scss" as colors;
+@use "src/styles/layouts.scss" as layouts;
+@use "src/styles/mixins.scss" as mixins;
+
+:host {
+  display: block;
+}
+
 .not-found {
-  text-align: center;
-  margin-top: 50px;
+  @include mixins.container;
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  padding-top: clamp(64px, 12vw, 160px);
+  padding-bottom: clamp(80px, 12vw, 160px);
+  @include mixins.stagger-in(4);
+
+  // a switched-off LED panel: just the pixel field, glowing from the right
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0 layouts.$gutter 0 40%;
+    z-index: -1;
+    @include mixins.dot-matrix(colors.$line-strong, 16px, 2px);
+    mask-image: radial-gradient(closest-side, #000, transparent);
+    pointer-events: none;
+  }
+}
+
+.highlight {
+  margin-inline: -0.06em;
+  @include mixins.highlight-draw;
+}
+
+.label {
+  @include mixins.label;
+}
+
+.title {
+  @include mixins.display-title(56px, 36px);
+  max-width: 16ch;
+}
+
+.lead {
+  @include mixins.lead;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+
+  @include mixins.handset {
+    flex-direction: column;
+    align-self: stretch;
+  }
+}
+
+.cta-primary {
+  @include mixins.button-primary;
+}
+
+.cta-secondary {
+  @include mixins.button-secondary;
 }

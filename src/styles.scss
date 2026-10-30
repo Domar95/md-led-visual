@@ -1,87 +1,101 @@
 /* You can add global styles to this file, and also import other style files */
 @use "@angular/material" as mat;
-@use "swiper/css/bundle"; // TODO: check if this could be reduced
 @use "photoswipe/dist/photoswipe.css";
 
 @use "styles/colors" as colors;
 @use "styles/theme-colors" as theme-colors;
 @use "styles/layouts.scss" as layouts;
+@use "styles/mixins.scss" as mixins;
 
+// no scroll-behavior: smooth — Lenis smooths scrolling, and the CSS rule would
+// animate the jump to the top on route changes
 html {
-  scroll-behavior: smooth;
+  color-scheme: colors.$scheme;
+  background: colors.$bg;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 
   @include mat.theme(
     (
       color: (
+        theme-type: colors.$scheme,
         primary: theme-colors.$primary-palette,
         tertiary: theme-colors.$tertiary-palette,
       ),
+      typography: (
+        brand-family: mixins.$font-display,
+        plain-family: mixins.$font-body,
+      ),
+      density: 0,
+    )
+  );
+
+  @include mat.form-field-overrides(
+    (
+      outlined-container-shape: layouts.$radius-s,
+      outlined-outline-color: colors.$line-strong,
+      outlined-hover-outline-color: colors.$text-muted,
+      outlined-focus-outline-color: colors.$text,
+      outlined-focus-label-text-color: colors.$text,
+      outlined-error-outline-color: colors.$error,
+      outlined-error-label-text-color: colors.$error,
+      error-text-color: colors.$error,
+      // 16px stops iOS from zooming into focused fields
+      container-text-size: 16px,
+      outlined-label-text-size: 16px,
+    )
+  );
+
+  // the calendar opens in an overlay outside any component, so it's styled
+  // here: a white card like the rest of the site, picked day in ink
+  @include mat.datepicker-overrides(
+    (
+      calendar-container-background-color: colors.$surface,
+      calendar-container-shape: layouts.$radius-m,
+      calendar-container-touch-shape: layouts.$radius-m,
+      calendar-container-elevation-shadow:
+        0 18px 48px -12px rgba(colors.$inverse-bg, 0.35),
+      calendar-date-selected-state-background-color: colors.$text,
+      calendar-date-selected-state-text-color: colors.$on-accent,
+      calendar-date-today-outline-color: colors.$text,
+      calendar-date-hover-state-background-color: colors.$surface-sunken,
+      calendar-date-focus-state-background-color: colors.$surface-sunken,
     )
   );
 }
 
 body {
   margin: 0;
-  font-family: "Poppins", Roboto, "Helvetica Neue", sans-serif;
+  font-family: mixins.$font-body;
+  font-size: 17px;
+  line-height: 1.6;
+  color: colors.$text;
+  background: colors.$bg;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
-/* Material Toolbar variants */
-mat-toolbar {
-  top: 0;
-  z-index: 100;
-
-  /* Standard toolbar */
-  &.default {
-    @include mat.toolbar-overrides(
-      (
-        container-background-color: var(--mat-sys-primary),
-        container-text-color: var(--mat-sys-on-primary),
-      )
-    );
-    & {
-      position: sticky;
-    }
-  }
-
-  /* Homepage toolbar */
-  &.transparent {
-    @include mat.toolbar-overrides(
-      (
-        container-background-color: transparent,
-        container-text-color: colors.$home-text,
-      )
-    );
-    & {
-      position: fixed;
-      justify-content: center;
-      max-width: layouts.$content-width;
-      margin: 0 auto;
-      left: 0;
-      right: 0;
-    }
-  }
+::selection {
+  background: colors.$highlight;
+  color: colors.$on-highlight;
 }
 
-.slideshow-pagination .swiper-pagination-bullet {
-  width: 8px;
-  height: 8px;
-  border-radius: 4px;
-  background-color: colors.$home-text;
-  opacity: 0.4;
-  transition: width 0.4s ease, opacity 0.4s ease;
+:focus-visible {
+  outline: 2px solid colors.$text;
+  outline-offset: 3px;
 }
 
-.slideshow-pagination .swiper-pagination-bullet-active {
-  width: 32px;
-  opacity: 1;
+img {
+  max-width: 100%;
 }
 
 /* Scroll reveal, see RevealDirective */
 .reveal {
   opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) var(--reveal-delay, 0ms),
-    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) var(--reveal-delay, 0ms);
+  transform: translateY(12px);
+  transition: opacity 0.6s mixins.$ease-out var(--reveal-delay, 0ms),
+    transform 0.6s mixins.$ease-out var(--reveal-delay, 0ms);
 
   &.revealed {
     opacity: 1;
@@ -95,27 +109,38 @@ mat-toolbar {
   }
 }
 
-/* PhotoSwipe lightbox */
-.pswp {
-  --pswp-bg: #08070f;
-  --pswp-placeholder-bg: #100e1c;
+/* See the stagger-in mixin */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+/* See the highlight-draw mixin */
+@keyframes highlight-draw {
+  from {
+    background-size: 0% var(--marker-height);
+  }
 }
 
 /*
- * Navbar: hover and press layers live inside Material's button templates, so
- * they're styled here. While the active-link highlight slides (.animating),
- * they stay hidden and fade back in once it lands.
+ * Calendar: the month already shows in the header ("PAŹ 2026"), so drop the
+ * repeat Material puts in the first row of days. Hidden rather than removed,
+ * so the days beside it keep their columns; a row holding only the label goes.
  */
-mdlv-navbar .transparent-navbar-container {
-  .mat-mdc-button-persistent-ripple {
-    transition: opacity 0.2s ease;
+mat-month-view {
+  .mat-calendar-body-label {
+    visibility: hidden;
   }
 
-  &.animating {
-    .mat-mdc-button-persistent-ripple,
-    .mat-ripple {
-      opacity: 0;
-      transition: none;
-    }
+  tr:has(> .mat-calendar-body-label:only-child) {
+    display: none;
   }
+}
+
+/* PhotoSwipe lightbox stays dark: photos read best on black */
+.pswp {
+  --pswp-bg: #{colors.$inverse-bg};
+  --pswp-placeholder-bg: #{colors.$inverse-surface};
 }

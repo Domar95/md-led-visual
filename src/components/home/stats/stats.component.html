@@ -1,0 +1,14 @@
+@if (stats.length) {
+<section class="stats" aria-label="MD LED Visual w liczbach" #band>
+  <ul class="list">
+    @for (stat of stats; track stat.label; let i = $index) {
+    <li class="stat" mdlvReveal [style.--reveal-delay]="i * 80 + 'ms'">
+      <!-- screen readers get the final value, not every step of the count -->
+      <span class="value" aria-hidden="true">{{ display()[i] }}</span>
+      <span class="visually-hidden">{{ stat.value }}</span>
+      <span class="stat-label">{{ stat.label }}</span>
+    </li>
+    }
+  </ul>
+</section>
+}

@@ -1,0 +1,101 @@
+@use "src/styles/colors.scss" as colors;
+@use "src/styles/mixins.scss" as mixins;
+
+:host {
+  display: block;
+}
+
+// label and title, as in the equipment and FAQ sections beside it
+.header {
+  display: grid;
+  gap: 16px;
+  margin-bottom: clamp(24px, 3vw, 36px);
+}
+
+.label {
+  @include mixins.label;
+}
+
+.section-title {
+  @include mixins.display-title(32px, 26px);
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include mixins.tablet-down {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+.card {
+  @include mixins.card;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(20px, 3vw, 28px);
+}
+
+.meta {
+  font-size: 14px;
+  font-weight: 500;
+  color: colors.$text-subtle;
+}
+
+.title {
+  @include mixins.display-title(21px, 19px);
+  margin-top: 6px;
+}
+
+/* Two short paragraphs, each under a small label */
+.story {
+  display: grid;
+  gap: 12px;
+  margin: 16px 0 0;
+
+  dt {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: colors.$text-muted;
+  }
+
+  dd {
+    margin: 2px 0 0;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  min-height: 44px;
+  margin-top: auto;
+  padding-top: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: colors.$text;
+  text-decoration: none;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    transition: transform 0.3s mixins.$ease-out;
+  }
+
+  @include mixins.hover {
+    mat-icon {
+      transform: translateX(4px);
+    }
+  }
+}

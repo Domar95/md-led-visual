@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'mdlv-footer-contact',
-  imports: [MatIconModule],
+  imports: [],
   templateUrl: './footer-contact.component.html',
   styleUrl: './footer-contact.component.scss',
 })

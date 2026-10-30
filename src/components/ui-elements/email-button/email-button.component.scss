@@ -1,0 +1,13 @@
+@use "src/styles/colors.scss" as colors;
+@use "src/styles/layouts.scss" as layouts;
+@use "@angular/material" as mat;
+
+button {
+  @include mat.button-overrides(
+    (
+      text-label-text-color: colors.$text,
+      text-state-layer-color: colors.$text,
+      text-container-shape: layouts.$radius-s,
+    )
+  );
+}

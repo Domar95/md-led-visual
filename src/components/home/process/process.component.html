@@ -1,0 +1,32 @@
+<section class="process">
+  <div class="inner">
+    <header class="header" mdlvReveal>
+      <span class="label">Jak pracujemy</span>
+      <h2 class="title">Od pierwszej rozmowy do demontażu</h2>
+      <p class="lead">
+        Zajmujemy się całą oprawą, od doboru sprzętu po realizację w dniu
+        wydarzenia, więc Ty nie musisz się niczym martwić.
+      </p>
+    </header>
+
+    <ol class="steps">
+      @for (step of steps; track step.title; let i = $index) {
+      <li class="step" mdlvReveal [style.--reveal-delay]="i * 90 + 'ms'">
+        <span class="number" aria-hidden="true">{{ i + 1 }}</span>
+        <h3 class="step-title">{{ step.title }}</h3>
+        <p class="step-text">{{ step.description }}</p>
+      </li>
+      }
+    </ol>
+
+    <div class="cta" mdlvReveal>
+      <a mat-flat-button class="cta-button" [routerLink]="['/kontakt']">
+        Zacznij od rozmowy
+        <mat-icon iconPositionEnd>arrow_forward</mat-icon>
+      </a>
+      <a class="cta-phone" href="tel:+48795641741">
+        lub zadzwoń: +48 795 641 741
+      </a>
+    </div>
+  </div>
+</section>

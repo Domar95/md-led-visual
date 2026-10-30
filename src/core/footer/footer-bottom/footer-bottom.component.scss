@@ -5,6 +5,8 @@
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 8px 24px;
-  font-size: 13px;
-  color: colors.$home-text-muted;
+  padding: 24px 0;
+  border-top: 1px solid colors.$inverse-line;
+  font-size: 14px;
+  color: colors.$inverse-muted;
 }

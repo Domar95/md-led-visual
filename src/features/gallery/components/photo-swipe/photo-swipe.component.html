@@ -9,8 +9,10 @@
     target="_blank"
   >
     <img [src]="image.thumbnailUri" alt="Zdjęcie z realizacji" loading="lazy" />
-    <span class="zoom" aria-hidden="true">
-      <mat-icon>open_in_full</mat-icon>
+    <span class="tile-zoom" aria-hidden="true">
+      <svg viewBox="0 0 24 24">
+        <path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" />
+      </svg>
     </span>
   </a>
   }

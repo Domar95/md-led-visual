@@ -1,5 +1,26 @@
 $content-width: 1200px;
-$handset-side-padding: 8px;
+$handset-side-padding: 20px;
+
+/* Breakpoints, matching ResponsiveLayoutService (Material XSmall / Small) */
+$handset-max: 599.98px;
+$tablet-max: 959.98px;
+
+/* Page gutter: 20px on phones, up to 40px on desktop */
+$gutter: clamp(20px, 4vw, 40px);
+
+/* Vertical rhythm between page sections */
+$section-space: clamp(72px, 9vw, 128px);
+
+/* Space above an inner page's header; the navbar is sticky, in the flow */
+$page-top: clamp(40px, 6vw, 88px);
+
+/* Readable line length for running text */
+$measure: 64ch;
 
 /* Navbar */
-$navbar-gap: 10px;
+$navbar-gap: 4px;
+$navbar-height: 72px;
+
+/* Corners: soft, not bubbly */
+$radius-s: 6px;
+$radius-m: 10px;

@@ -1,6 +1,6 @@
 <h3>Nawigacja</h3>
 <ul>
-  @for (link of links; track link) {
+  @for (link of links; track link.route) {
   <li>
     <a [routerLink]="link.route">{{ link.label }}</a>
   </li>

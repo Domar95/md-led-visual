@@ -1,8 +1,16 @@
-<div class="not-found">
-  <h1>Błąd 404</h1>
-  <p>
-    Strona, której szukasz, nie istnieje.
-    <a routerLink="/">Przejdź do strony głównej</a> lub
-    <a routerLink="/" fragment="kontakt">skontaktuj się z nami</a>.
+<section class="not-found">
+  <span class="label">Błąd 404</span>
+  <h1 class="title">Nie znaleźliśmy <span class="highlight">tej strony</span></h1>
+  <p class="lead">
+    Adres mógł się zmienić albo strona została usunięta. Wróć na stronę główną
+    lub napisz do nas, a pomożemy znaleźć to, czego szukasz.
   </p>
-</div>
+  <div class="actions">
+    <a mat-flat-button class="cta-primary" [routerLink]="['/']">
+      Strona główna
+    </a>
+    <a mat-stroked-button class="cta-secondary" [routerLink]="['/kontakt']">
+      Kontakt
+    </a>
+  </div>
+</section>

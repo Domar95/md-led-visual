@@ -1,0 +1,45 @@
+@if (video) {
+<section class="showreel">
+  <div class="inner">
+    <header class="header" mdlvReveal>
+      <span class="label">W akcji</span>
+      <h2 class="title">Tak wygląda to na żywo</h2>
+      <p class="lead">{{ video.title }}.</p>
+    </header>
+
+    <div class="frame" mdlvReveal>
+      @if (isPlaying()) {
+      <iframe
+        class="player"
+        [src]="playerUrl"
+        [title]="video.title"
+        allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+        allowfullscreen
+      ></iframe>
+      } @else {
+      <button
+        type="button"
+        class="poster"
+        [attr.aria-label]="'Odtwórz film: ' + video.title"
+        (click)="isPlaying.set(true)"
+      >
+        <img
+          #image
+          class="poster-image"
+          [class.ready]="isThumbnailReady()"
+          [src]="thumbnail()"
+          alt=""
+          loading="lazy"
+          (load)="onThumbnailLoad(image)"
+          (error)="tryNextSize()"
+        />
+        <span class="cue" aria-hidden="true">
+          <span class="play"><mat-icon>play_arrow</mat-icon></span>
+          <span class="cue-label">Zobacz film</span>
+        </span>
+      </button>
+      }
+    </div>
+  </div>
+</section>
+}

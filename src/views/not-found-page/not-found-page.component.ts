@@ -1,11 +1,12 @@
 import { Component, HostBinding } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 
 import { routeAnimationsState } from 'src/animations/route-animations';
 
 @Component({
   selector: 'mdlv-not-found-page',
-  imports: [RouterModule],
+  imports: [MatButtonModule, RouterModule],
   templateUrl: './not-found-page.component.html',
   styleUrl: './not-found-page.component.scss',
   animations: [routeAnimationsState],

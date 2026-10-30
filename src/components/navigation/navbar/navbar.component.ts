@@ -1,153 +1,126 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   HostListener,
-  Input,
   OnDestroy,
+  OnInit,
+  QueryList,
   ViewChild,
+  ViewChildren,
 } from '@angular/core';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
-import { MatIconModule } from '@angular/material/icon';
-import { CommonModule } from '@angular/common';
 
-import { NavbarVariant } from '@models/navbar-variant.model';
 import { HomeButtonComponent } from '@components/ui-elements/home-button/home-button.component';
 import { ResponsiveLayoutService } from '@services/responsive-layout.service';
+import { ScrollService } from '@services/scroll.service';
+import { OFFER_PAGE_HAS_CONTENT } from 'src/content/site-content';
+
+type Link = { label: string; route: string };
 
 @Component({
   selector: 'mdlv-navbar',
-  imports: [
-    MatToolbarModule,
-    MatButtonModule,
-    RouterModule,
-    MatIconModule,
-    CommonModule,
-    HomeButtonComponent,
-  ],
+  imports: [MatButtonModule, RouterModule, MatIconModule, HomeButtonComponent],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
 })
-export class NavbarComponent implements AfterViewInit, OnDestroy {
-  @Input() variant: NavbarVariant = NavbarVariant.Default;
+export class NavbarComponent implements OnInit, OnDestroy {
+  @ViewChild('menuToggle') menuToggle?: ElementRef<HTMLButtonElement>;
+  @ViewChildren('menuLink') menuLinkRefs?: QueryList<ElementRef<HTMLElement>>;
 
-  @ViewChild('centerPill') centerPill?: ElementRef<HTMLElement>;
-  @ViewChild('indicator') indicator?: ElementRef<HTMLElement>;
-
-  isHandset!: boolean
+  isHandset = false;
   isScrolled = false;
-  private indicatorPlaced = false;
-  private indicatorAnimation?: Animation;
-  private navigationSubscription?: Subscription;
+  isMenuOpen = false;
+  isHome = false;
 
-  links: { label: string; route: string }[] = [
+  /** On the home page's photo hero: see-through, light text, until the page scrolls */
+  get isOverlay() {
+    return this.isHome && !this.isScrolled && !this.isMenuOpen;
+  }
+
+  readonly phone = '+48 795 641 741';
+  readonly phoneHref = 'tel:+48795641741';
+  readonly email = 'ledvisual@o2.pl';
+
+  links: Link[] = [
     { label: 'Galeria', route: '/galeria' },
+    // only once the page has real content to show
+    ...(OFFER_PAGE_HAS_CONTENT ? [{ label: 'Oferta', route: '/oferta' }] : []),
     { label: 'Wycena', route: '/wycena' },
     { label: 'Kontakt', route: '/kontakt' },
   ];
 
+  menuLinks: Link[] = [{ label: 'Strona główna', route: '/' }, ...this.links];
+
+  private subscriptions = new Subscription();
+
   constructor(
     private responsiveLayoutService: ResponsiveLayoutService,
+    private scrollService: ScrollService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit() {
-    this.responsiveLayoutService.isHandset$.subscribe((isHandset) => {
-      this.isHandset = isHandset
-      this.scheduleIndicatorUpdate();
-    })
-  }
+    this.onScroll();
+    this.updateIsHome();
 
-  ngAfterViewInit() {
-    // routerLinkActive marks the active link after NavigationEnd, so wait a tick
-    this.navigationSubscription = this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(() => this.scheduleIndicatorUpdate());
+    this.subscriptions.add(
+      this.responsiveLayoutService.isHandset$.subscribe((isHandset) => {
+        this.isHandset = isHandset;
+        if (!isHandset) this.closeMenu(false);
+      })
+    );
 
-    this.scheduleIndicatorUpdate();
-
-    // link widths change once the web font loads
-    document.fonts?.ready.then(() => this.updateIndicator(false));
+    this.subscriptions.add(
+      this.router.events
+        .pipe(filter((event) => event instanceof NavigationEnd))
+        .subscribe(() => {
+          this.closeMenu(false);
+          this.updateIsHome();
+        })
+    );
   }
 
   ngOnDestroy() {
-    this.navigationSubscription?.unsubscribe();
-  }
-
-  @HostListener('window:resize')
-  onResize() {
-    this.updateIndicator(false);
+    this.subscriptions.unsubscribe();
+    if (this.isMenuOpen) this.scrollService.unlock();
   }
 
   @HostListener('window:scroll')
   onScroll() {
-    this.isScrolled = window.scrollY > 24;
+    this.isScrolled = window.scrollY > 16;
   }
 
-  private scheduleIndicatorUpdate() {
-    setTimeout(() => this.updateIndicator(this.indicatorPlaced));
+  @HostListener('document:keydown.escape')
+  onEscape() {
+    this.closeMenu();
   }
 
-  /** Moves the highlight under the active link with a jelly squish. */
-  private updateIndicator(animate: boolean) {
-    const pill = this.centerPill?.nativeElement;
-    const indicator = this.indicator?.nativeElement;
-    if (!pill || !indicator) return;
-
-    const active = pill.querySelector<HTMLElement>('[aria-current="page"]');
-    if (!active) {
-      indicator.style.opacity = '0';
+  toggleMenu() {
+    if (this.isMenuOpen) {
+      this.closeMenu();
       return;
     }
 
-    const pillRect = pill.getBoundingClientRect();
-    const activeRect = active.getBoundingClientRect();
-    const x = activeRect.left - pillRect.left - pill.clientLeft;
-    const y = activeRect.top - pillRect.top - pill.clientTop;
-    const { width, height } = activeRect;
-    const moved = indicator.style.width !== `${width}px` ||
-      indicator.style.transform !== `translate(${x}px, ${y}px)`;
-
-    indicator.classList.toggle('no-transition', !animate);
-    indicator.style.width = `${width}px`;
-    indicator.style.height = `${height}px`;
-    indicator.style.transform = `translate(${x}px, ${y}px)`;
-    indicator.style.opacity = '1';
-
-    const reducedMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)'
-    ).matches;
-
-    if (animate && moved && !reducedMotion) {
-      // hide link hover states until the highlight arrives
-      this.indicatorAnimation?.cancel();
-      pill.classList.add('animating');
-
-      this.indicatorAnimation = indicator.animate(
-        [
-          { scale: '1 1' },
-          { scale: '1.12 0.86', offset: 0.35 },
-          { scale: '0.97 1.04', offset: 0.7 },
-          { scale: '1 1' },
-        ],
-        // matches the transform transition in the stylesheet
-        { duration: 550, easing: 'ease-out' }
-      );
-      this.indicatorAnimation.onfinish = () =>
-        pill.classList.remove('animating');
-    }
-
-    if (!animate) {
-      // re-enable transitions after this frame is painted
-      requestAnimationFrame(() => indicator.classList.remove('no-transition'));
-    }
-    this.indicatorPlaced = true;
+    this.isMenuOpen = true;
+    this.scrollService.lock();
+    // links render on the next change detection pass
+    setTimeout(() => this.menuLinkRefs?.first?.nativeElement.focus());
   }
 
-  get isDefault() {
-    return this.variant === NavbarVariant.Default;
+  private updateIsHome() {
+    // ignore the query and #fragment, e.g. /#oferta
+    this.isHome = this.router.url.split(/[?#]/)[0] === '/';
+  }
+
+  /** Closes the menu; returns focus to the toggle unless a page change took it. */
+  closeMenu(restoreFocus = true) {
+    if (!this.isMenuOpen) return;
+
+    this.isMenuOpen = false;
+    this.scrollService.unlock();
+    if (restoreFocus) this.menuToggle?.nativeElement.focus();
   }
 }

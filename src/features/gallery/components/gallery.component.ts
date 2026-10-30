@@ -1,6 +1,5 @@
 import { Component, computed, Signal, signal } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 
 import { GalleryImage } from 'src/features/gallery/models/gallery.model';
 import { PhotoSwipeComponent } from './photo-swipe/photo-swipe.component';
@@ -9,7 +8,7 @@ import { ImageGalleryService } from '../services/image-gallery.service';
 
 @Component({
   selector: 'mdlv-gallery',
-  imports: [MatIconModule, PhotoSwipeComponent],
+  imports: [PhotoSwipeComponent, RouterModule],
   templateUrl: './gallery.component.html',
   styleUrl: './gallery.component.scss',
   animations: [galleryThumbnailsTrigger],
@@ -17,6 +16,7 @@ import { ImageGalleryService } from '../services/image-gallery.service';
 export class GalleryComponent {
   activeCategory = signal<string>('');
   isLoading = signal<boolean>(true);
+  hasError = signal<boolean>(false);
   skeletonTiles = Array.from({ length: 9 }, (_, index) => index);
 
   constructor(
@@ -31,6 +31,8 @@ export class GalleryComponent {
 
     try {
       await this.imageGalleryService.loadImages();
+    } catch {
+      this.hasError.set(true);
     } finally {
       this.isLoading.set(false);
     }

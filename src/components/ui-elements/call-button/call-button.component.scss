@@ -1,0 +1,52 @@
+@use "src/styles/colors.scss" as colors;
+@use "src/styles/mixins.scss" as mixins;
+
+/* Phones only: an ink pill in the bottom right corner, within thumb reach */
+:host {
+  display: none;
+
+  @include mixins.handset {
+    display: block;
+  }
+}
+
+.call {
+  position: fixed;
+  right: max(16px, env(safe-area-inset-right));
+  bottom: calc(16px + env(safe-area-inset-bottom));
+  z-index: 50;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 52px;
+  padding: 0 20px 0 16px;
+  border-radius: 999px;
+  background: colors.$text;
+  color: colors.$on-accent;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 10px 30px -8px rgba(colors.$inverse-bg, 0.55);
+  // hidden until the visitor scrolls past the hero
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(16px);
+  transition:
+    opacity 0.25s ease,
+    transform 0.3s mixins.$ease-out,
+    visibility 0.3s;
+
+  mat-icon {
+    color: colors.$highlight;
+  }
+
+  &.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}

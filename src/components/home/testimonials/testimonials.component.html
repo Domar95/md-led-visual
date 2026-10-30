@@ -1,0 +1,64 @@
+@if (testimonials.length || logos.length) {
+<section class="testimonials">
+  <div class="inner">
+    <header class="header" mdlvReveal>
+      <div class="header-main">
+        <span class="label">Opinie</span>
+        <h2 class="title">Co mówią klienci</h2>
+      </div>
+      <div class="header-side">
+        <p class="lead">
+          Kilka słów od par młodych, firm i organizatorów, z którymi
+          pracowaliśmy.
+        </p>
+        <a class="link" [routerLink]="['/galeria']">
+          Zobacz realizacje
+          <mat-icon aria-hidden="true">arrow_forward</mat-icon>
+        </a>
+      </div>
+    </header>
+
+    @if (testimonials.length) {
+    <ul class="quotes">
+      @for (item of testimonials; track item.name; let i = $index) {
+      <li
+        class="quote"
+        [attr.data-light]="light(i)"
+        mdlvReveal
+        mdlvSpotlight
+        [style.--reveal-delay]="i * 90 + 'ms'"
+      >
+        <figure>
+          <blockquote>{{ item.quote }}</blockquote>
+          <figcaption>
+            <span class="avatar" aria-hidden="true">{{ initials(item) }}</span>
+            <span class="who">
+              <span class="name">{{ item.name }}</span>
+              <span class="meta">{{ item.eventType }} · {{ item.meta }}</span>
+            </span>
+          </figcaption>
+        </figure>
+      </li>
+      }
+    </ul>
+    }
+
+    @if (logos.length) {
+    <div class="clients" mdlvReveal>
+      <span class="clients-label">Zaufali nam</span>
+      <ul class="logos">
+        @for (client of logos; track client.name) {
+        <li class="logo">
+          @if (client.logo) {
+          <img [src]="client.logo" [alt]="client.name" loading="lazy" />
+          } @else {
+          {{ client.name }}
+          }
+        </li>
+        }
+      </ul>
+    </div>
+    }
+  </div>
+</section>
+}

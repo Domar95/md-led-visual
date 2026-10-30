@@ -1,32 +1,81 @@
-<mat-toolbar
-  [ngClass]="variant"
-  [class.handset]="isHandset"
-  [class.scrolled]="isScrolled"
+<header
+  class="navbar"
+  [class.scrolled]="isScrolled || isMenuOpen"
+  [class.overlay]="isOverlay"
 >
-  @if (isDefault) {
-  <mdlv-home-button></mdlv-home-button>
-  <span class="spacer"></span>
-  <ng-container *ngTemplateOutlet="buttonGroupTemplate"></ng-container>
-  } @else {
-  <div class="transparent-navbar-container" #centerPill>
-    <span class="nav-indicator" #indicator aria-hidden="true"></span>
+  <div class="bar">
     <mdlv-home-button></mdlv-home-button>
-    <ng-container *ngTemplateOutlet="buttonGroupTemplate"></ng-container>
-  </div>
-  }
-</mat-toolbar>
 
-<ng-template #buttonGroupTemplate>
-  <nav class="button-group">
-    @for (link of links; track link.route) {
+    @if (!isHandset) {
+    <nav class="links" aria-label="Nawigacja główna">
+      @for (link of links; track link.route) {
+      <a
+        class="link"
+        [routerLink]="link.route"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page"
+      >
+        {{ link.label }}
+      </a>
+      }
+    </nav>
+    <a mat-flat-button class="cta" [href]="phoneHref">
+      <mat-icon>call</mat-icon>
+      {{ phone }}
+    </a>
+    } @else {
+    <button
+      #menuToggle
+      type="button"
+      class="menu-toggle"
+      [class.open]="isMenuOpen"
+      [attr.aria-expanded]="isMenuOpen"
+      aria-controls="mobile-menu"
+      [attr.aria-label]="isMenuOpen ? 'Zamknij menu' : 'Otwórz menu'"
+      (click)="toggleMenu()"
+    >
+      <span class="menu-toggle-line"></span>
+      <span class="menu-toggle-line"></span>
+    </button>
+    }
+  </div>
+</header>
+
+@if (isHandset && isMenuOpen) {
+<div
+  class="menu"
+  id="mobile-menu"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Menu"
+>
+  <nav class="menu-links" aria-label="Nawigacja główna">
+    @for (link of menuLinks; track link.route) {
     <a
-      mat-button
+      #menuLink
+      #rla="routerLinkActive"
+      class="menu-link"
       [routerLink]="link.route"
       routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: link.route === '/' }"
       ariaCurrentWhenActive="page"
+      (click)="closeMenu(rla.isActive)"
     >
       {{ link.label }}
+      <mat-icon class="menu-link-icon" aria-hidden="true">arrow_forward</mat-icon>
     </a>
     }
   </nav>
-</ng-template>
+
+  <div class="menu-contact">
+    <span class="menu-label">Kontakt</span>
+    <a class="menu-contact-link" [href]="phoneHref">{{ phone }}</a>
+    <a class="menu-contact-link" [href]="'mailto:' + email">{{ email }}</a>
+  </div>
+
+  <a mat-flat-button class="menu-cta" [href]="phoneHref">
+    <mat-icon>call</mat-icon>
+    Zadzwoń
+  </a>
+</div>
+}

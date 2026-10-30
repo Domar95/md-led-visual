@@ -10,8 +10,7 @@ import { SendEmailRequest } from '@models/send-email-request.model';
 })
 export class EmailService {
   API = 'https://send-email-oov4wtrm3q-uc.a.run.app';
-  // TODO: Replace with actual email
-  RECEIVER_EMAIL = 'email-placeholder';
+  RECEIVER_EMAIL = 'ledvisual@o2.pl';
 
   constructor(private http: HttpClient, private appCheck: AppCheck) {}
 
@@ -20,7 +19,8 @@ export class EmailService {
     surname: string,
     email: string,
     phone: string,
-    message: string
+    message: string,
+    eventDate = ''
   ): Promise<unknown> {
     /* Compose and send email */
     const subject = this.buildSubject();
@@ -29,7 +29,8 @@ export class EmailService {
       surname,
       email,
       phone,
-      message
+      message,
+      eventDate
     );
     const composedEmail = this.buildEmail(subject, composedMessage);
     const headers = await this.buildHeaders();
@@ -41,12 +42,14 @@ export class EmailService {
     surname: string,
     email: string,
     phone: string,
-    message: string
+    message: string,
+    eventDate: string
   ): string {
     message = `Imię: ${name}
 Nazwisko: ${surname}
 Email: ${email}
 Telefon: ${phone}
+Data wydarzenia: ${eventDate || 'nie podano'}
 Wiadomość: ${message}`;
     return message;
   }

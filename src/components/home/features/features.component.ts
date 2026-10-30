@@ -1,37 +1,47 @@
 import { Component } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterModule } from '@angular/router';
+
 import { RevealDirective } from 'src/shared/directives/reveal.directive';
+import { SpotlightDirective } from 'src/shared/directives/spotlight.directive';
 
 interface Feature {
-  icon: string;
+  /** The small lit stage drawn at the top of the card */
+  scene: 'screen' | 'beams' | 'sparks';
   title: string;
   description: string;
+  /** One of the logo's lights, matching the service's chip in the hero */
+  light: 'cyan' | 'butter' | 'magenta';
 }
 
 @Component({
   selector: 'mdlv-features',
-  imports: [RevealDirective],
+  imports: [MatIconModule, RouterModule, RevealDirective, SpotlightDirective],
   templateUrl: './features.component.html',
   styleUrl: './features.component.scss',
 })
 export class FeaturesComponent {
   features: Feature[] = [
     {
-      icon: '/assets/icons/screen.png',
+      scene: 'screen',
       title: 'Ekrany LED',
       description:
-        'Najnowsze ekrany LED o krystalicznej jakości obrazu. Od transmisji na żywo po kreatywne wizualizacje – sprawiamy, że Twój event staje się niezapomniany.',
+        'Ekrany i telebimy do wnętrz i w plener. Transmisje na żywo, prezentacje, wizualizacje i materiały partnerów, w rozmiarze dobranym do sceny i widowni.',
+      light: 'cyan',
     },
     {
-      icon: '/assets/icons/lighting.png',
+      scene: 'beams',
       title: 'Oświetlenie',
       description:
-        'Tworzymy niepowtarzalny klimat dzięki profesjonalnemu oświetleniu. Dopasowujemy efekty do Twojej wizji – od delikatnych akcentów po spektakularne show.',
+        'Oświetlenie sceniczne i dekoracyjne, które buduje klimat wydarzenia. Od subtelnych akcentów po pełne show, zawsze dopasowane do przestrzeni.',
+      light: 'butter',
     },
     {
-      icon: '/assets/icons/special-effects.png',
+      scene: 'sparks',
       title: 'Efekty specjalne',
       description:
-        'Lasery, mgła, pirotechnika sceniczna – dodajemy wydarzeniom magii i emocji. Podkręć atmosferę z naszymi efektami specjalnymi.',
+        'Lasery, mgła i pirotechnika sceniczna na momenty, które mają zostać w pamięci: wejście na scenę, pierwszy taniec, finał koncertu.',
+      light: 'magenta',
     },
   ];
 }

@@ -1,11 +1,17 @@
 <a
-  mat-icon-button
+  class="brand"
   [routerLink]="['/']"
-  routerLinkActive="active"
-  [routerLinkActiveOptions]="{ exact: true }"
   ariaCurrentWhenActive="page"
-  class="home-button"
+  routerLinkActive
+  [routerLinkActiveOptions]="{ exact: true }"
   aria-label="MD LED Visual – strona główna"
 >
-  <mat-icon svgIcon="mdlv-logo"></mat-icon>
+  <img
+    class="logo"
+    src="/assets/icons/mdlv_logo_without_text.svg"
+    alt=""
+    width="32"
+    height="32"
+  />
+  <span class="wordmark">MD LED Visual</span>
 </a>

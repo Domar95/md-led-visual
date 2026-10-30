@@ -1,0 +1,11 @@
+<a
+  class="call"
+  [class.visible]="isVisible"
+  [href]="phoneHref"
+  [attr.aria-label]="'Zadzwoń: ' + phone"
+  [attr.aria-hidden]="isVisible ? null : true"
+  [attr.tabindex]="isVisible ? null : -1"
+>
+  <mat-icon aria-hidden="true">call</mat-icon>
+  Zadzwoń
+</a>

@@ -1,0 +1,100 @@
+@use "src/styles/colors.scss" as colors;
+@use "src/styles/mixins.scss" as mixins;
+
+:host {
+  display: block;
+}
+
+/* Question on the left, answers listed on the right; stacked below 960px */
+.faq {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  gap: 24px 48px;
+  align-items: start;
+
+  @include mixins.tablet-down {
+    grid-template-columns: 1fr;
+  }
+}
+
+.header {
+  display: grid;
+  gap: 16px;
+}
+
+.label {
+  @include mixins.label;
+}
+
+.title {
+  @include mixins.display-title(32px, 26px);
+  max-width: 14ch;
+}
+
+.list {
+  border-top: 1px solid colors.$line-strong;
+}
+
+.item {
+  border-bottom: 1px solid colors.$line-strong;
+
+  &[open] .question::after {
+    transform: rotate(45deg);
+  }
+}
+
+// whole row toggles; a plus that turns into a cross when open
+.question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 64px;
+  padding: 14px 0;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.4;
+  cursor: pointer;
+  list-style: none;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  &::after {
+    content: "+";
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 32px;
+    height: 32px;
+    border: 1px solid colors.$line-strong;
+    border-radius: 999px;
+    font-size: 20px;
+    font-weight: 400;
+    transition: transform 0.25s mixins.$ease-out;
+  }
+
+  @include mixins.hover {
+    &::after {
+      border-color: transparent;
+      background: colors.$highlight-fill;
+    }
+  }
+}
+
+.answer {
+  @include mixins.body-text;
+  margin: 0 0 20px;
+  padding-right: 48px;
+
+  @include mixins.handset {
+    padding-right: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .question::after {
+    transition: none;
+  }
+}

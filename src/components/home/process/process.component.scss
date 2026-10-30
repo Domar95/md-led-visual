@@ -1,0 +1,153 @@
+@use "src/styles/colors.scss" as colors;
+@use "src/styles/layouts.scss" as layouts;
+@use "src/styles/mixins.scss" as mixins;
+
+/* Four steps in a row joined by a hairline; a column with a rail on phones */
+.process {
+  padding-top: layouts.$section-space;
+}
+
+.inner {
+  @include mixins.container;
+}
+
+.header {
+  @include mixins.section-header;
+}
+
+.label {
+  @include mixins.label;
+}
+
+.title {
+  @include mixins.display-title(40px, 28px);
+  max-width: 20ch;
+}
+
+.lead {
+  @include mixins.lead;
+  font-size: 17px;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 32px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include mixins.tablet-down {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+
+.step {
+  position: relative;
+
+  // the hairline to the next step: across on desktop, down on phones
+  &:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 20px;
+    left: 52px;
+    right: -24px;
+    height: 1px;
+    background: colors.$line-strong;
+  }
+
+  @include mixins.tablet-down {
+    padding-left: 60px;
+
+    &:not(:last-child)::after {
+      top: 48px;
+      bottom: -20px;
+      left: 20px;
+      right: auto;
+      width: 1px;
+      height: auto;
+    }
+  }
+}
+
+.number {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: layouts.$radius-s;
+  background: colors.$highlight-fill;
+  font-size: 17px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: colors.$on-highlight;
+
+  @include mixins.tablet-down {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+
+.step-title {
+  @include mixins.display-title(20px, 19px);
+  margin-top: 20px;
+
+  @include mixins.tablet-down {
+    margin-top: 8px;
+  }
+}
+
+.step-text {
+  margin: 8px 0 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: colors.$text-muted;
+}
+
+.cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 24px;
+  margin-top: clamp(32px, 4vw, 48px);
+  padding-top: clamp(24px, 3vw, 32px);
+  border-top: 1px solid colors.$line;
+
+  @include mixins.handset {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.cta-button {
+  @include mixins.button-primary;
+
+  mat-icon {
+    transition: transform 0.3s mixins.$ease-out;
+  }
+
+  @include mixins.hover {
+    mat-icon {
+      transform: translateX(4px);
+    }
+  }
+}
+
+.cta-phone {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  font-size: 16px;
+  font-weight: 600;
+  color: colors.$text;
+  text-decoration: none;
+  font-feature-settings: "tnum";
+
+  @include mixins.hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+}

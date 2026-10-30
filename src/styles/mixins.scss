@@ -1,50 +1,421 @@
+@use "sass:math";
+@use "@angular/material" as mat;
 @use "colors";
+@use "layouts";
 
-/* Small uppercase label above section titles */
-@mixin eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: "Inter", sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: colors.$accent-violet;
+/* One family keeps the page calm; hierarchy comes from size and weight. */
+$font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+$font-body: "Archivo", "Helvetica Neue", Arial, sans-serif;
 
-  &::before {
-    content: "";
-    width: 24px;
-    height: 1px;
-    background: colors.$accent-gradient;
+$ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+/* Breakpoints */
+@mixin handset {
+  @media (max-width: layouts.$handset-max) {
+    @content;
   }
 }
 
-@mixin display-title($size: 56px) {
-  font-family: "Inter", sans-serif;
-  font-size: $size;
-  font-weight: 800;
-  line-height: 1.05;
-  letter-spacing: -0.035em;
-  color: colors.$home-text;
-  margin: 0;
+@mixin tablet-down {
+  @media (max-width: layouts.$tablet-max) {
+    @content;
+  }
 }
 
-@mixin gradient-text {
-  background: colors.$accent-gradient;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+/* Hover styles only where hover exists, so taps don't leave them stuck */
+@mixin hover {
+  @media (hover: hover) {
+    &:hover {
+      @content;
+    }
+  }
+}
+
+/* Fluid value: $min at a 360px viewport, $max at 1280px, clamped */
+@function fluid($min, $max) {
+  $slope: math.div($max - $min, 920px);
+  $intercept: $min - $slope * 360px;
+  @return clamp(#{$min}, #{$intercept} + #{$slope * 100vw}, #{$max});
+}
+
+/* Centered content column with the page gutter */
+@mixin container {
+  width: 100%;
+  max-width: calc(#{layouts.$content-width} + 2 * #{layouts.$gutter});
+  margin-inline: auto;
+  padding-inline: layouts.$gutter;
+  box-sizing: border-box;
+}
+
+/*
+ * Small uppercase label above titles and on metadata. The diamond comes from
+ * the logo; pass $marker: false inside dense UI.
+ */
+@mixin label($marker: true) {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: $font-body;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: colors.$text-muted;
+
+  @if $marker {
+    &::before {
+      content: "";
+      flex: none;
+      @include diamond;
+    }
+  }
+}
+
+/* The logo's diamond in the accent, outlined in ink; for small markers */
+@mixin diamond($size: 7px) {
+  width: $size;
+  height: $size;
+  background: colors.$highlight-fill;
+  outline: 1px solid colors.$on-highlight;
+  outline-offset: -1px;
+  transform: rotate(45deg);
+}
+
+/*
+ * Headline. Normal width, semibold, tight tracking: confident but easy to
+ * read. Scale (desktop max): hero 64, page title 56, section 40, card 24.
+ */
+@mixin display-title($max: 40px, $min: null, $uppercase: false) {
+  @if $min == null {
+    $min: math.max($max * 0.6, 24px);
+  }
+  margin: 0;
+  font-family: $font-display;
+  font-size: fluid($min, $max);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: colors.$text;
+  text-wrap: balance;
+
+  @if $uppercase {
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+}
+
+/* Body copy that introduces a section or page */
+@mixin lead {
+  max-width: 56ch;
+  margin: 0;
+  font-size: fluid(17px, 20px);
+  font-weight: 400;
+  line-height: 1.6;
+  color: colors.$text-muted;
+  text-wrap: pretty;
+}
+
+/* Running text */
+@mixin body-text {
+  max-width: layouts.$measure;
+  font-size: 17px;
+  line-height: 1.7;
+  color: colors.$text-muted;
+}
+
+/*
+ * Section header: label and title on the left, optional lead on the right on
+ * wide screens; stacked below 960px.
+ * Markup: <header> <span class="label"> <h2 class="title"> [<p class="lead">]
+ */
+@mixin section-header {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  column-gap: 48px;
+  row-gap: 16px;
+  align-items: end;
+  margin-bottom: clamp(32px, 4vw, 56px);
+
+  > * {
+    grid-column: 1;
+  }
+
+  > p {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+
+  @include tablet-down {
+    grid-template-columns: 1fr;
+
+    > p {
+      grid-column: 1;
+      grid-row: auto;
+    }
+  }
+}
+
+/* Surface card: white on paper, hairline border */
+@mixin card {
+  background: colors.$surface;
+  border: 1px solid colors.$line;
+  border-radius: layouts.$radius-m;
+}
+
+/* Buttons, applied to mat-flat-button / mat-stroked-button anchors */
+@mixin button-primary {
+  @include mat.button-overrides(
+    (
+      filled-container-color: colors.$text,
+      filled-label-text-color: colors.$on-accent,
+      filled-container-height: 52px,
+      filled-horizontal-padding: 24px,
+      filled-container-shape: layouts.$radius-s,
+      filled-label-text-font: $font-body,
+      filled-label-text-weight: 600,
+      filled-label-text-size: 16px,
+      filled-label-text-tracking: 0,
+      filled-state-layer-color: colors.$on-accent,
+    )
+  );
+}
+
+@mixin button-secondary {
+  @include mat.button-overrides(
+    (
+      outlined-label-text-color: colors.$text,
+      outlined-outline-color: colors.$line-strong,
+      outlined-container-height: 52px,
+      outlined-horizontal-padding: 24px,
+      outlined-container-shape: layouts.$radius-s,
+      outlined-label-text-font: $font-body,
+      outlined-label-text-weight: 600,
+      outlined-label-text-size: 16px,
+      outlined-label-text-tracking: 0,
+      outlined-state-layer-color: colors.$text,
+    )
+  );
+  background: colors.$surface;
+}
+
+/* Primary button on the dark band (footer call to action) */
+@mixin button-inverse {
+  @include mat.button-overrides(
+    (
+      filled-container-color: colors.$highlight,
+      filled-label-text-color: colors.$on-highlight,
+      filled-container-height: 52px,
+      filled-horizontal-padding: 24px,
+      filled-container-shape: layouts.$radius-s,
+      filled-label-text-font: $font-body,
+      filled-label-text-weight: 600,
+      filled-label-text-size: 16px,
+      filled-label-text-tracking: 0,
+      filled-state-layer-color: colors.$on-highlight,
+    )
+  );
+  // Material takes a single colour; the fill may be a gradient
+  background-image: colors.$highlight-fill;
+}
+
+/*
+ * Marker-pen highlight behind a word or two. On dark pages a marker would
+ * sit under light text, so the words light up instead, over a thin underline.
+ */
+@mixin highlight {
+  // the marker is the accent fill sized to a band near the baseline;
+  // --marker-height lets highlight-draw animate only its width
+  @if colors.$scheme == dark {
+    --marker-height: 6%;
+    color: colors.$highlight;
+    text-shadow: 0 0 0.6em rgba(colors.$highlight, 0.35);
+    background: colors.$highlight-fill no-repeat 0 94% / 100%
+      var(--marker-height);
+  } @else if colors.$accent-amount == small {
+    // a thin underline instead of a full marker
+    --marker-height: 10%;
+    background: colors.$highlight-fill no-repeat 0 96% / 100%
+      var(--marker-height);
+  } @else {
+    --marker-height: 32%;
+    background: colors.$highlight-fill no-repeat 0 88% / 100%
+      var(--marker-height);
+  }
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  padding-inline: 0.06em;
+}
+
+/*
+ * The highlight drawn in like a marker stroke, left to right. Plays once on
+ * load; uses the highlight-draw keyframes from styles.scss.
+ */
+@mixin highlight-draw($delay: 0.4s, $duration: 0.9s) {
+  @include highlight;
+  animation: highlight-draw $duration $ease-out $delay both;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+/* LED pixel grid: a field of round dots, for decorative backgrounds */
+@mixin dot-matrix($color, $pitch: 14px, $dot: 1.5px) {
+  background-image: radial-gradient(
+    circle,
+    $color $dot,
+    transparent calc(#{$dot} + 0.5px)
+  );
+  background-size: $pitch $pitch;
+}
+
+/*
+ * Dark "stage" band: an LED pixel field fading down from the top and one
+ * warm light centred at $light-x. Uses the host's ::before and ::after.
+ */
+@mixin stage-backdrop($light-x: 80%) {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: colors.$inverse-bg;
+  color: colors.$inverse-text;
+
+  // on a dark page the band is barely darker: a hairline marks its edge
+  @if colors.$scheme == dark {
+    box-shadow: inset 0 1px 0 colors.$line;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: -1;
+    height: 80%;
+    @include dot-matrix(colors.$inverse-line, 16px, 1.5px);
+    mask-image: radial-gradient(
+      ellipse 70% 100% at $light-x 0%,
+      #000,
+      transparent 75%
+    );
+    pointer-events: none;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: -40%;
+    left: $light-x;
+    z-index: -1;
+    width: min(900px, 90vw);
+    aspect-ratio: 1;
+    translate: -50% 0;
+    background: radial-gradient(
+      closest-side,
+      rgba(colors.$highlight, 0.12),
+      transparent
+    );
+    pointer-events: none;
+
+    // a second, coloured light spilling down beside the first
+    @if colors.$glow != colors.$highlight {
+      background:
+        radial-gradient(
+          closest-side at 25% 70%,
+          rgba(colors.$glow, 0.22),
+          transparent
+        ),
+        radial-gradient(
+          closest-side,
+          rgba(colors.$highlight, 0.12),
+          transparent
+        );
+    }
+  }
+}
+
+/* Children rise in one after another on load; rise keyframes in styles.scss */
+@mixin stagger-in($count: 5, $step: 90ms, $delay: 0ms) {
+  > * {
+    animation: rise 0.7s $ease-out both;
+
+    @for $i from 1 through $count {
+      &:nth-child(#{$i}) {
+        animation-delay: $delay + ($i - 1) * $step;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
+}
+
+/*
+ * Soft light that follows the pointer across a card. Pair with the
+ * mdlvSpotlight directive, which sets --spot-x / --spot-y.
+ */
+@mixin spotlight($color: rgba(colors.$highlight, 0.14), $size: 360px) {
+  position: relative;
+  isolation: isolate;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: radial-gradient(
+      $size circle at var(--spot-x, 50%) var(--spot-y, 0%),
+      $color,
+      transparent 70%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  @include hover {
+    &::before {
+      opacity: 1;
+    }
+  }
+}
+
+/* Inline text link with a quiet underline */
+@mixin text-link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  text-decoration-color: colors.$line-strong;
+  transition: text-decoration-color 0.2s ease;
+
+  &:hover,
+  &:focus-visible {
+    text-decoration-color: currentColor;
+  }
+}
+
+@mixin focus-ring {
+  &:focus-visible {
+    outline: 2px solid colors.$text;
+    outline-offset: 3px;
+  }
 }
 
 @mixin footer-heading {
+  @include label($marker: false);
   margin: 0 0 20px;
-  font-family: "Inter", sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: colors.$home-text;
+}
+
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
 
 /* Gallery grid: every 7th tile (every 5th on phones) is featured */
@@ -56,7 +427,7 @@
 
   > * {
     aspect-ratio: 4 / 3;
-    border-radius: 18px;
+    border-radius: layouts.$radius-m;
   }
 
   > :nth-child(7n + 1) {
@@ -64,12 +435,12 @@
     grid-row: span 2;
   }
 
-  @media (max-width: 599.98px) {
+  @include handset {
     grid-template-columns: repeat(2, 1fr);
     gap: 8px;
 
     > * {
-      border-radius: 12px;
+      border-radius: layouts.$radius-s;
     }
 
     > :nth-child(7n + 1) {
@@ -82,18 +453,4 @@
       aspect-ratio: 16 / 10;
     }
   }
-}
-
-/* Translucent surface for floating controls (pills, chips, round buttons) */
-@mixin glass {
-  background: rgba(14, 12, 24, 0.55);
-  border: 1px solid colors.$home-border;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-}
-
-/* Neutral highlight for the selected control; gradients stay for primary actions */
-@mixin control-selected {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
 }

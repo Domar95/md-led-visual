@@ -1,98 +1,389 @@
 @use "src/styles/colors.scss" as colors;
 @use "src/styles/layouts.scss" as layouts;
+@use "src/styles/mixins.scss" as mixins;
 
-.features-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-  max-width: layouts.$content-width;
-  margin: 0 auto;
-  padding: 0 24px 120px;
-  box-sizing: border-box;
-}
-
-.feature-card {
+/*
+ * Light band after the dark hero: white cards on a sunken tint, with the
+ * LED pixel field from the page headers fading in from the top right and a
+ * faint wash of the logo's cyan and magenta behind the cards
+ */
+.services {
   position: relative;
-  height: 100%;
-  padding: 36px 32px 40px;
-  box-sizing: border-box;
-  border-radius: 24px;
-  border: 1px solid transparent;
-  background: linear-gradient(colors.$home-surface, colors.$home-surface)
-      padding-box,
-    linear-gradient(160deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.03))
-      border-box;
+  isolation: isolate;
   overflow: hidden;
-  transition: box-shadow 0.4s ease;
+  padding-block: layouts.$section-space;
+  background: colors.$surface-sunken;
 
-  // glow that lights up on hover
-  &::before {
+  &::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: radial-gradient(
-      circle at 20% 0%,
-      rgba(139, 123, 255, 0.22),
-      transparent 60%
-    );
-    opacity: 0;
-    transition: opacity 0.4s ease;
+    z-index: -1;
+    background:
+      radial-gradient(
+        ellipse 45% 55% at 8% 85%,
+        rgba(colors.$led-cyan, 0.16),
+        transparent
+      ),
+      radial-gradient(
+        ellipse 40% 50% at 92% 70%,
+        rgba(colors.$led-magenta, 0.12),
+        transparent
+      );
     pointer-events: none;
   }
 
-  &:hover {
-    background: linear-gradient(colors.$home-surface, colors.$home-surface)
-        padding-box,
-      colors.$accent-gradient border-box;
-    box-shadow: 0 20px 60px -20px rgba(139, 123, 255, 0.45);
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: -1;
+    width: min(640px, 60%);
+    height: 70%;
+    @include mixins.dot-matrix(colors.$line-strong, 16px, 2px);
+    mask-image: radial-gradient(
+      ellipse 100% 100% at 100% 0%,
+      #000,
+      transparent 70%
+    );
+    pointer-events: none;
+  }
+}
 
-    &::before {
-      opacity: 1;
+.inner {
+  @include mixins.container;
+}
+
+.header {
+  @include mixins.section-header;
+}
+
+.label {
+  @include mixins.label;
+}
+
+.title {
+  @include mixins.display-title(40px, 28px);
+  max-width: 20ch;
+}
+
+// drawn when the header scrolls into view, not on page load
+.highlight {
+  margin-inline: -0.06em;
+  @include mixins.highlight-draw($delay: 0.3s);
+
+  .header:not(.revealed) & {
+    animation-play-state: paused;
+  }
+}
+
+.lead {
+  @include mixins.lead;
+  font-size: 17px;
+}
+
+.service-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include mixins.tablet-down {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+/*
+ * Each card is lit by its service's colour: the scene at its top, the dot by
+ * its title and the hover light
+ */
+.service {
+  --light: #{colors.$highlight};
+  --pad: clamp(24px, 3vw, 32px);
+  padding: var(--pad);
+  transition:
+    border-color 0.3s ease,
+    translate 0.4s mixins.$ease-out;
+  @include mixins.card;
+  @include mixins.spotlight(color-mix(in srgb, var(--light) 30%, transparent));
+
+  &[data-light="cyan"] {
+    --light: #{colors.$led-cyan};
+  }
+
+  &[data-light="magenta"] {
+    --light: #{colors.$led-magenta};
+  }
+
+  @include mixins.hover {
+    border-color: color-mix(in srgb, var(--light) 60%, colors.$line);
+    // translate, not transform: transform is taken by the reveal
+    translate: 0 -4px;
+
+    .scene {
+      filter: brightness(1.15) saturate(1.1);
     }
   }
 }
 
-.icon-tile {
-  display: grid;
-  place-items: center;
-  width: 56px;
-  height: 56px;
-  border-radius: 16px;
-  background: colors.$accent-gradient;
-  box-shadow: 0 8px 24px -6px rgba(227, 87, 216, 0.5);
+/*
+ * A small dark stage across the top of the card, drawn in CSS: an LED wall,
+ * light beams, or lasers and sparks. A photo per service could replace it.
+ */
+.scene {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  margin: calc(-1 * var(--pad)) calc(-1 * var(--pad)) 0;
+  border-radius: calc(#{layouts.$radius-m} - 1px) calc(#{layouts.$radius-m} - 1px) 0 0;
+  background: linear-gradient(180deg, colors.$inverse-surface, colors.$inverse-bg);
+  transition: filter 0.4s ease;
+
+  // the stage floor
+  &::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 18%;
+    background: rgba(#000000, 0.45);
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+  }
+
+  // a glowing LED wall, its picture slowly shifting
+  &[data-scene="screen"]::before {
+    inset: 18% 20% 30%;
+    border-radius: 2px;
+    background:
+      radial-gradient(circle, rgba(#000000, 0.22) 1px, transparent 1.5px) 0 0 /
+        5px 5px,
+      linear-gradient(
+          120deg,
+          colors.$led-cyan,
+          colors.$glow 35%,
+          colors.$led-magenta 65%,
+          colors.$led-cyan
+        )
+        0 0 / 300% 100%;
+    box-shadow: 0 0 40px rgba(colors.$led-cyan, 0.55);
+    animation: screen-shift 12s linear infinite;
+  }
+
+  // three stage lights, gently swaying
+  &[data-scene="beams"]::before {
+    inset: 0 -10% 18%;
+    background:
+      conic-gradient(
+        from 165deg at 22% 0%,
+        transparent 0deg,
+        rgba(colors.$highlight, 0.55) 7deg,
+        transparent 16deg
+      ),
+      conic-gradient(
+        from 178deg at 50% 0%,
+        transparent 0deg,
+        rgba(colors.$highlight, 0.45) 8deg,
+        transparent 17deg
+      ),
+      conic-gradient(
+        from 190deg at 78% 0%,
+        transparent 0deg,
+        rgba(colors.$highlight, 0.55) 7deg,
+        transparent 16deg
+      );
+    transform-origin: 50% 0;
+    animation: beams-sway 7s ease-in-out infinite alternate;
+  }
+
+  // crossing lasers over a haze, with sparks twinkling
+  &[data-scene="sparks"]::before {
+    inset: 0;
+    background:
+      linear-gradient(
+        160deg,
+        transparent 49.6%,
+        rgba(colors.$led-magenta, 0.9) 50%,
+        transparent 50.4%
+      ),
+      linear-gradient(
+        20deg,
+        transparent 49.6%,
+        rgba(colors.$led-cyan, 0.8) 50%,
+        transparent 50.4%
+      ),
+      radial-gradient(
+          circle at 30% 70%,
+          rgba(colors.$highlight, 0.9) 1.5px,
+          transparent 2.5px
+        )
+        0 0 / 22px 18px,
+      radial-gradient(
+        ellipse 60% 40% at 50% 85%,
+        rgba(colors.$led-magenta, 0.45),
+        transparent
+      );
+    animation: sparks-twinkle 2.4s ease-in-out infinite alternate;
+  }
 }
 
-.icon {
-  width: 28px;
-  height: 28px;
-  // source icons are black line art
-  filter: invert(1);
-  mix-blend-mode: screen;
+// the coloured light by each title ties it to its scene and hero chip
+.service-title {
+  @include mixins.display-title(24px, 22px);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 24px;
+
+  &::before {
+    content: "";
+    flex: none;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--light);
+    box-shadow: 0 0 10px var(--light);
+  }
 }
 
-.index {
-  position: absolute;
-  top: 32px;
-  right: 32px;
-  font-family: "Inter", sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.25);
+@keyframes screen-shift {
+  to {
+    background-position:
+      0 0,
+      300% 0;
+  }
 }
 
-.title {
-  margin: 28px 0 12px;
-  font-family: "Inter", sans-serif;
-  font-size: 24px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: colors.$home-text;
+@keyframes beams-sway {
+  from {
+    transform: rotate(-3deg);
+  }
+  to {
+    transform: rotate(3deg);
+  }
+}
+
+@keyframes sparks-twinkle {
+  to {
+    opacity: 0.75;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene::before {
+    animation: none;
+  }
 }
 
 .description {
-  margin: 0;
-  font-size: 15px;
-  font-weight: 300;
-  line-height: 1.7;
-  color: colors.$home-text-muted;
+  margin: 12px 0 0;
+  font-size: 17px;
+  line-height: 1.65;
+  color: colors.$text-muted;
+}
+
+/* Whole row is the link, so it's an easy target on phones */
+.pricing-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 24px;
+  margin-top: 16px;
+  padding: 24px clamp(24px, 3vw, 32px);
+  border-radius: layouts.$radius-m;
+  background: colors.$highlight-fill;
+  color: colors.$on-highlight;
+  text-decoration: none;
+  @include mixins.hover {
+    // a light sheen over the fill, which may be a gradient
+    background:
+      linear-gradient(rgba(#ffffff, 0.16), rgba(#ffffff, 0.16)),
+      colors.$highlight-fill;
+
+    mat-icon {
+      transform: translateX(4px);
+    }
+  }
+
+  @include mixins.handset {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  // small accents: a white card; the arrow chip lights up on hover
+  @if colors.$accent-amount == small {
+    & {
+      background: colors.$surface;
+      color: colors.$text;
+      transition: border-color 0.2s ease;
+      @include mixins.card;
+    }
+
+    .pricing-hint {
+      color: colors.$text-muted;
+    }
+
+    .pricing-link mat-icon {
+      display: grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      box-sizing: border-box;
+      border: 1px solid colors.$line-strong;
+      border-radius: 999px;
+      transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.3s mixins.$ease-out;
+    }
+
+    @include mixins.hover {
+      border-color: colors.$line-strong;
+      background: colors.$surface;
+
+      .pricing-link mat-icon {
+        border-color: transparent;
+        background: colors.$highlight-fill;
+        color: colors.$on-highlight;
+      }
+    }
+  }
+}
+
+.pricing-text {
+  display: grid;
+  gap: 4px;
+}
+
+.pricing-title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.pricing-hint {
+  font-size: 16px;
+  color: rgba(colors.$on-highlight, 0.8);
+}
+
+.pricing-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  font-size: 16px;
+  font-weight: 600;
+  white-space: nowrap;
+
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s mixins.$ease-out;
+  }
 }

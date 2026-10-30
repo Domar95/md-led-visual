@@ -1,0 +1,123 @@
+@use "src/styles/colors.scss" as colors;
+@use "src/styles/mixins.scss" as mixins;
+@use "src/views/_page-header.scss" as page-header;
+
+:host {
+  display: block;
+}
+
+.about-page {
+  @include page-header.page;
+}
+
+.header {
+  @include page-header.header;
+}
+
+/* Wide photo of the team with the equipment, or its stand-in */
+.photo {
+  overflow: hidden;
+  aspect-ratio: 16 / 7;
+  margin: 0 0 clamp(40px, 5vw, 64px);
+  border-radius: 10px;
+  background: colors.$inverse-bg;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @include mixins.handset {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+// a dark stage with a lit LED wall, labelled as the photo to come
+.photo-placeholder {
+  position: relative;
+  display: grid;
+  place-items: end start;
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  background:
+    linear-gradient(transparent 60%, rgba(colors.$inverse-bg, 0.8)),
+    radial-gradient(
+      ellipse 40% 30% at 50% 45%,
+      rgba(colors.$led-cyan, 0.45),
+      transparent
+    ),
+    linear-gradient(180deg, colors.$inverse-surface, colors.$inverse-bg);
+  color: colors.$inverse-muted;
+  font-size: 14px;
+  font-weight: 600;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 22% 30% 34%;
+    border-radius: 3px;
+    background:
+      radial-gradient(circle, rgba(#000000, 0.22) 1px, transparent 1.5px) 0 0 /
+        6px 6px,
+      linear-gradient(
+        120deg,
+        colors.$highlight,
+        colors.$led-cyan 45%,
+        colors.$glow 70%,
+        colors.$led-magenta
+      );
+  }
+}
+
+/* Heading on the left, text on the right; stacked below 960px */
+.block {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  gap: 16px 48px;
+  padding-bottom: clamp(40px, 5vw, 64px);
+
+  & + & {
+    padding-top: clamp(40px, 5vw, 64px);
+    border-top: 1px solid colors.$line;
+  }
+
+  @include mixins.tablet-down {
+    grid-template-columns: 1fr;
+  }
+}
+
+.block-label {
+  @include mixins.display-title(28px, 22px);
+}
+
+.block-body p {
+  @include mixins.body-text;
+  margin: 0 0 1em;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-top: 32px;
+  border-top: 1px solid colors.$line;
+
+  @include mixins.handset {
+    flex-direction: column;
+  }
+}
+
+.cta-primary {
+  @include mixins.button-primary;
+}
+
+.cta-secondary {
+  @include mixins.button-secondary;
+}

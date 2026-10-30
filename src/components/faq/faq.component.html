@@ -1,0 +1,17 @@
+@if (items.length) {
+<section class="faq">
+  <header class="header" mdlvReveal>
+    <span class="label">Częste pytania</span>
+    <h2 class="title">Zanim zarezerwujesz termin</h2>
+  </header>
+
+  <div class="list" mdlvReveal>
+    @for (item of items; track item.question) {
+    <details class="item">
+      <summary class="question">{{ item.question }}</summary>
+      <p class="answer">{{ item.answer }}</p>
+    </details>
+    }
+  </div>
+</section>
+}

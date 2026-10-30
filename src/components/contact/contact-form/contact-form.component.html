@@ -1,16 +1,24 @@
 <div class="form-card">
   @if (isSent()) {
   <div class="success" role="status">
-    <span class="success-icon"><mat-icon>check</mat-icon></span>
-    <h3>Dziękujemy za wiadomość!</h3>
-    <p>Odezwiemy się najszybciej, jak to możliwe.</p>
-    <button mat-stroked-button type="button" (click)="isSent.set(false)">
+    <span class="success-mark" aria-hidden="true"><mat-icon>check</mat-icon></span>
+    <h2 class="success-title">Dziękujemy za wiadomość</h2>
+    <p class="success-text">Odezwiemy się najszybciej, jak to możliwe.</p>
+    <button
+      mat-stroked-button
+      class="success-button"
+      type="button"
+      (click)="isSent.set(false)"
+    >
       Wyślij kolejną wiadomość
     </button>
   </div>
   } @else {
-  <h3 class="form-title">Napisz do nas</h3>
-  <p class="form-subtitle">Wszystkie pola są wymagane.</p>
+  <h2 class="form-title">Napisz do nas</h2>
+  <p class="form-subtitle">
+    Podaj datę, miejsce i rodzaj wydarzenia. Wszystkie pola poza datą są
+    wymagane.
+  </p>
 
   <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" novalidate>
     <div class="form-grid">
@@ -30,10 +38,10 @@
 
       <mat-form-field appearance="outline">
         <mat-label>E-mail</mat-label>
-        <mat-icon matSuffix>mail</mat-icon>
         <input
           matInput
           type="email"
+          inputmode="email"
           formControlName="email"
           autocomplete="email"
         />
@@ -45,10 +53,45 @@
 
       <mat-form-field appearance="outline">
         <mat-label>Telefon</mat-label>
-        <mat-icon matSuffix>phone</mat-icon>
-        <input matInput type="tel" formControlName="phone" autocomplete="tel" />
+        <input
+          matInput
+          type="tel"
+          inputmode="tel"
+          formControlName="phone"
+          autocomplete="tel"
+        />
         @if (contactForm.get('phone')?.hasError('required')) {
         <mat-error>{{ requiredErrorMessage }}</mat-error>}
+      </mat-form-field>
+
+      <!-- picked from the calendar only, so no date format to type -->
+      <mat-form-field appearance="outline" class="full-width date-field">
+        <mat-label>Data wydarzenia (jeśli znasz)</mat-label>
+        <input
+          matInput
+          readonly
+          formControlName="eventDate"
+          [matDatepicker]="picker"
+          [min]="today"
+          placeholder="Wybierz z kalendarza"
+          (click)="picker.open()"
+        />
+        @if (contactForm.controls.eventDate.value) {
+        <button
+          mat-icon-button
+          matIconSuffix
+          type="button"
+          aria-label="Wyczyść datę"
+          (click)="contactForm.controls.eventDate.setValue(null)"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+        }
+        <mat-datepicker-toggle matIconSuffix [for]="picker">
+          <mat-icon matDatepickerToggleIcon>calendar_month</mat-icon>
+        </mat-datepicker-toggle>
+        <mat-datepicker #picker [touchUi]="isHandset"></mat-datepicker>
+        <mat-hint>Sprawdzimy dostępność w tym terminie</mat-hint>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="full-width">
@@ -57,7 +100,7 @@
           matInput
           formControlName="message"
           rows="5"
-          placeholder="Data, miejsce i rodzaj wydarzenia, czego potrzebujesz..."
+          placeholder="Miejsce i rodzaj wydarzenia, czego potrzebujesz..."
         ></textarea>
         @if (contactForm.get('message')?.hasError('required')) {
         <mat-error>{{ requiredErrorMessage }}</mat-error>}
@@ -76,7 +119,7 @@
       }
       {{ isSending() ? 'Wysyłanie...' : 'Wyślij wiadomość' }}
       @if (!isSending()) {
-      <mat-icon iconPositionEnd>send</mat-icon>
+      <mat-icon iconPositionEnd>arrow_forward</mat-icon>
       }
     </button>
   </form>

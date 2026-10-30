@@ -1,7 +1,8 @@
 @use "src/styles/layouts.scss" as layouts;
+@use "src/styles/mixins.scss" as mixins;
 
 .default-content-container {
-  max-width: layouts.$content-width;
-  margin: 0 auto;
-  padding-bottom: 64px;
+  @include mixins.container;
+  padding-top: layouts.$page-top;
+  padding-bottom: layouts.$section-space;
 }

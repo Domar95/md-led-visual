@@ -1,22 +1,32 @@
-@use "@angular/material" as mat;
-@use "src/styles/colors.scss" as colors;
+@use "src/styles/mixins.scss" as mixins;
+@use "src/styles/layouts.scss" as layouts;
 
-// matches the text links next to it in the navbar
-.home-button {
-  @include mat.icon-button-overrides(
-    (
-      state-layer-color: colors.$home-text,
-    )
-  );
-
-  &.active {
-    background: rgba(139, 123, 255, 0.16);
-    box-shadow: inset 0 0 0 1px rgba(139, 123, 255, 0.35);
-  }
+:host {
+  display: inline-flex;
 }
 
-// the transparent navbar highlights the active link with its own sliding drop
-:host-context(.transparent) .home-button.active {
-  background: none;
-  box-shadow: none;
+// inherits colour, so it works on the light bar and the dark footer
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  color: inherit;
+  text-decoration: none;
+  border-radius: layouts.$radius-s;
+}
+
+// sizes can be set by the parent, e.g. the navbar
+.logo {
+  display: block;
+  width: var(--logo-size, 32px);
+  height: var(--logo-size, 32px);
+}
+
+.wordmark {
+  font-family: mixins.$font-display;
+  font-size: var(--wordmark-size, 18px);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
 }

@@ -3,77 +3,288 @@
 @use "src/styles/layouts.scss" as layouts;
 @use "src/styles/mixins.scss" as mixins;
 
-.button-group {
-  display: flex;
-  gap: layouts.$navbar-gap;
+$bar-height-handset: 64px;
+
+/*
+ * Sticky, in the document flow: pages start below the bar. The hairline
+ * appears once the page scrolls. On the home page the photo hero runs up
+ * under the bar, which is see-through over it until the page scrolls.
+ */
+:host {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: block;
 }
 
-/* Classes for default navbar */
-.spacer {
-  flex: 1 1 auto;
+.navbar {
+  background: colors.$bg;
+  border-bottom: 1px solid transparent;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+
+  &.scrolled {
+    border-bottom-color: colors.$line;
+  }
+
+  // over the home page's photo: light text, light phone button
+  &.overlay {
+    background: transparent;
+    color: colors.$inverse-text;
+
+    .link {
+      color: colors.$inverse-muted;
+
+      &::after {
+        background: colors.$inverse-text;
+      }
+
+      @include mixins.hover {
+        color: colors.$inverse-text;
+      }
+
+      &.active {
+        color: colors.$inverse-text;
+      }
+    }
+
+    .cta {
+      @include mat.button-overrides(
+        (
+          filled-container-color: colors.$inverse-text,
+          filled-label-text-color: colors.$text,
+          filled-state-layer-color: colors.$text,
+        )
+      );
+    }
+
+    .menu-toggle {
+      color: colors.$inverse-text;
+    }
+
+    :focus-visible {
+      outline-color: colors.$inverse-text;
+    }
+  }
 }
 
-/* Classes for transparent navbar */
-.transparent-navbar-container {
-  position: relative;
+// a larger logo than in the footer
+mdlv-home-button {
+  --logo-size: 38px;
+  --wordmark-size: 19px;
+
+  @include mixins.handset {
+    --logo-size: 35px;
+    --wordmark-size: 18px;
+  }
+}
+
+.bar {
+  @include mixins.container;
   display: flex;
   align-items: center;
-  margin-top: 20px;
-  padding: 6px;
-  border-radius: 999px;
-  gap: layouts.$navbar-gap;
-  // light frosted surface so the page shows through
-  background: rgba(14, 12, 24, 0.35);
-  border: 1px solid colors.$home-border;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
-  transition: margin-top 0.3s ease, background-color 0.3s ease,
-    box-shadow 0.3s ease;
+  gap: 40px;
+  height: layouts.$navbar-height;
+
+  @include mixins.handset {
+    height: $bar-height-handset;
+    justify-content: space-between;
+  }
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+  padding: 0 12px;
+  font-size: 16px;
+  font-weight: 500;
+  color: colors.$text-muted;
+  text-decoration: none;
+  border-radius: layouts.$radius-s;
+  transition: color 0.2s ease;
+
+  // active page: ink label with a 2px ink rule under it
+  &::after {
+    content: "";
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 6px;
+    height: 2px;
+    background: colors.$accent;
+    transform: scaleX(0);
+    transition: transform 0.25s mixins.$ease-out;
+  }
+
+  @include mixins.hover {
+    color: colors.$text;
+  }
+
+  &.active {
+    color: colors.$text;
+
+    &::after {
+      transform: scaleX(1);
+    }
+  }
+}
+
+.cta {
+  font-feature-settings: "tnum";
+  @include mixins.button-primary;
   @include mat.button-overrides(
     (
-      text-label-text-color: colors.$home-text,
-      text-state-layer-color: colors.$home-text,
+      filled-container-height: 44px,
+      filled-horizontal-padding: 18px,
+      filled-label-text-size: 15px,
     )
   );
+}
 
-  .scrolled & {
-    margin-top: 12px;
-    background-color: rgba(14, 12, 24, 0.6);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+/* Handset menu toggle: two rules that cross into an X */
+.menu-toggle {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin-right: -12px;
+  padding: 0;
+  border: 0;
+  border-radius: layouts.$radius-s;
+  background: none;
+  color: colors.$text;
+  cursor: pointer;
+}
+
+.menu-toggle-line {
+  position: absolute;
+  left: 13px;
+  width: 22px;
+  height: 2px;
+  border-radius: 1px;
+  background: currentColor;
+  transition: transform 0.25s mixins.$ease-out;
+
+  &:first-child {
+    transform: translateY(-4px);
   }
 
-  // keep the links above the sliding indicator
-  > :not(.nav-indicator) {
-    position: relative;
-    z-index: 1;
+  &:last-child {
+    transform: translateY(4px);
+  }
+
+  .open &:first-child {
+    transform: rotate(45deg);
+  }
+
+  .open &:last-child {
+    transform: rotate(-45deg);
   }
 }
 
-/* Highlight that slides to the active link */
-.nav-indicator {
-  @include mixins.control-selected;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 0;
+/* Handset menu: a sheet under the bar, so the toggle stays where it was */
+.menu {
+  position: fixed;
+  inset: $bar-height-handset 0 0;
+  z-index: 99;
+  display: flex;
+  flex-direction: column;
+  height: calc(100dvh - #{$bar-height-handset});
+  padding: 8px layouts.$handset-side-padding
+    calc(20px + env(safe-area-inset-bottom));
   box-sizing: border-box;
-  border-radius: 999px;
-  opacity: 0;
-  pointer-events: none;
-  transition: transform 0.55s cubic-bezier(0.34, 1.4, 0.64, 1),
-    width 0.55s cubic-bezier(0.34, 1.4, 0.64, 1), opacity 0.3s ease;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: colors.$bg;
+  border-top: 1px solid colors.$line;
+  animation: menu-in 0.2s mixins.$ease-out both;
+}
 
-  &.no-transition {
+.menu-links {
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 64px;
+  border-bottom: 1px solid colors.$line;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: colors.$text-muted;
+  text-decoration: none;
+
+  &.active {
+    color: colors.$text;
+  }
+}
+
+.menu-link-icon {
+  color: colors.$text-subtle;
+
+  .active & {
+    color: colors.$text;
+  }
+}
+
+.menu-contact {
+  display: flex;
+  flex-direction: column;
+  margin-top: 32px;
+}
+
+.menu-label {
+  @include mixins.label($marker: false);
+  margin-bottom: 4px;
+}
+
+.menu-contact-link {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 18px;
+  font-weight: 500;
+  color: colors.$text;
+  text-decoration: none;
+  font-feature-settings: "tnum";
+}
+
+// bottom of the sheet: within thumb reach
+.menu-cta {
+  flex: none;
+  width: 100%;
+  margin-top: auto;
+  @include mixins.button-primary;
+}
+
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu {
+    animation: none;
+  }
+
+  .menu-toggle-line,
+  .link::after {
     transition: none;
   }
-
-  @media (prefers-reduced-motion: reduce) {
-    transition: opacity 0.3s ease;
-  }
-}
-
-/* Active link on the default (purple) navbar */
-.default .button-group a.active {
-  background: rgba(255, 255, 255, 0.18);
 }

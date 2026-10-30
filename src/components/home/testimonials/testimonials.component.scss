@@ -1,0 +1,263 @@
+@use "src/styles/colors.scss" as colors;
+@use "src/styles/layouts.scss" as layouts;
+@use "src/styles/mixins.scss" as mixins;
+
+// on the plain page, below the dark band of numbers
+.testimonials {
+  padding-top: layouts.$section-space;
+}
+
+.inner {
+  @include mixins.container;
+}
+
+/* Title on the left, a short lead and a link to the gallery on the right */
+.header {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  align-items: end;
+  gap: 16px 48px;
+  margin-bottom: clamp(24px, 3vw, 36px);
+
+  @include mixins.tablet-down {
+    grid-template-columns: 1fr;
+  }
+}
+
+.header-main,
+.header-side {
+  display: grid;
+  gap: 12px;
+}
+
+.header-side {
+  justify-items: start;
+}
+
+.label {
+  @include mixins.label;
+}
+
+.title {
+  @include mixins.display-title(40px, 28px);
+}
+
+.lead {
+  @include mixins.lead;
+  font-size: 17px;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  font-size: 16px;
+  font-weight: 600;
+  color: colors.$text;
+  text-decoration: none;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    transition: transform 0.3s mixins.$ease-out;
+  }
+
+  @include mixins.hover {
+    mat-icon {
+      transform: translateX(4px);
+    }
+  }
+}
+
+/*
+ * Three compact quote cards in a row; one column on tablets, and a sideways
+ * swipe row on phones, with the next card peeking in
+ */
+.quotes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include mixins.tablet-down {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  @include mixins.handset {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: layouts.$gutter;
+    scrollbar-width: none;
+    // bleed to the screen edges so the row scrolls under the gutter
+    margin-inline: calc(-1 * #{layouts.$gutter});
+    padding-inline: layouts.$gutter;
+    // room for the cards' hover lift and shadows
+    padding-block: 4px;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    > .quote {
+      flex: 0 0 85%;
+      scroll-snap-align: start;
+    }
+  }
+}
+
+/*
+ * Plain white cards; one of the logo's colours (--light) only in the
+ * quotation mark, the initials and the hover light
+ */
+.quote {
+  --light: #{colors.$highlight};
+  padding: clamp(20px, 2.5vw, 28px);
+  transition:
+    border-color 0.3s ease,
+    translate 0.4s mixins.$ease-out;
+  @include mixins.card;
+  @include mixins.spotlight(color-mix(in srgb, var(--light) 26%, transparent));
+
+  &[data-light="cyan"] {
+    --light: #{colors.$led-cyan};
+  }
+
+  &[data-light="magenta"] {
+    --light: #{colors.$led-magenta};
+  }
+
+  // a large closing quotation mark in the card's corner, clear of the text
+  &::after {
+    content: "”";
+    position: absolute;
+    top: 6px;
+    right: 18px;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 72px;
+    line-height: 1;
+    color: var(--light);
+    pointer-events: none;
+  }
+
+  @include mixins.hover {
+    border-color: color-mix(in srgb, var(--light) 60%, colors.$line);
+    // translate, not transform: transform is taken by the reveal
+    translate: 0 -4px;
+  }
+
+  figure {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin: 0;
+  }
+
+  blockquote {
+    margin: 0;
+    // room for the corner mark on the first line
+    padding-right: 40px;
+    font-size: 16px;
+    line-height: 1.65;
+    color: colors.$text;
+    text-wrap: pretty;
+  }
+
+  figcaption {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: auto;
+    padding-top: 18px;
+  }
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--light);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: colors.$on-highlight;
+}
+
+.who {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+}
+
+.name {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.meta {
+  font-size: 14px;
+  color: colors.$text-muted;
+}
+
+/* Client logos, greyed so they sit quietly under the quotes */
+.clients {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 32px;
+  margin-top: clamp(24px, 3vw, 32px);
+}
+
+.clients-label {
+  @include mixins.label($marker: false);
+}
+
+.logos {
+  display: grid;
+  flex: 1;
+  // auto-fit: the boxes stretch to fill the row
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+  min-width: min(100%, 320px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include mixins.handset {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+}
+
+.logo {
+  display: grid;
+  place-items: center;
+  height: 48px;
+  padding: 0 12px;
+  border: 1px dashed colors.$line-strong;
+  border-radius: layouts.$radius-s;
+  font-size: 13px;
+  font-weight: 600;
+  color: colors.$text-subtle;
+  text-align: center;
+
+  img {
+    max-width: 100%;
+    max-height: 28px;
+    filter: grayscale(1);
+    opacity: 0.7;
+  }
+
+  // a real logo needs no frame
+  &:has(img) {
+    border-color: transparent;
+  }
+}

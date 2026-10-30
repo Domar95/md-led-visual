@@ -1,14 +1,43 @@
-<div class="features-container">
-  @for (feature of features; track feature.title; let i = $index) {
-  <div class="feature" mdlvReveal [style.--reveal-delay]="i * 120 + 'ms'">
-    <article class="feature-card">
-      <div class="icon-tile">
-        <img class="icon" [src]="feature.icon" [alt]="feature.title" />
-      </div>
-      <span class="index">0{{ i + 1 }}</span>
-      <h3 class="title">{{ feature.title }}</h3>
-      <p class="description">{{ feature.description }}</p>
-    </article>
+<section class="services">
+  <div class="inner">
+    <header class="header" mdlvReveal>
+      <span class="label">Co robimy</span>
+      <h2 class="title">
+        Obraz, światło i efekty specjalne
+        <span class="highlight">od jednego partnera</span>
+      </h2>
+      <p class="lead">
+        Dobieramy ekrany LED, oświetlenie i efekty do miejsca i charakteru
+        wydarzenia, a w dniu realizacji dbamy o to, żeby wszystko działało
+        tak, jak zostało zaplanowane.
+      </p>
+    </header>
+
+    <ul class="service-list">
+      @for (feature of features; track feature.title; let i = $index) {
+      <li
+        class="service"
+        mdlvReveal
+        mdlvSpotlight
+        [attr.data-light]="feature.light"
+        [style.--reveal-delay]="i * 100 + 'ms'"
+      >
+        <div class="scene" [attr.data-scene]="feature.scene" aria-hidden="true"></div>
+        <h3 class="service-title">{{ feature.title }}</h3>
+        <p class="description">{{ feature.description }}</p>
+      </li>
+      }
+    </ul>
+
+    <a class="pricing-row" [routerLink]="['/wycena']" mdlvReveal>
+      <span class="pricing-text">
+        <span class="pricing-title">Chcesz poznać orientacyjny koszt?</span>
+        <span class="pricing-hint">Wybierz parametry w kalkulatorze wyceny.</span>
+      </span>
+      <span class="pricing-link">
+        Sprawdź wycenę
+        <mat-icon aria-hidden="true">arrow_forward</mat-icon>
+      </span>
+    </a>
   </div>
-  }
-</div>
+</section>

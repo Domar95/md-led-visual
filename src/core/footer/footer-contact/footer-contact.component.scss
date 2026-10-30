@@ -1,52 +1,43 @@
 @use "src/styles/colors.scss" as colors;
 @use "src/styles/mixins.scss" as mixins;
 
-h3 {
-  @include mixins.footer-heading;
+:host {
+  display: block;
 }
 
-.contact-info-container {
+h3 {
+  @include mixins.footer-heading;
+  color: colors.$inverse-muted;
+}
+
+.contact-list {
   display: flex;
   flex-direction: column;
   gap: 12px;
   margin: 0;
   padding: 0;
   list-style: none;
+
+  li {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
-.contact-item {
+.contact-label {
+  font-size: 14px;
+  color: colors.$inverse-muted;
+}
+
+.contact-value {
+  @include mixins.text-link;
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  font-size: 15px;
-  color: colors.$home-text-muted;
-  text-decoration: none;
-  transition: color 0.2s ease;
-
-  &:hover {
-    color: colors.$home-text;
-
-    .icon-tile {
-      background: colors.$accent-gradient;
-      border-color: transparent;
-    }
-  }
-}
-
-.icon-tile {
-  display: grid;
-  place-items: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  border: 1px solid colors.$home-border;
-  background: colors.$home-surface;
-  color: colors.$home-text;
-  transition: background 0.3s ease;
-
-  mat-icon {
-    font-size: 18px;
-    width: 18px;
-    height: 18px;
-  }
+  align-self: flex-start;
+  min-height: 44px;
+  font-size: 17px;
+  font-weight: 500;
+  color: colors.$inverse-text;
+  text-decoration-color: colors.$inverse-line;
+  font-feature-settings: "tnum";
 }

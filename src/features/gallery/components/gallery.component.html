@@ -1,16 +1,26 @@
 <div class="gallery-container" [@galleryThumbnailsTrigger]="filteredImages()">
   @if (isLoading()) {
-  <div class="skeleton-grid" aria-label="Ładowanie galerii">
+  <div class="skeleton-grid" aria-label="Ładowanie galerii" aria-busy="true">
     @for (tile of skeletonTiles; track tile) {
     <div class="skeleton-tile"></div>
     }
   </div>
   } @else if (filteredImages().length) {
   <mdlv-photo-swipe [images]="filteredImages()"></mdlv-photo-swipe>
+  } @else if (hasError()) {
+  <div class="empty" role="status">
+    <p class="empty-title">Nie udało się wczytać zdjęć</p>
+    <p class="empty-text">
+      Odśwież stronę za chwilę. Jeśli problem się powtarza,
+      <a routerLink="/kontakt">napisz do nas</a>.
+    </p>
+  </div>
   } @else {
-  <div class="empty">
-    <mat-icon>photo_library</mat-icon>
-    <p>Brak zdjęć w tej kategorii.</p>
+  <div class="empty" role="status">
+    <p class="empty-title">Brak zdjęć w tej kategorii</p>
+    <p class="empty-text">
+      Zajrzyj do <a routerLink="/galeria/wszystkie">wszystkich realizacji</a>.
+    </p>
   </div>
   }
 </div>

@@ -1,3 +1,13 @@
+@use "src/styles/colors.scss" as colors;
+@use "src/styles/mixins.scss" as mixins;
+
 :host {
-  text-align: center;
+  display: block;
+  padding-bottom: clamp(32px, 4vw, 48px);
+  margin-bottom: clamp(32px, 4vw, 48px);
+  border-bottom: 1px solid colors.$line;
+}
+
+h1 {
+  @include mixins.display-title(56px, 36px);
 }

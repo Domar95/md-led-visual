@@ -1,14 +1,293 @@
-/* Common colors */
-$deep-purple: #0e0027;
-$rich-black: #00060b;
-$black: #000907;
+@use "sass:map";
 
-/* Home page (dark) */
-$home-bg: #08070f;
-$home-surface: #100e1c;
-$home-border: rgba(255, 255, 255, 0.09);
-$home-text: #f3f1ff;
-$home-text-muted: rgba(243, 241, 255, 0.66);
-$accent-violet: #8b7bff;
-$accent-magenta: #e357d8;
-$accent-gradient: linear-gradient(120deg, $accent-violet 0%, $accent-magenta 100%);
+/*
+ * Quiet and readable: ink on paper (or light on black for a dark scheme);
+ * photography carries the colour.
+ * $highlight is the brand moment: small fills behind $on-highlight text, a
+ * marker under words, a glow on dark bands. It must stay bright.
+ * $accent is the interactive colour (active, selected, focus) and is ink.
+ *
+ * Switch the whole site's colours by changing $palette below. Also update
+ * the theme-color meta in index.html to the palette's bg.
+ */
+$palette: "slate";
+
+/* Palettes may override these */
+$_defaults: (
+  scheme: light,
+  // full: the accent fills the pricing row and title markers;
+  // small: those go dark or thin and the accent stays on details
+  accent-amount: full,
+  on-accent: #ffffff,
+  error: #b3261e,
+);
+
+$_palettes: (
+  /* Dark venue: near-black, light ink and the logo yellow glowing */
+  "stage": (
+    scheme: dark,
+    bg: #0d0d0f,
+    surface: #161619,
+    surface-sunken: #1c1c20,
+    line: #2a2a2f,
+    line-strong: #3e3e45,
+    text: #f3f2ee,
+    text-muted: #b3b1aa,
+    text-subtle: #8a8881,
+    accent-hover: #ffffff,
+    on-accent: #0d0d0f,
+    highlight: #f1e34a,
+    on-highlight: #161615,
+    inverse-bg: #050506,
+    inverse-surface: #121215,
+    inverse-text: #f3f2ee,
+    error: #ff8a80,
+  ),
+  /*
+   * A softer, greyer take on the "logo" blues, with butter yellow used only
+   * on details
+   */
+  "slate": (
+    accent-amount: small,
+    bg: #f3f5f8,
+    surface: #ffffff,
+    surface-sunken: #e8ecf2,
+    line: #dde2ea,
+    line-strong: #c4ccd8,
+    text: #142033,
+    text-muted: #4a5568,
+    text-subtle: #687284,
+    accent-hover: #000000,
+    highlight: #f0de78,
+    glow: #4a78d0,
+    inverse-bg: #0f1a2b,
+    inverse-surface: #18253a,
+    inverse-text: #f3f5f8,
+  ),
+  /*
+   * The "logo" blues, with the diamond's own rainbow (soft yellow, cyan,
+   * magenta) as a gradient on the accent fills; cyan wherever one colour is
+   * needed (glows, tints, text selection)
+   */
+  "spectrum": (
+    bg: #f2f5fb,
+    surface: #ffffff,
+    surface-sunken: #e7ecf5,
+    line: #dbe2ee,
+    line-strong: #c0cadb,
+    text: #0b1230,
+    text-muted: #44506b,
+    text-subtle: #65708a,
+    accent-hover: #000000,
+    highlight: #8fe3f0,
+    fill: linear-gradient(90deg, #f7e36a, #8fe3f0 50%, #ee8ee2),
+    glow: #3d6bff,
+    inverse-bg: #08102a,
+    inverse-surface: #121b3a,
+    inverse-text: #f2f5fb,
+  ),
+  /*
+   * From the logo: its night sky, pulled towards navy, for ink and dark
+   * bands; the diamond's yellow, softened to butter, for the accent; and its
+   * electric blue as a second light
+   */
+  "logo": (
+    bg: #f2f5fb,
+    surface: #ffffff,
+    surface-sunken: #e7ecf5,
+    line: #dbe2ee,
+    line-strong: #c0cadb,
+    text: #0b1230,
+    text-muted: #44506b,
+    text-subtle: #65708a,
+    accent-hover: #000000,
+    highlight: #f0de78,
+    glow: #3d6bff,
+    inverse-bg: #08102a,
+    inverse-surface: #121b3a,
+    inverse-text: #f2f5fb,
+  ),
+  /* Warm off-white, near-black ink and a coral-red "live" light */
+  "signal": (
+    bg: #f8f6f4,
+    surface: #ffffff,
+    surface-sunken: #efebe8,
+    line: #e5dfdb,
+    line-strong: #cec5c0,
+    text: #1a1414,
+    text-muted: #574d4b,
+    text-subtle: #776c69,
+    accent-hover: #000000,
+    highlight: #ff5a4a,
+    inverse-bg: #170f0e,
+    inverse-surface: #221918,
+    inverse-text: #f8f6f4,
+  ),
+  /* Lilac-white paper, deep indigo ink and an ultraviolet glow */
+  "violet": (
+    bg: #f5f4f9,
+    surface: #ffffff,
+    surface-sunken: #ebe9f3,
+    line: #dfdcea,
+    line-strong: #c6c1d8,
+    text: #16132b,
+    text-muted: #4d4866,
+    text-subtle: #6d6886,
+    accent-hover: #000000,
+    highlight: #b69cff,
+    inverse-bg: #120f24,
+    inverse-surface: #1c1833,
+    inverse-text: #f5f4f9,
+  ),
+  /* Sage-tinted paper, green-black ink and an acid-lime LED accent */
+  "lime": (
+    bg: #f4f5ef,
+    surface: #ffffff,
+    surface-sunken: #e9ebe2,
+    line: #dde0d4,
+    line-strong: #c4c8b9,
+    text: #14180f,
+    text-muted: #4c5245,
+    text-subtle: #6a7062,
+    accent-hover: #000000,
+    highlight: #c6f03c,
+    inverse-bg: #12160e,
+    inverse-surface: #1b2016,
+    inverse-text: #f4f5ef,
+  ),
+  /* Warm paper and the yellow from the logo */
+  "paper": (
+    bg: #f7f6f3,
+    surface: #ffffff,
+    surface-sunken: #efede8,
+    line: #e3e0da,
+    line-strong: #cbc7bf,
+    text: #161615,
+    text-muted: #55534e,
+    text-subtle: #77746d,
+    accent-hover: #000000,
+    highlight: #f1e34a,
+    inverse-bg: #161615,
+    inverse-surface: #1f1f1d,
+    inverse-text: #f7f6f3,
+  ),
+  /* Cool paper, navy ink and LED cyan */
+  "midnight": (
+    bg: #f3f5f9,
+    surface: #ffffff,
+    surface-sunken: #e8ecf3,
+    line: #dbe1ea,
+    line-strong: #c2cad8,
+    text: #0f1626,
+    text-muted: #475166,
+    text-subtle: #687185,
+    accent-hover: #000814,
+    highlight: #38e8d2,
+    inverse-bg: #0b1120,
+    inverse-surface: #141c2e,
+    inverse-text: #eef2f8,
+  ),
+  /* Blush paper, plum ink and hot pink stage light */
+  "neon": (
+    bg: #f8f5f6,
+    surface: #ffffff,
+    surface-sunken: #f0eaed,
+    line: #e6dde2,
+    line-strong: #cfc2c9,
+    text: #1a1018,
+    text-muted: #584a54,
+    text-subtle: #786973,
+    accent-hover: #000000,
+    // the hot pink of #ff5cad, dimmed so large fills don't glare
+    highlight: #eb4f9e,
+    inverse-bg: #160d16,
+    inverse-surface: #211620,
+    inverse-text: #f8f2f6,
+  ),
+  /* Warm stone, brown-black ink and an orange glow */
+  "ember": (
+    bg: #f6f3ee,
+    surface: #ffffff,
+    surface-sunken: #ede7df,
+    line: #e2dad0,
+    line-strong: #cbbfb1,
+    text: #1b1611,
+    text-muted: #594f45,
+    text-subtle: #796d61,
+    accent-hover: #000000,
+    highlight: #ff8c42,
+    inverse-bg: #1a130d,
+    inverse-surface: #241b14,
+    inverse-text: #f8f3ec,
+  ),
+);
+
+$_colors: map.merge($_defaults, map.get($_palettes, $palette));
+
+/* light | dark: drives the browser and Angular Material themes */
+$scheme: map.get($_colors, scheme);
+
+/* full | small: how much of the page the accent covers */
+$accent-amount: map.get($_colors, accent-amount);
+
+$bg: map.get($_colors, bg);
+$surface: map.get($_colors, surface);
+$surface-sunken: map.get($_colors, surface-sunken);
+$surface-raised: $surface;
+
+$line: map.get($_colors, line);
+$line-strong: map.get($_colors, line-strong);
+
+$text: map.get($_colors, text);
+$text-muted: map.get($_colors, text-muted);
+$text-subtle: map.get($_colors, text-subtle);
+
+$accent: $text;
+$accent-hover: map.get($_colors, accent-hover);
+$on-accent: map.get($_colors, on-accent);
+
+$highlight: map.get($_colors, highlight);
+$on-highlight: $text;
+@if map.has-key($_colors, on-highlight) {
+  $on-highlight: map.get($_colors, on-highlight);
+}
+
+/*
+ * The accent as a fill for backgrounds. Always an image, so a palette may
+ * make it a gradient; use $highlight where one colour is needed.
+ */
+$highlight-fill: linear-gradient($highlight, $highlight);
+@if map.has-key($_colors, fill) {
+  $highlight-fill: map.get($_colors, fill);
+}
+
+/* The logo's other lights, for the home hero only; the same in every palette */
+$led-cyan: #5fd4e6;
+// lightened to sit with the cyan and the butter
+$led-magenta: #e8a0e2;
+
+/* Optional second light in the dark bands; none when it equals $highlight */
+$glow: $highlight;
+@if map.has-key($_colors, glow) {
+  $glow: map.get($_colors, glow);
+}
+
+$error: map.get($_colors, error);
+
+/* Loading shimmer sweeping over $surface-sunken */
+$shimmer: rgba(#ffffff, 0.55);
+@if $scheme == dark {
+  $shimmer: rgba($text, 0.06);
+}
+
+/* Dark bands (services "stage", footer) */
+$inverse-bg: map.get($_colors, inverse-bg);
+$inverse-surface: map.get($_colors, inverse-surface);
+$inverse-text: map.get($_colors, inverse-text);
+$inverse-muted: rgba($inverse-text, 0.68);
+$inverse-subtle: rgba($inverse-text, 0.44);
+$inverse-line: rgba($inverse-text, 0.16);
+$inverse-line-strong: rgba($inverse-text, 0.32);
+
+/* Photo scrim, for the rare text laid over images */
+$scrim: rgba($inverse-bg, 0.72);

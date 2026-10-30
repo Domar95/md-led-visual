@@ -1,24 +1,13 @@
-@use "@angular/material" as mat;
 @use "src/styles/colors.scss" as colors;
-@use "src/styles/_theme-colors.scss" as theme-colors;
 
+// the sticky navbar stays pinned while this layout is in view
 :host {
   display: block;
-  background: colors.$home-bg;
-  color: colors.$home-text;
-  color-scheme: dark;
-  @include mat.theme(
-    (
-      color: (
-        theme-type: dark,
-        primary: theme-colors.$primary-palette,
-        tertiary: theme-colors.$tertiary-palette,
-      ),
-    )
-  );
+  background: colors.$bg;
+  color: colors.$text;
 }
 
 .home-content-container {
-  margin: 0 auto;
+  display: block;
   overflow-x: clip;
 }

@@ -1,16 +1,14 @@
-<span class="eyebrow">Kontakt</span>
-<h2 class="title">
-  Porozmawiajmy o <span class="gradient-text">Twoim wydarzeniu</span>
-</h2>
+<h2 class="title">Kontakt bezpośredni</h2>
 <p class="text">
-  Wypełnij formularz lub zadzwoń. Dobierzemy ekrany, oświetlenie i efekty do
-  Twojego wydarzenia.
+  Najszybciej porozmawiamy telefonicznie. Możesz też napisać e-mail lub
+  najpierw sprawdzić orientacyjny koszt. Siedziba we Wrocławiu, realizacje w
+  całej Polsce.
 </p>
 
 <ul class="channels">
   <li>
-    <a class="channel" href="tel:+48795641741">
-      <span class="icon-tile"><mat-icon>call</mat-icon></span>
+    <a class="channel" mdlvSpotlight href="tel:+48795641741">
+      <span class="channel-icon" aria-hidden="true"><mat-icon>call</mat-icon></span>
       <span class="channel-text">
         <span class="channel-label">Zadzwoń</span>
         <span class="channel-value">+48 795 641 741</span>
@@ -18,13 +16,22 @@
     </a>
   </li>
   <li>
-    <a class="channel" [routerLink]="['/wycena']">
-      <span class="icon-tile"><mat-icon>calculate</mat-icon></span>
+    <a class="channel" mdlvSpotlight href="mailto:ledvisual&#64;o2.pl">
+      <span class="channel-icon" aria-hidden="true"><mat-icon>mail</mat-icon></span>
+      <span class="channel-text">
+        <span class="channel-label">Napisz e-mail</span>
+        <span class="channel-value">ledvisual&#64;o2.pl</span>
+      </span>
+    </a>
+  </li>
+  <li>
+    <a class="channel" mdlvSpotlight [routerLink]="['/wycena']">
+      <span class="channel-icon" aria-hidden="true"><mat-icon>calculate</mat-icon></span>
       <span class="channel-text">
         <span class="channel-label">Orientacyjny koszt</span>
         <span class="channel-value">Sprawdź wycenę</span>
       </span>
-      <mat-icon class="channel-arrow">arrow_forward</mat-icon>
+      <mat-icon class="channel-arrow" aria-hidden="true">arrow_forward</mat-icon>
     </a>
   </li>
 </ul>

@@ -1,0 +1,24 @@
+@if (items.length) {
+<section class="equipment">
+  <header class="header" mdlvReveal>
+    <span class="label">Sprzęt</span>
+    <h2 class="title">Ekrany, którymi dysponujemy</h2>
+  </header>
+
+  <ul class="list">
+    @for (item of items; track item.name; let i = $index) {
+    <li class="card" mdlvReveal [style.--reveal-delay]="i * 90 + 'ms'">
+      <h3 class="name">{{ item.name }}</h3>
+      <dl class="specs">
+        @for (spec of item.specs; track spec.label) {
+        <div class="spec">
+          <dt>{{ spec.label }}</dt>
+          <dd>{{ spec.value }}</dd>
+        </div>
+        }
+      </dl>
+    </li>
+    }
+  </ul>
+</section>
+}

@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
+import { OFFER_PAGE_HAS_CONTENT } from 'src/content/site-content';
+
 type Link = { label: string; route: string };
 
 @Component({
@@ -13,12 +15,14 @@ export class FooterNavigationComponent {
   links: Link[] = [
     {
       label: 'Strona główna',
-      route: '',
+      route: '/',
     },
     {
       label: 'Galeria',
       route: '/galeria',
     },
+    // only once the page has real content to show
+    ...(OFFER_PAGE_HAS_CONTENT ? [{ label: 'Oferta', route: '/oferta' }] : []),
     {
       label: 'Wycena',
       route: '/wycena',

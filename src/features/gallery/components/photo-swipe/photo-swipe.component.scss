@@ -9,65 +9,72 @@
   position: relative;
   display: block;
   overflow: hidden;
-  background: colors.$home-surface;
-  isolation: isolate;
+  background: colors.$surface-sunken;
+  cursor: pointer;
 
   img {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+    transition: transform 0.6s mixins.$ease-out;
   }
 
-  // subtle inner border + darkening on hover
-  &::after {
-    content: "";
+  .tile-zoom {
     position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    box-shadow: inset 0 0 0 1px colors.$home-border;
-    background: linear-gradient(to top, rgba(8, 7, 15, 0.55), transparent 50%);
+    top: 12px;
+    right: 12px;
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(colors.$inverse-bg, 0.32);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: colors.$inverse-text;
     opacity: 0;
-    transition: opacity 0.4s ease;
+    transform: scale(0.85);
+    transition:
+      opacity 0.3s mixins.$ease-out,
+      transform 0.3s mixins.$ease-out;
+    pointer-events: none;
+
+    svg {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
   }
 
-  &:hover,
-  &:focus-visible {
+  @include mixins.hover {
     img {
-      transform: scale(1.05);
+      transform: scale(1.03);
     }
 
-    &::after,
-    .zoom {
+    .tile-zoom {
       opacity: 1;
-    }
-
-    .zoom {
-      transform: none;
+      transform: scale(1);
     }
   }
-}
 
-.zoom {
-  @include mixins.glass;
-  position: absolute;
-  right: 14px;
-  bottom: 14px;
-  z-index: 1;
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  color: colors.$home-text;
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  &:focus-visible {
+    outline-offset: 3px;
 
-  mat-icon {
-    font-size: 18px;
-    width: 18px;
-    height: 18px;
+    .tile-zoom {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    img,
+    .tile-zoom {
+      transition: none;
+    }
   }
 }

@@ -1,56 +1,75 @@
-<div>
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-  incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-  nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-  eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-  in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor
-  sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-  labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-  exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
-  aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-  fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-  culpa qui officia deserunt mollit anim id est laborum.
-</div>
-<div>
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-  incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-  nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-  eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-  in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor
-  sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-  labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-  exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
-  aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-  fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-  culpa qui officia deserunt mollit anim id est laborum.
-</div>
-<div>
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-  incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-  nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-  eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-  in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor
-  sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-  labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-  exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
-  aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-  fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-  culpa qui officia deserunt mollit anim id est laborum.
-</div>
-<div>
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-  incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-  nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-  eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-  in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor
-  sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-  labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-  exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
-  aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-  fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-  culpa qui officia deserunt mollit anim id est laborum.
-</div>
+<!-- the history and photo come from src/content/site-content.ts -->
+<article class="about-page">
+  <header class="header">
+    <span class="label">O mnie</span>
+    <h1 class="title">
+      Obraz, światło i&nbsp;efekty dla
+      <span class="highlight">Twojego wydarzenia</span>
+    </h1>
+    <p class="lead">
+      MD LED Visual to firma z Wrocławia, która od {{ years }} lat zajmuje się
+      oprawą wizualną wydarzeń w całej Polsce: od ekranów LED i telebimów,
+      przez oświetlenie sceniczne, po efekty specjalne.
+    </p>
+  </header>
+
+  @if (photo) {
+  <figure class="photo">
+    @if (photo.src) {
+    <img [src]="photo.src" [alt]="photo.alt" />
+    } @else {
+    <figcaption class="photo-placeholder">
+      Zdjęcie zespołu ze sprzętem (do podmiany)
+    </figcaption>
+    }
+  </figure>
+  }
+
+  @if (story) {
+  <section class="block">
+    <h2 class="block-label">Historia</h2>
+    <div class="block-body">
+      @for (paragraph of story.paragraphs; track $index) {
+      <p>{{ paragraph }}</p>
+      }
+    </div>
+  </section>
+  }
+
+  <section class="block">
+    <h2 class="block-label">Czym się zajmuję</h2>
+    <div class="block-body">
+      <p>
+        Dostarczam i obsługuję ekrany LED na koncerty, eventy firmowe,
+        wydarzenia sportowe, prezentacje oraz uroczystości prywatne.
+      </p>
+      <p>
+        Do ekranów dobieram oświetlenie i efekty specjalne, tak aby całość
+        tworzyła spójną oprawę dopasowaną do miejsca i charakteru wydarzenia.
+      </p>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2 class="block-label">Jak pracuję</h2>
+    <div class="block-body">
+      <p>
+        Każde zlecenie zaczyna się od rozmowy o terminie, miejscu i rodzaju
+        wydarzenia. Na tej podstawie przygotowuję wycenę i dobieram sprzęt.
+      </p>
+      <p>
+        W dniu wydarzenia zajmuję się montażem, realizacją i demontażem, a Ty
+        możesz skupić się na gościach.
+      </p>
+    </div>
+  </section>
+
+  <div class="actions">
+    <a mat-flat-button class="cta-primary" [routerLink]="['/kontakt']">
+      Skontaktuj się
+    </a>
+    <a mat-stroked-button class="cta-secondary" [routerLink]="['/galeria']">
+      Zobacz realizacje
+    </a>
+  </div>
+</article>

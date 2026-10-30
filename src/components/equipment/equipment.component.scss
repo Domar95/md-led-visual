@@ -1,0 +1,69 @@
+@use "src/styles/colors.scss" as colors;
+@use "src/styles/mixins.scss" as mixins;
+
+:host {
+  display: block;
+}
+
+.header {
+  display: grid;
+  gap: 16px;
+  margin-bottom: clamp(24px, 3vw, 36px);
+}
+
+.label {
+  @include mixins.label;
+}
+
+.title {
+  @include mixins.display-title(32px, 26px);
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include mixins.tablet-down {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+/* Spec sheet: label on the left, value on the right, hairlines between */
+.card {
+  @include mixins.card;
+  padding: clamp(20px, 3vw, 28px);
+}
+
+.name {
+  @include mixins.display-title(20px, 19px);
+}
+
+.specs {
+  margin: 16px 0 0;
+  border-top: 1px solid colors.$line;
+}
+
+.spec {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid colors.$line;
+  font-size: 15px;
+
+  dt {
+    color: colors.$text-muted;
+  }
+
+  dd {
+    margin: 0;
+    font-weight: 600;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+}

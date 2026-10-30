@@ -1,26 +1,24 @@
 @use "src/styles/layouts.scss" as layouts;
 @use "src/styles/mixins.scss" as mixins;
 
-.offer-presentation-container {
-  max-width: layouts.$content-width;
-  margin: 0 auto;
-  padding: 0 24px 120px;
-  box-sizing: border-box;
+.offer-presentation {
+  @include mixins.container;
+  padding-block: layouts.$section-space;
 }
 
 .header {
-  margin-bottom: 40px;
+  @include mixins.section-header;
 }
 
-.eyebrow {
-  @include mixins.eyebrow;
+.label {
+  @include mixins.label;
 }
 
 .title {
-  @include mixins.display-title(48px);
-  margin-top: 16px;
+  @include mixins.display-title(40px, 28px);
+}
 
-  @media (max-width: 599.98px) {
-    font-size: 32px;
-  }
+.lead {
+  @include mixins.lead;
+  font-size: 17px;
 }

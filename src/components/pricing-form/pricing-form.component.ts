@@ -1,5 +1,13 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,7 +17,6 @@ import { startWith, Subscription } from 'rxjs';
 interface PricingOption {
   value: string;
   label: string;
-  icon?: string;
   // added to the base price when selected
   price: number;
 }
@@ -33,34 +40,35 @@ const BASE_PRICE = 500;
     ]),
   ],
 })
-export class PricingFormComponent implements OnInit, OnDestroy {
+export class PricingFormComponent implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild('summary') summaryRef?: ElementRef<HTMLElement>;
+  /** The full summary is on screen, so the phone price bar steps aside */
+  summaryInView = signal(false);
+  private summaryObserver?: IntersectionObserver;
+
   placeOptions: PricingOption[] = [
-    { value: 'inside', label: 'Wewnątrz', icon: 'meeting_room', price: 0 },
-    { value: 'outside', label: 'Na zewnątrz', icon: 'park', price: 500 },
+    { value: 'inside', label: 'Wewnątrz', price: 0 },
+    { value: 'outside', label: 'Na zewnątrz', price: 500 },
   ];
   categoryOptions: PricingOption[] = [
     {
       value: 'company',
       label: 'Impreza firmowa',
-      icon: 'business_center',
       price: 0,
     },
     {
       value: 'private',
       label: 'Impreza prywatna',
-      icon: 'celebration',
       price: 0,
     },
     {
       value: 'outdoor',
       label: 'Impreza plenerowa',
-      icon: 'festival',
       price: 0,
     },
     {
       value: 'presentation',
       label: 'Prezentacja',
-      icon: 'co_present',
       price: 0,
     },
   ];
@@ -75,6 +83,8 @@ export class PricingFormComponent implements OnInit, OnDestroy {
     category: new FormControl('company', { nonNullable: true }),
     size: new FormControl('1x6', { nonNullable: true }),
   });
+  // row names in the summary, in the order of selectedOptions
+  summaryLabels = ['Miejsce', 'Rodzaj', 'Ekran'];
   price = BASE_PRICE;
   private pricingFormSubscription!: Subscription;
 
@@ -110,7 +120,24 @@ export class PricingFormComponent implements OnInit, OnDestroy {
     return `Dzień dobry, interesuje mnie ekran ${size.label} (${place.label.toLowerCase()}, ${category.label.toLowerCase()}). Orientacyjny koszt z kalkulatora: ${this.price} zł.`;
   }
 
+  // "2x6" is drawn 6 wide and 2 high
+  screenRatio(option: PricingOption): string {
+    const [height, width] = option.value.split('x');
+    return `${width} / ${height}`;
+  }
+
+  ngAfterViewInit(): void {
+    const summary = this.summaryRef?.nativeElement;
+    if (!summary || !('IntersectionObserver' in window)) return;
+
+    this.summaryObserver = new IntersectionObserver(([entry]) =>
+      this.summaryInView.set(entry.isIntersecting)
+    );
+    this.summaryObserver.observe(summary);
+  }
+
   ngOnDestroy(): void {
+    this.summaryObserver?.disconnect();
     this.pricingFormSubscription?.unsubscribe();
   }
 

@@ -1,0 +1,41 @@
+@use "src/styles/colors.scss" as colors;
+@use "src/styles/mixins.scss" as mixins;
+@use "src/views/_page-header.scss" as page-header;
+
+:host {
+  display: block;
+}
+
+.offer-page {
+  @include page-header.page;
+}
+
+.header {
+  @include page-header.header;
+}
+
+/* Sections one after another, divided by hairlines; each hides when empty */
+.part:not(:empty) {
+  display: block;
+  padding-bottom: clamp(40px, 5vw, 64px);
+  margin-bottom: clamp(40px, 5vw, 64px);
+  border-bottom: 1px solid colors.$line;
+}
+
+.next {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  @include mixins.handset {
+    flex-direction: column;
+  }
+}
+
+.cta-primary {
+  @include mixins.button-primary;
+}
+
+.cta-secondary {
+  @include mixins.button-secondary;
+}
